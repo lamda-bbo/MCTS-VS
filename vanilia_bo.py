@@ -84,8 +84,8 @@ def optimize_acqf(dims, gpr, X_sample, Y_sample, n, lb, ub):
 
 
 if __name__ == '__main__':
-    from benchmark_problem import hartmann6, hartmann6_50, levy10, levy10_50
-    func = hartmann6
+    from benchmark import synthetic_function_problem
+    func = synthetic_function_problem['levy10']
     lb = func.lb
     ub = func.ub
     train_x, train_y = generate_initial_data(func, 10, lb, ub)

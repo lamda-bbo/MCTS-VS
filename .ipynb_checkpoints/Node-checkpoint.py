@@ -15,6 +15,7 @@ class Node:
         self.value = 0
         self.n = 0
         self.uct = 0
+        # self.accumulate_imporve = np.zeros(self.)
         self.kmeans = KMeans(n_clusters=2)
         
         self.parent = parent
@@ -141,7 +142,7 @@ class Node:
         for feature in self.features:
             feature_str = ndarray2str(feature)
             axis_cnt += feature * len(self.feature2sample_map[feature_str])
-            score = np.sum([y for _, y in self.feature2sample_map[feature_str]])
+            score = np.max([y for _, y in self.feature2sample_map[feature_str]])
             axis_score += score * feature
         
         axis_score /= (axis_cnt + 1e-6)
@@ -156,13 +157,9 @@ class Node:
     def get_uct(self, Cp):
         if self.parent == None:
             return float('inf')
-        if len(self.active_dims_idx) < self.min_num_variables:
-            return float('-inf')
         if self.n == 0:
             return float('inf')
-        return self.mean + 2 * Cp * np.sqrt(2 * np.power(self.parent.n, 0.5) / self.n)
-        # return self.value / self.n + 2 * Cp * np.sqrt(2 * np.power(self.parent.n, 0.5) / self.n)
-        # return self.mean + Cp * np.sqrt(2 * np.power(self.parent.n, 0.5) / self.n) - 0.1 * len(self.active_dims_idx)
+        return self.max + 2 * Cp * np.sqrt(2 * np.power(self.parent.n, 0.5) / self.n)
     
     def get_name(self):
         return 'node' + str(self.id)
@@ -232,7 +229,7 @@ class Node:
         name = self.get_name()
         name = pad_str_to_8chars(name, 7)
         
-        name += 'value: {}, uct: {}  '.format(self.mean, self.get_uct(0.1))
+        name += 'mean: {}, uct: {}  '.format(self.mean, self.get_uct(0.1))
         
         name += ( pad_str_to_8chars( 'is good:' + str(self.is_good_kid() ), 15 ) )
         

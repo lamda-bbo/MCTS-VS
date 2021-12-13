@@ -1,4 +1,0 @@
-.PHONY test
-
-test:
-    python3 run.py --func=hartmann6_50 --iterations=50

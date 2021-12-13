@@ -1,6 +1,6 @@
 import numpy as np
 
-from qei_bo import get_gpr_model, optimize_acqf
+from vanilia_bo import get_gpr_model, optimize_acqf
 from Node import Node
 from uipt_variable_strategy import UiptRandomStrategy, UiptBestKStrategy, UiptCMAESStrategy
 from utils import bernoulli, latin_hypercube, from_unit_cube, feature_complementary, ndarray2str, feature_dedup
@@ -8,7 +8,10 @@ from utils import bernoulli, latin_hypercube, from_unit_cube, feature_complement
 
 class MCTS:
     
-    def __init__(self, func, dims, lb, ub, feature_batch_size=2, sample_batch_size=3, Cp=0.1, min_num_variables=3, select_right_threshold=5):
+    def __init__(self, func, dims, lb, ub, feature_batch_size=2, 
+                 sample_batch_size=3, Cp=5, min_num_variables=3, 
+                 select_right_threshold=5, split_type='mean',
+                 ipt_solver='bo', uipt_solver='bestk'):
         # user defined parameters
         self.func = func
         self.dims = dims
@@ -24,21 +27,21 @@ class MCTS:
         self.feature2sample_map = dict()
         self.curt_best_sample = None
         self.curt_best_value = float('-inf')
-        self.root_best = -1000
         self.best_value_trace = []
+        self.value_trace = []
         self.sample_counter = 0
         
-        self.split_type = 'mean'
-        # self.split_type = 'kmeans'
-        # self.uipt_solver = UiptRandomStrategy(self.dims)
-        self.uipt_solver = UiptBestKStrategy(self.dims, k=20)
+        self.split_type = split_type
+        self.ipt_solver = ipt_solver
+        uipt_solver_dict = {'random': UiptRandomStrategy(self.dims), 'bestk': UiptBestKStrategy(self.dims, k=20)}
+        self.uipt_solver = uipt_solver_dict[uipt_solver]
         
         self.nodes = []
         root = Node(parent=None, dims=self.dims, active_dims_idx=list(range(self.dims)), reset_id=True)
         self.nodes.append(root)
         self.ROOT = root
         self.CURT = self.ROOT
-        self.num_select_right = 0
+        self.num_select_right = float('inf') # run 'dynamic_treeify' when iteration = 1
         self.select_right_threshold = select_right_threshold
         self.init_train()
         
@@ -128,7 +131,6 @@ class MCTS:
         self.nodes.append(self.ROOT)
         self.CURT = self.ROOT
         self.ROOT.init_bag(self.features, self.samples, self.feature2sample_map)
-        self.root_best = self.curt_best_value
         assert Node.obj_counter == 1
         
     def get_split_idx(self):
@@ -140,7 +142,7 @@ class MCTS:
         for node in self.nodes:
             Y_sample = [y for _, y in node.samples]
             Y_sample = np.array(Y_sample)
-            if Y_sample.std() > 0.1:
+            if node.is_leaf() and Y_sample.std() > 0.1:
                 status.append(True)
             else:
                 status.append(False)
@@ -156,8 +158,19 @@ class MCTS:
     def dynamic_treeify(self):
         print('rebuild the tree')
         self.populate_training_data()
-        while self.is_splitable():
-            to_split = self.get_split_idx()
+#         while self.is_splitable():
+#             to_split = self.get_split_idx()
+#             change_flag = 1
+#             for nidx in to_split:
+#                 parent = self.nodes[nidx]
+#                 left_kid, right_kid = parent.split(self.split_type)
+#                 if left_kid is not None and right_kid is not None:
+#                     self.nodes.append(left_kid)
+#                     self.nodes.append(right_kid)
+#                     change_flag = 0
+#             if change_flag:
+#                 break
+        self.num_select_right = 0
         
     def greedy_select(self):
         pass
@@ -171,6 +184,7 @@ class MCTS:
             UCT = []
             for i in curt_node.kids:
                 UCT.append(i.get_uct(self.Cp))
+            # print(curt_node.get_name(), UCT)
             choice = np.random.choice(np.argwhere(UCT == np.amax(UCT)).reshape(-1), 1)[0]
             path.append( (curt_node, choice) )
             curt_node = curt_node.kids[choice]
@@ -182,13 +196,9 @@ class MCTS:
     
     def backpropogate(self, leaf, feature, X_sample, Y_sample):
         samples = [(x, y) for x, y in zip(X_sample, Y_sample)]
-        best_y = np.max(Y_sample)
         curt_node = leaf
         while curt_node is not None:
             curt_node.n += 1
-            # 这里是否需要把值向上传递，因为传递后另一条没有被选择的路径的值并没有被更新，
-            # 但似乎不影响，因为计算时只使用了active axis
-            curt_node.value += best_y - self.root_best
             curt_node.update_bag(feature, samples)
             curt_node = curt_node.parent
         
@@ -202,9 +212,7 @@ class MCTS:
             if self.num_select_right >= self.select_right_threshold:
                 self.dynamic_treeify()
             leaf, path = self.select()
-            # print('='*10)
-            # print('iteration: {}'.format(leaf))
-            # print('='*10)
+            
             for i in range(1):
                 new_feature, new_comp_features = leaf.sample_features(self.feature_batch_size)
                 all_features = feature_dedup(new_feature + new_comp_features)
@@ -219,8 +227,10 @@ class MCTS:
             if left_kid is not None and right_kid is not None:
                 self.nodes.append(left_kid)
                 self.nodes.append(right_kid)
-                
-            # self.print_tree()
+            
+            self.value_trace.append( (self.sample_counter, self.curt_best_value) )
+            
+            self.print_tree()
             print('axis_score argsort:', np.argsort(self.ROOT.axis_score))
             print('total samples: {}'.format(len(self.samples)))
             print('current best f(x): {}'.format(self.curt_best_value))

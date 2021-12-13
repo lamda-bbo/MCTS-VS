@@ -14,23 +14,28 @@ class SyntheticFunction(metaclass=ABCMeta):
     def __call__(self, x):
         pass
 
-
-# class Ackley:
-#     def __init__(self, dims=6, negate=False):
-#         self.dims   = dims
-#         self.negate = negate
-#         self.lb     = -5 * np.ones(dims)
-#         self.ub     = 10 * np.ones(dims)
-
-#     def __call__(self, x):
-#         assert len(x) == self.dims
-#         assert x.ndim == 1
-#         assert np.all(x <= self.ub) and np.all(x >= self.lb)
-#         result = (-20*np.exp(-0.2 * np.sqrt(np.inner(x,x) / x.size )) -np.exp(np.cos(2*np.pi*x).sum() /x.size) + 20 +np.e )
-#         if self.negate:
-#             result = - result
+    
+class Ackley(SyntheticFunction):
+    def __init__(self, dims=2, negate=False):
+        SyntheticFunction.__init__(
+            self, 
+            dims, 
+            negate, 
+            -32.768 * np.ones(dims),
+            32.768 * np.ones(dims),
+            0,
+            np.array([0]*dims)
+        )
+        
+    def __call__(self, x):
+        assert len(x) == self.dims
+        assert x.ndim == 1
+        assert np.all(x <= self.ub) and np.all(x >= self.lb)
+        result = (-20*np.exp(-0.2 * np.sqrt(np.inner(x,x) / x.size )) -np.exp(np.cos(2*np.pi*x).sum() /x.size) + 20 +np.e )
+        if self.negate:
+            result = - result
             
-#         return result  
+        return result  
     
     
 class Hartmann(SyntheticFunction):
@@ -61,6 +66,10 @@ class Hartmann(SyntheticFunction):
         ])
         
     def __call__(self, x):
+        assert len(x) == self.dims
+        assert x.ndim == 1
+        assert np.all(x <= self.ub) and np.all(x >= self.lb)
+        
         inner_sum = np.sum(self.A * (x.reshape(1, -1) - 0.0001 * self.P) ** 2, axis=-1)
         result = - np.sum(self.alpha * np.exp(-inner_sum), axis=-1)
         if self.negate:
@@ -84,6 +93,7 @@ class Levy(SyntheticFunction):
         assert len(x) == self.dims
         assert x.ndim == 1
         assert np.all(x <= self.ub) and np.all(x >= self.lb)
+        
         w = 1 + (x - 1.0) / 4.0
         result = np.sin(np.pi * w[0]) ** 2 + \
             np.sum((w[1:self.dims - 1] - 1) ** 2 * (1 + 10 * np.sin(np.pi * w[1:self.dims - 1] + 1) ** 2)) + \

@@ -1,0 +1,1 @@
+from benchmark.benchmark_problem import synthetic_function_problem
