@@ -1,4 +1,6 @@
 import numpy as np
+import pandas as pd
+import os
 
 
 def from_unit_cube(point, lb, ub):
@@ -79,6 +81,15 @@ def feature_dedup(features):
     for f in feature_set:
         dedup.append(np.array(f))
     return dedup
+
+
+def save_results(root_dir, algo, func_name, seed, df_data):
+    os.makedirs(root_dir, exist_ok=True)
+    save_dir = os.path.join(root_dir, func_name)
+    os.makedirs(save_dir, exist_ok=True)
+    save_path = os.path.join(save_dir, '%s-%d.csv' % (algo, seed))
+    df_data.to_csv(save_path)
+    print('save %s result into: %s' % (algo, save_path))
     
 
 if __name__ == '__main__':

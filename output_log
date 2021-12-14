@@ -1,0 +1,753 @@
+nohup: ignoring input
+test function:  hartmann6
+Namespace(func='hartmann6', max_samples=1000, seed=43)
+==========
+feature_batch_size: 2
+sample_batch_size: 3
+collect 12 samples for initializing MCTS
+collect 4 features for initializing MCTS
+dims: 6
+min_num_variables: 3
+==========
+best f(x): 3.3202088348224157
+save lamcts_vs result into: logs/hartmann6/lamcts_vs-43.csv
+Namespace(func='hartmann6', max_samples=1000, seed=44)
+==========
+feature_batch_size: 2
+sample_batch_size: 3
+collect 12 samples for initializing MCTS
+collect 4 features for initializing MCTS
+dims: 6
+min_num_variables: 3
+==========
+best f(x): 3.1990273310101083
+save lamcts_vs result into: logs/hartmann6/lamcts_vs-44.csv
+Namespace(func='hartmann6', max_samples=1000, seed=42)
+==========
+feature_batch_size: 2
+sample_batch_size: 3
+collect 12 samples for initializing MCTS
+collect 4 features for initializing MCTS
+dims: 6
+min_num_variables: 3
+==========
+best f(x): 3.3188914842124406
+save lamcts_vs result into: logs/hartmann6/lamcts_vs-42.csv
+Namespace(batch_size=3, func='hartmann6', init_samples=10, max_samples=1000, seed=43)
+best f(x): 3.2533919065100774
+save bo result into: logs/hartmann6/bo-43.csv
+Namespace(batch_size=3, func='hartmann6', init_samples=10, max_samples=1000, seed=44)
+best f(x): 3.1610780264387235
+save bo result into: logs/hartmann6/bo-44.csv
+Namespace(batch_size=3, func='hartmann6', init_samples=10, max_samples=1000, seed=42)
+best f(x): 3.158915145759819
+save bo result into: logs/hartmann6/bo-42.csv
+Namespace(active_dims=3, batch_size=3, func='hartmann6', init_samples=10, max_samples=1000, seed=44)
+best f(x): 3.109933637703932
+save dropout3 result into: logs/hartmann6/dropout3-44.csv
+Namespace(active_dims=3, batch_size=3, func='hartmann6', init_samples=10, max_samples=1000, seed=42)
+best f(x): 3.087274415211628
+save dropout3 result into: logs/hartmann6/dropout3-42.csv
+Namespace(active_dims=3, batch_size=3, func='hartmann6', init_samples=10, max_samples=1000, seed=43)
+best f(x): 3.1141481169288587
+save dropout3 result into: logs/hartmann6/dropout3-43.csv
+Namespace(active_dims=6, batch_size=3, func='hartmann6', init_samples=10, max_samples=1000, seed=43)
+best f(x): 3.2533919065100774
+save dropout6 result into: logs/hartmann6/dropout6-43.csv
+Namespace(active_dims=6, batch_size=3, func='hartmann6', init_samples=10, max_samples=1000, seed=42)
+best f(x): 3.135107670618658
+save dropout6 result into: logs/hartmann6/dropout6-42.csv
+Namespace(active_dims=6, batch_size=3, func='hartmann6', init_samples=10, max_samples=1000, seed=44)
+best f(x): 3.215998491319959
+save dropout6 result into: logs/hartmann6/dropout6-44.csv
+Namespace(active_dims=10, batch_size=3, func='hartmann6', init_samples=10, max_samples=1000, seed=44)
+Namespace(active_dims=10, batch_size=3, func='hartmann6', init_samples=10, max_samples=1000, seed=42)
+Traceback (most recent call last):
+  File "dropout.py", line 55, in <module>
+    selected_dims = get_active_idx(dims, args.active_dims)
+  File "dropout.py", line 15, in get_active_idx
+    idx = np.random.choice(range(dims), active_dims, replace=False)
+  File "mtrand.pyx", line 959, in numpy.random.mtrand.RandomState.choice
+ValueError: Cannot take a larger sample than population when 'replace=False'
+Traceback (most recent call last):
+  File "dropout.py", line 55, in <module>
+    selected_dims = get_active_idx(dims, args.active_dims)
+  File "dropout.py", line 15, in get_active_idx
+    idx = np.random.choice(range(dims), active_dims, replace=False)
+  File "mtrand.pyx", line 959, in numpy.random.mtrand.RandomState.choice
+ValueError: Cannot take a larger sample than population when 'replace=False'
+Namespace(active_dims=10, batch_size=3, func='hartmann6', init_samples=10, max_samples=1000, seed=43)
+Traceback (most recent call last):
+  File "dropout.py", line 55, in <module>
+    selected_dims = get_active_idx(dims, args.active_dims)
+  File "dropout.py", line 15, in get_active_idx
+    idx = np.random.choice(range(dims), active_dims, replace=False)
+  File "mtrand.pyx", line 959, in numpy.random.mtrand.RandomState.choice
+ValueError: Cannot take a larger sample than population when 'replace=False'
+Namespace(active_dims=20, batch_size=3, func='hartmann6', init_samples=10, max_samples=1000, seed=42)
+Namespace(active_dims=20, batch_size=3, func='hartmann6', init_samples=10, max_samples=1000, seed=43)
+Traceback (most recent call last):
+  File "dropout.py", line 55, in <module>
+    selected_dims = get_active_idx(dims, args.active_dims)
+  File "dropout.py", line 15, in get_active_idx
+    idx = np.random.choice(range(dims), active_dims, replace=False)
+  File "mtrand.pyx", line 959, in numpy.random.mtrand.RandomState.choice
+ValueError: Cannot take a larger sample than population when 'replace=False'
+Traceback (most recent call last):
+  File "dropout.py", line 55, in <module>
+    selected_dims = get_active_idx(dims, args.active_dims)
+  File "dropout.py", line 15, in get_active_idx
+    idx = np.random.choice(range(dims), active_dims, replace=False)
+  File "mtrand.pyx", line 959, in numpy.random.mtrand.RandomState.choice
+ValueError: Cannot take a larger sample than population when 'replace=False'
+Namespace(active_dims=20, batch_size=3, func='hartmann6', init_samples=10, max_samples=1000, seed=44)
+Traceback (most recent call last):
+  File "dropout.py", line 55, in <module>
+    selected_dims = get_active_idx(dims, args.active_dims)
+  File "dropout.py", line 15, in get_active_idx
+    idx = np.random.choice(range(dims), active_dims, replace=False)
+  File "mtrand.pyx", line 959, in numpy.random.mtrand.RandomState.choice
+ValueError: Cannot take a larger sample than population when 'replace=False'
+Namespace(active_dims=30, batch_size=3, func='hartmann6', init_samples=10, max_samples=1000, seed=44)
+Namespace(active_dims=30, batch_size=3, func='hartmann6', init_samples=10, max_samples=1000, seed=42)
+Traceback (most recent call last):
+  File "dropout.py", line 55, in <module>
+    selected_dims = get_active_idx(dims, args.active_dims)
+  File "dropout.py", line 15, in get_active_idx
+    idx = np.random.choice(range(dims), active_dims, replace=False)
+  File "mtrand.pyx", line 959, in numpy.random.mtrand.RandomState.choice
+ValueError: Cannot take a larger sample than population when 'replace=False'
+Traceback (most recent call last):
+  File "dropout.py", line 55, in <module>
+    selected_dims = get_active_idx(dims, args.active_dims)
+  File "dropout.py", line 15, in get_active_idx
+    idx = np.random.choice(range(dims), active_dims, replace=False)
+  File "mtrand.pyx", line 959, in numpy.random.mtrand.RandomState.choice
+ValueError: Cannot take a larger sample than population when 'replace=False'
+Namespace(active_dims=30, batch_size=3, func='hartmann6', init_samples=10, max_samples=1000, seed=43)
+Traceback (most recent call last):
+  File "dropout.py", line 55, in <module>
+    selected_dims = get_active_idx(dims, args.active_dims)
+  File "dropout.py", line 15, in get_active_idx
+    idx = np.random.choice(range(dims), active_dims, replace=False)
+  File "mtrand.pyx", line 959, in numpy.random.mtrand.RandomState.choice
+ValueError: Cannot take a larger sample than population when 'replace=False'
+test function:  hartmann6_50
+Namespace(func='hartmann6_50', max_samples=1000, seed=44)
+==========
+feature_batch_size: 2
+sample_batch_size: 3
+collect 12 samples for initializing MCTS
+collect 4 features for initializing MCTS
+dims: 50
+min_num_variables: 3
+==========
+best f(x): 3.311035182674636
+save lamcts_vs result into: logs/hartmann6_50/lamcts_vs-44.csv
+Namespace(func='hartmann6_50', max_samples=1000, seed=42)
+==========
+feature_batch_size: 2
+sample_batch_size: 3
+collect 12 samples for initializing MCTS
+collect 4 features for initializing MCTS
+dims: 50
+min_num_variables: 3
+==========
+best f(x): 3.3202516026532902
+save lamcts_vs result into: logs/hartmann6_50/lamcts_vs-42.csv
+Namespace(func='hartmann6_50', max_samples=1000, seed=43)
+==========
+feature_batch_size: 2
+sample_batch_size: 3
+collect 12 samples for initializing MCTS
+collect 4 features for initializing MCTS
+dims: 50
+min_num_variables: 3
+==========
+best f(x): 3.2612715210118712
+save lamcts_vs result into: logs/hartmann6_50/lamcts_vs-43.csv
+Namespace(batch_size=3, func='hartmann6_50', init_samples=10, max_samples=1000, seed=42)
+best f(x): 3.066170622835422
+save bo result into: logs/hartmann6_50/bo-42.csv
+Namespace(batch_size=3, func='hartmann6_50', init_samples=10, max_samples=1000, seed=44)
+best f(x): 2.910010098499335
+save bo result into: logs/hartmann6_50/bo-44.csv
+Namespace(batch_size=3, func='hartmann6_50', init_samples=10, max_samples=1000, seed=43)
+best f(x): 2.9603364475081304
+save bo result into: logs/hartmann6_50/bo-43.csv
+Namespace(active_dims=3, batch_size=3, func='hartmann6_50', init_samples=10, max_samples=1000, seed=44)
+best f(x): 3.1980621141776115
+save dropout3 result into: logs/hartmann6_50/dropout3-44.csv
+Namespace(active_dims=3, batch_size=3, func='hartmann6_50', init_samples=10, max_samples=1000, seed=42)
+best f(x): 3.199910387923777
+save dropout3 result into: logs/hartmann6_50/dropout3-42.csv
+Namespace(active_dims=3, batch_size=3, func='hartmann6_50', init_samples=10, max_samples=1000, seed=43)
+best f(x): 3.2016200234215493
+save dropout3 result into: logs/hartmann6_50/dropout3-43.csv
+Namespace(active_dims=6, batch_size=3, func='hartmann6_50', init_samples=10, max_samples=1000, seed=42)
+best f(x): 3.1969247615969882
+save dropout6 result into: logs/hartmann6_50/dropout6-42.csv
+Namespace(active_dims=6, batch_size=3, func='hartmann6_50', init_samples=10, max_samples=1000, seed=43)
+best f(x): 3.1999807516860614
+save dropout6 result into: logs/hartmann6_50/dropout6-43.csv
+Namespace(active_dims=6, batch_size=3, func='hartmann6_50', init_samples=10, max_samples=1000, seed=44)
+best f(x): 3.3007080374590547
+save dropout6 result into: logs/hartmann6_50/dropout6-44.csv
+Namespace(active_dims=10, batch_size=3, func='hartmann6_50', init_samples=10, max_samples=1000, seed=42)
+best f(x): 3.2023277940011066
+save dropout10 result into: logs/hartmann6_50/dropout10-42.csv
+Namespace(active_dims=10, batch_size=3, func='hartmann6_50', init_samples=10, max_samples=1000, seed=43)
+best f(x): 3.202972617746206
+save dropout10 result into: logs/hartmann6_50/dropout10-43.csv
+Namespace(active_dims=10, batch_size=3, func='hartmann6_50', init_samples=10, max_samples=1000, seed=44)
+best f(x): 3.201704462422677
+save dropout10 result into: logs/hartmann6_50/dropout10-44.csv
+Namespace(active_dims=20, batch_size=3, func='hartmann6_50', init_samples=10, max_samples=1000, seed=43)
+best f(x): 3.305669867436218
+save dropout20 result into: logs/hartmann6_50/dropout20-43.csv
+Namespace(active_dims=20, batch_size=3, func='hartmann6_50', init_samples=10, max_samples=1000, seed=44)
+best f(x): 3.3108512462348068
+save dropout20 result into: logs/hartmann6_50/dropout20-44.csv
+Namespace(active_dims=20, batch_size=3, func='hartmann6_50', init_samples=10, max_samples=1000, seed=42)
+best f(x): 3.2006946416646684
+save dropout20 result into: logs/hartmann6_50/dropout20-42.csv
+Namespace(active_dims=30, batch_size=3, func='hartmann6_50', init_samples=10, max_samples=1000, seed=44)
+best f(x): 3.232231805100648
+save dropout30 result into: logs/hartmann6_50/dropout30-44.csv
+Namespace(active_dims=30, batch_size=3, func='hartmann6_50', init_samples=10, max_samples=1000, seed=43)
+best f(x): 3.2258598462443295
+save dropout30 result into: logs/hartmann6_50/dropout30-43.csv
+Namespace(active_dims=30, batch_size=3, func='hartmann6_50', init_samples=10, max_samples=1000, seed=42)
+best f(x): 3.1578256441625565
+save dropout30 result into: logs/hartmann6_50/dropout30-42.csv
+test function:  hartmann6_100
+Namespace(func='hartmann6_100', max_samples=1000, seed=43)
+==========
+feature_batch_size: 2
+sample_batch_size: 3
+collect 12 samples for initializing MCTS
+collect 4 features for initializing MCTS
+dims: 100
+min_num_variables: 3
+==========
+best f(x): 3.3204973168082423
+save lamcts_vs result into: logs/hartmann6_100/lamcts_vs-43.csv
+Namespace(func='hartmann6_100', max_samples=1000, seed=44)
+==========
+feature_batch_size: 2
+sample_batch_size: 3
+collect 12 samples for initializing MCTS
+collect 4 features for initializing MCTS
+dims: 100
+min_num_variables: 3
+==========
+best f(x): 3.319092301593847
+save lamcts_vs result into: logs/hartmann6_100/lamcts_vs-44.csv
+Namespace(func='hartmann6_100', max_samples=1000, seed=42)
+==========
+feature_batch_size: 2
+sample_batch_size: 3
+collect 12 samples for initializing MCTS
+collect 4 features for initializing MCTS
+dims: 100
+min_num_variables: 3
+==========
+best f(x): 3.3106680376628788
+save lamcts_vs result into: logs/hartmann6_100/lamcts_vs-42.csv
+Namespace(batch_size=3, func='hartmann6_100', init_samples=10, max_samples=1000, seed=42)
+best f(x): 3.009568033098779
+save bo result into: logs/hartmann6_100/bo-42.csv
+Namespace(batch_size=3, func='hartmann6_100', init_samples=10, max_samples=1000, seed=43)
+best f(x): 2.984198943486758
+save bo result into: logs/hartmann6_100/bo-43.csv
+Namespace(batch_size=3, func='hartmann6_100', init_samples=10, max_samples=1000, seed=44)
+best f(x): 2.9538410064863916
+save bo result into: logs/hartmann6_100/bo-44.csv
+Namespace(active_dims=3, batch_size=3, func='hartmann6_100', init_samples=10, max_samples=1000, seed=42)
+best f(x): 3.302461122243924
+save dropout3 result into: logs/hartmann6_100/dropout3-42.csv
+Namespace(active_dims=3, batch_size=3, func='hartmann6_100', init_samples=10, max_samples=1000, seed=43)
+best f(x): 3.250564051772283
+save dropout3 result into: logs/hartmann6_100/dropout3-43.csv
+Namespace(active_dims=3, batch_size=3, func='hartmann6_100', init_samples=10, max_samples=1000, seed=44)
+best f(x): 3.2762321977504465
+save dropout3 result into: logs/hartmann6_100/dropout3-44.csv
+Namespace(active_dims=6, batch_size=3, func='hartmann6_100', init_samples=10, max_samples=1000, seed=42)
+best f(x): 3.1489926954963443
+save dropout6 result into: logs/hartmann6_100/dropout6-42.csv
+Namespace(active_dims=6, batch_size=3, func='hartmann6_100', init_samples=10, max_samples=1000, seed=43)
+best f(x): 3.3124365034557726
+save dropout6 result into: logs/hartmann6_100/dropout6-43.csv
+Namespace(active_dims=6, batch_size=3, func='hartmann6_100', init_samples=10, max_samples=1000, seed=44)
+best f(x): 3.2162644288501974
+save dropout6 result into: logs/hartmann6_100/dropout6-44.csv
+Namespace(active_dims=10, batch_size=3, func='hartmann6_100', init_samples=10, max_samples=1000, seed=42)
+best f(x): 3.317444259645066
+save dropout10 result into: logs/hartmann6_100/dropout10-42.csv
+Namespace(active_dims=10, batch_size=3, func='hartmann6_100', init_samples=10, max_samples=1000, seed=43)
+best f(x): 3.2030623863929195
+save dropout10 result into: logs/hartmann6_100/dropout10-43.csv
+Namespace(active_dims=10, batch_size=3, func='hartmann6_100', init_samples=10, max_samples=1000, seed=44)
+best f(x): 3.3214734926473124
+save dropout10 result into: logs/hartmann6_100/dropout10-44.csv
+Namespace(active_dims=20, batch_size=3, func='hartmann6_100', init_samples=10, max_samples=1000, seed=43)
+best f(x): 3.320915799269967
+save dropout20 result into: logs/hartmann6_100/dropout20-43.csv
+Namespace(active_dims=20, batch_size=3, func='hartmann6_100', init_samples=10, max_samples=1000, seed=44)
+best f(x): 3.3200240953195634
+save dropout20 result into: logs/hartmann6_100/dropout20-44.csv
+Namespace(active_dims=20, batch_size=3, func='hartmann6_100', init_samples=10, max_samples=1000, seed=42)
+best f(x): 3.2015689603911563
+save dropout20 result into: logs/hartmann6_100/dropout20-42.csv
+Namespace(active_dims=30, batch_size=3, func='hartmann6_100', init_samples=10, max_samples=1000, seed=43)
+best f(x): 3.3175780228961083
+save dropout30 result into: logs/hartmann6_100/dropout30-43.csv
+Namespace(active_dims=30, batch_size=3, func='hartmann6_100', init_samples=10, max_samples=1000, seed=44)
+best f(x): 3.309397533031728
+save dropout30 result into: logs/hartmann6_100/dropout30-44.csv
+Namespace(active_dims=30, batch_size=3, func='hartmann6_100', init_samples=10, max_samples=1000, seed=42)
+best f(x): 3.199955322584827
+save dropout30 result into: logs/hartmann6_100/dropout30-42.csv
+test function:  hartmann6_300
+Namespace(func='hartmann6_300', max_samples=1000, seed=44)
+==========
+feature_batch_size: 2
+sample_batch_size: 3
+collect 12 samples for initializing MCTS
+collect 4 features for initializing MCTS
+dims: 300
+min_num_variables: 3
+==========
+best f(x): 3.293603920881579
+save lamcts_vs result into: logs/hartmann6_300/lamcts_vs-44.csv
+Namespace(func='hartmann6_300', max_samples=1000, seed=42)
+==========
+feature_batch_size: 2
+sample_batch_size: 3
+collect 12 samples for initializing MCTS
+collect 4 features for initializing MCTS
+dims: 300
+min_num_variables: 3
+==========
+best f(x): 3.297378650147187
+save lamcts_vs result into: logs/hartmann6_300/lamcts_vs-42.csv
+Namespace(func='hartmann6_300', max_samples=1000, seed=43)
+==========
+feature_batch_size: 2
+sample_batch_size: 3
+collect 12 samples for initializing MCTS
+collect 4 features for initializing MCTS
+dims: 300
+min_num_variables: 3
+==========
+best f(x): 3.3133214580394554
+save lamcts_vs result into: logs/hartmann6_300/lamcts_vs-43.csv
+Namespace(batch_size=3, func='hartmann6_300', init_samples=10, max_samples=1000, seed=44)
+best f(x): 2.731460181111536
+save bo result into: logs/hartmann6_300/bo-44.csv
+Namespace(batch_size=3, func='hartmann6_300', init_samples=10, max_samples=1000, seed=43)
+best f(x): 2.8486113004475393
+save bo result into: logs/hartmann6_300/bo-43.csv
+Namespace(batch_size=3, func='hartmann6_300', init_samples=10, max_samples=1000, seed=42)
+best f(x): 3.1198340428485687
+save bo result into: logs/hartmann6_300/bo-42.csv
+Namespace(active_dims=3, batch_size=3, func='hartmann6_300', init_samples=10, max_samples=1000, seed=43)
+best f(x): 3.118083875672368
+save dropout3 result into: logs/hartmann6_300/dropout3-43.csv
+Namespace(active_dims=3, batch_size=3, func='hartmann6_300', init_samples=10, max_samples=1000, seed=44)
+best f(x): 3.1434379514095188
+save dropout3 result into: logs/hartmann6_300/dropout3-44.csv
+Namespace(active_dims=3, batch_size=3, func='hartmann6_300', init_samples=10, max_samples=1000, seed=42)
+best f(x): 3.022845475737647
+save dropout3 result into: logs/hartmann6_300/dropout3-42.csv
+Namespace(active_dims=6, batch_size=3, func='hartmann6_300', init_samples=10, max_samples=1000, seed=42)
+best f(x): 3.0921356619506537
+save dropout6 result into: logs/hartmann6_300/dropout6-42.csv
+Namespace(active_dims=6, batch_size=3, func='hartmann6_300', init_samples=10, max_samples=1000, seed=44)
+best f(x): 3.2702801236014416
+save dropout6 result into: logs/hartmann6_300/dropout6-44.csv
+Namespace(active_dims=6, batch_size=3, func='hartmann6_300', init_samples=10, max_samples=1000, seed=43)
+best f(x): 3.2105484465417278
+save dropout6 result into: logs/hartmann6_300/dropout6-43.csv
+Namespace(active_dims=10, batch_size=3, func='hartmann6_300', init_samples=10, max_samples=1000, seed=44)
+best f(x): 3.3114529165665267
+save dropout10 result into: logs/hartmann6_300/dropout10-44.csv
+Namespace(active_dims=10, batch_size=3, func='hartmann6_300', init_samples=10, max_samples=1000, seed=43)
+best f(x): 3.3153456718987893
+save dropout10 result into: logs/hartmann6_300/dropout10-43.csv
+Namespace(active_dims=10, batch_size=3, func='hartmann6_300', init_samples=10, max_samples=1000, seed=42)
+best f(x): 3.320256544451593
+save dropout10 result into: logs/hartmann6_300/dropout10-42.csv
+Namespace(active_dims=20, batch_size=3, func='hartmann6_300', init_samples=10, max_samples=1000, seed=44)
+best f(x): 3.306776141337705
+save dropout20 result into: logs/hartmann6_300/dropout20-44.csv
+Namespace(active_dims=20, batch_size=3, func='hartmann6_300', init_samples=10, max_samples=1000, seed=42)
+best f(x): 3.315548740398459
+save dropout20 result into: logs/hartmann6_300/dropout20-42.csv
+Namespace(active_dims=20, batch_size=3, func='hartmann6_300', init_samples=10, max_samples=1000, seed=43)
+best f(x): 3.3216129373508085
+save dropout20 result into: logs/hartmann6_300/dropout20-43.csv
+Namespace(active_dims=30, batch_size=3, func='hartmann6_300', init_samples=10, max_samples=1000, seed=43)
+best f(x): 3.3110500302298043
+save dropout30 result into: logs/hartmann6_300/dropout30-43.csv
+Namespace(active_dims=30, batch_size=3, func='hartmann6_300', init_samples=10, max_samples=1000, seed=42)
+best f(x): 3.192073393246395
+save dropout30 result into: logs/hartmann6_300/dropout30-42.csv
+Namespace(active_dims=30, batch_size=3, func='hartmann6_300', init_samples=10, max_samples=1000, seed=44)
+best f(x): 3.2011493797464983
+save dropout30 result into: logs/hartmann6_300/dropout30-44.csv
+test function:  hartmann6_500
+Namespace(func='hartmann6_500', max_samples=1000, seed=42)
+==========
+feature_batch_size: 2
+sample_batch_size: 3
+collect 12 samples for initializing MCTS
+collect 4 features for initializing MCTS
+dims: 500
+min_num_variables: 3
+==========
+best f(x): 3.284282511010106
+save lamcts_vs result into: logs/hartmann6_500/lamcts_vs-42.csv
+Namespace(func='hartmann6_500', max_samples=1000, seed=43)
+==========
+feature_batch_size: 2
+sample_batch_size: 3
+collect 12 samples for initializing MCTS
+collect 4 features for initializing MCTS
+dims: 500
+min_num_variables: 3
+==========
+best f(x): 3.3168996507256723
+save lamcts_vs result into: logs/hartmann6_500/lamcts_vs-43.csv
+Namespace(func='hartmann6_500', max_samples=1000, seed=44)
+==========
+feature_batch_size: 2
+sample_batch_size: 3
+collect 12 samples for initializing MCTS
+collect 4 features for initializing MCTS
+dims: 500
+min_num_variables: 3
+==========
+best f(x): 3.292930373835258
+save lamcts_vs result into: logs/hartmann6_500/lamcts_vs-44.csv
+Namespace(batch_size=3, func='hartmann6_500', init_samples=10, max_samples=1000, seed=43)
+best f(x): 2.9684347935304016
+save bo result into: logs/hartmann6_500/bo-43.csv
+Namespace(batch_size=3, func='hartmann6_500', init_samples=10, max_samples=1000, seed=42)
+best f(x): 2.6896909936237017
+save bo result into: logs/hartmann6_500/bo-42.csv
+Namespace(batch_size=3, func='hartmann6_500', init_samples=10, max_samples=1000, seed=44)
+best f(x): 2.896292070553339
+save bo result into: logs/hartmann6_500/bo-44.csv
+Namespace(active_dims=3, batch_size=3, func='hartmann6_500', init_samples=10, max_samples=1000, seed=43)
+best f(x): 2.862184427778128
+save dropout3 result into: logs/hartmann6_500/dropout3-43.csv
+Namespace(active_dims=3, batch_size=3, func='hartmann6_500', init_samples=10, max_samples=1000, seed=44)
+best f(x): 3.0343070226335414
+save dropout3 result into: logs/hartmann6_500/dropout3-44.csv
+Namespace(active_dims=3, batch_size=3, func='hartmann6_500', init_samples=10, max_samples=1000, seed=42)
+best f(x): 2.9717092537806558
+save dropout3 result into: logs/hartmann6_500/dropout3-42.csv
+Namespace(active_dims=6, batch_size=3, func='hartmann6_500', init_samples=10, max_samples=1000, seed=44)
+best f(x): 3.1932266402631138
+save dropout6 result into: logs/hartmann6_500/dropout6-44.csv
+Namespace(active_dims=6, batch_size=3, func='hartmann6_500', init_samples=10, max_samples=1000, seed=42)
+best f(x): 3.2063548864439126
+save dropout6 result into: logs/hartmann6_500/dropout6-42.csv
+Namespace(active_dims=6, batch_size=3, func='hartmann6_500', init_samples=10, max_samples=1000, seed=43)
+best f(x): 3.1474185528042993
+save dropout6 result into: logs/hartmann6_500/dropout6-43.csv
+Namespace(active_dims=10, batch_size=3, func='hartmann6_500', init_samples=10, max_samples=1000, seed=43)
+best f(x): 3.2725936830522393
+save dropout10 result into: logs/hartmann6_500/dropout10-43.csv
+Namespace(active_dims=10, batch_size=3, func='hartmann6_500', init_samples=10, max_samples=1000, seed=42)
+best f(x): 3.306431194093398
+save dropout10 result into: logs/hartmann6_500/dropout10-42.csv
+Namespace(active_dims=10, batch_size=3, func='hartmann6_500', init_samples=10, max_samples=1000, seed=44)
+best f(x): 3.307210476346272
+save dropout10 result into: logs/hartmann6_500/dropout10-44.csv
+Namespace(active_dims=20, batch_size=3, func='hartmann6_500', init_samples=10, max_samples=1000, seed=44)
+best f(x): 3.1996655677602384
+save dropout20 result into: logs/hartmann6_500/dropout20-44.csv
+Namespace(active_dims=20, batch_size=3, func='hartmann6_500', init_samples=10, max_samples=1000, seed=43)
+best f(x): 3.2938731980912705
+save dropout20 result into: logs/hartmann6_500/dropout20-43.csv
+Namespace(active_dims=20, batch_size=3, func='hartmann6_500', init_samples=10, max_samples=1000, seed=42)
+best f(x): 3.320200412465701
+save dropout20 result into: logs/hartmann6_500/dropout20-42.csv
+Namespace(active_dims=30, batch_size=3, func='hartmann6_500', init_samples=10, max_samples=1000, seed=42)
+best f(x): 3.3201909566632364
+save dropout30 result into: logs/hartmann6_500/dropout30-42.csv
+Namespace(active_dims=30, batch_size=3, func='hartmann6_500', init_samples=10, max_samples=1000, seed=43)
+best f(x): 3.3134068175948297
+save dropout30 result into: logs/hartmann6_500/dropout30-43.csv
+Namespace(active_dims=30, batch_size=3, func='hartmann6_500', init_samples=10, max_samples=1000, seed=44)
+best f(x): 3.288867435344503
+save dropout30 result into: logs/hartmann6_500/dropout30-44.csv
+test function:  levy10
+Namespace(func='levy10', max_samples=1000, seed=44)
+==========
+feature_batch_size: 2
+sample_batch_size: 3
+collect 12 samples for initializing MCTS
+collect 4 features for initializing MCTS
+dims: 10
+min_num_variables: 3
+==========
+best f(x): -1.736953197526869
+save lamcts_vs result into: logs/levy10/lamcts_vs-44.csv
+Namespace(func='levy10', max_samples=1000, seed=42)
+==========
+feature_batch_size: 2
+sample_batch_size: 3
+collect 12 samples for initializing MCTS
+collect 4 features for initializing MCTS
+dims: 10
+min_num_variables: 3
+==========
+best f(x): -5.360612383451817
+save lamcts_vs result into: logs/levy10/lamcts_vs-42.csv
+Namespace(func='levy10', max_samples=1000, seed=43)
+==========
+feature_batch_size: 2
+sample_batch_size: 3
+collect 12 samples for initializing MCTS
+collect 4 features for initializing MCTS
+dims: 10
+min_num_variables: 3
+==========
+best f(x): -1.8395312378401099
+save lamcts_vs result into: logs/levy10/lamcts_vs-43.csv
+Namespace(batch_size=3, func='levy10', init_samples=10, max_samples=1000, seed=44)
+best f(x): -29.360765597472653
+save bo result into: logs/levy10/bo-44.csv
+Namespace(batch_size=3, func='levy10', init_samples=10, max_samples=1000, seed=43)
+best f(x): -17.322154062067955
+save bo result into: logs/levy10/bo-43.csv
+Namespace(batch_size=3, func='levy10', init_samples=10, max_samples=1000, seed=42)
+best f(x): -16.467398937664022
+save bo result into: logs/levy10/bo-42.csv
+Namespace(active_dims=3, batch_size=3, func='levy10', init_samples=10, max_samples=1000, seed=42)
+best f(x): -2.1732851316215624
+save dropout3 result into: logs/levy10/dropout3-42.csv
+Namespace(active_dims=3, batch_size=3, func='levy10', init_samples=10, max_samples=1000, seed=44)
+best f(x): -3.1785782902204227
+save dropout3 result into: logs/levy10/dropout3-44.csv
+Namespace(active_dims=3, batch_size=3, func='levy10', init_samples=10, max_samples=1000, seed=43)
+best f(x): -4.100157606602568
+save dropout3 result into: logs/levy10/dropout3-43.csv
+Namespace(active_dims=6, batch_size=3, func='levy10', init_samples=10, max_samples=1000, seed=44)
+best f(x): -4.479585023560695
+save dropout6 result into: logs/levy10/dropout6-44.csv
+Namespace(active_dims=6, batch_size=3, func='levy10', init_samples=10, max_samples=1000, seed=42)
+best f(x): -3.162208000575596
+save dropout6 result into: logs/levy10/dropout6-42.csv
+Namespace(active_dims=6, batch_size=3, func='levy10', init_samples=10, max_samples=1000, seed=43)
+best f(x): -3.527999786613701
+save dropout6 result into: logs/levy10/dropout6-43.csv
+Namespace(active_dims=10, batch_size=3, func='levy10', init_samples=10, max_samples=1000, seed=44)
+best f(x): -25.60148891868067
+save dropout10 result into: logs/levy10/dropout10-44.csv
+Namespace(active_dims=10, batch_size=3, func='levy10', init_samples=10, max_samples=1000, seed=42)
+best f(x): -16.399154568904915
+save dropout10 result into: logs/levy10/dropout10-42.csv
+Namespace(active_dims=10, batch_size=3, func='levy10', init_samples=10, max_samples=1000, seed=43)
+best f(x): -22.190065188896277
+save dropout10 result into: logs/levy10/dropout10-43.csv
+Namespace(active_dims=20, batch_size=3, func='levy10', init_samples=10, max_samples=1000, seed=43)
+Namespace(active_dims=20, batch_size=3, func='levy10', init_samples=10, max_samples=1000, seed=44)
+Traceback (most recent call last):
+  File "dropout.py", line 55, in <module>
+    selected_dims = get_active_idx(dims, args.active_dims)
+  File "dropout.py", line 15, in get_active_idx
+    idx = np.random.choice(range(dims), active_dims, replace=False)
+  File "mtrand.pyx", line 959, in numpy.random.mtrand.RandomState.choice
+ValueError: Cannot take a larger sample than population when 'replace=False'
+Traceback (most recent call last):
+  File "dropout.py", line 55, in <module>
+    selected_dims = get_active_idx(dims, args.active_dims)
+  File "dropout.py", line 15, in get_active_idx
+    idx = np.random.choice(range(dims), active_dims, replace=False)
+  File "mtrand.pyx", line 959, in numpy.random.mtrand.RandomState.choice
+ValueError: Cannot take a larger sample than population when 'replace=False'
+Namespace(active_dims=20, batch_size=3, func='levy10', init_samples=10, max_samples=1000, seed=42)
+Traceback (most recent call last):
+  File "dropout.py", line 55, in <module>
+    selected_dims = get_active_idx(dims, args.active_dims)
+  File "dropout.py", line 15, in get_active_idx
+    idx = np.random.choice(range(dims), active_dims, replace=False)
+  File "mtrand.pyx", line 959, in numpy.random.mtrand.RandomState.choice
+ValueError: Cannot take a larger sample than population when 'replace=False'
+Namespace(active_dims=30, batch_size=3, func='levy10', init_samples=10, max_samples=1000, seed=43)
+Namespace(active_dims=30, batch_size=3, func='levy10', init_samples=10, max_samples=1000, seed=44)
+Traceback (most recent call last):
+  File "dropout.py", line 55, in <module>
+    selected_dims = get_active_idx(dims, args.active_dims)
+  File "dropout.py", line 15, in get_active_idx
+    idx = np.random.choice(range(dims), active_dims, replace=False)
+  File "mtrand.pyx", line 959, in numpy.random.mtrand.RandomState.choice
+ValueError: Cannot take a larger sample than population when 'replace=False'
+Traceback (most recent call last):
+  File "dropout.py", line 55, in <module>
+    selected_dims = get_active_idx(dims, args.active_dims)
+  File "dropout.py", line 15, in get_active_idx
+    idx = np.random.choice(range(dims), active_dims, replace=False)
+  File "mtrand.pyx", line 959, in numpy.random.mtrand.RandomState.choice
+ValueError: Cannot take a larger sample than population when 'replace=False'
+Namespace(active_dims=30, batch_size=3, func='levy10', init_samples=10, max_samples=1000, seed=42)
+Traceback (most recent call last):
+  File "dropout.py", line 55, in <module>
+    selected_dims = get_active_idx(dims, args.active_dims)
+  File "dropout.py", line 15, in get_active_idx
+    idx = np.random.choice(range(dims), active_dims, replace=False)
+  File "mtrand.pyx", line 959, in numpy.random.mtrand.RandomState.choice
+ValueError: Cannot take a larger sample than population when 'replace=False'
+test function:  levy10_50
+Namespace(func='levy10_50', max_samples=1000, seed=43)
+==========
+feature_batch_size: 2
+sample_batch_size: 3
+collect 12 samples for initializing MCTS
+collect 4 features for initializing MCTS
+dims: 50
+min_num_variables: 3
+==========
+best f(x): -1.6613892888874675
+save lamcts_vs result into: logs/levy10_50/lamcts_vs-43.csv
+Namespace(func='levy10_50', max_samples=1000, seed=44)
+==========
+feature_batch_size: 2
+sample_batch_size: 3
+collect 12 samples for initializing MCTS
+collect 4 features for initializing MCTS
+dims: 50
+min_num_variables: 3
+==========
+best f(x): -0.24521912102371782
+save lamcts_vs result into: logs/levy10_50/lamcts_vs-44.csv
+Namespace(func='levy10_50', max_samples=1000, seed=42)
+==========
+feature_batch_size: 2
+sample_batch_size: 3
+collect 12 samples for initializing MCTS
+collect 4 features for initializing MCTS
+dims: 50
+min_num_variables: 3
+==========
+best f(x): -1.3738917386407796
+save lamcts_vs result into: logs/levy10_50/lamcts_vs-42.csv
+Namespace(batch_size=3, func='levy10_50', init_samples=10, max_samples=1000, seed=42)
+best f(x): -15.987825792524799
+save bo result into: logs/levy10_50/bo-42.csv
+Namespace(batch_size=3, func='levy10_50', init_samples=10, max_samples=1000, seed=43)
+best f(x): -16.077484860553497
+save bo result into: logs/levy10_50/bo-43.csv
+Namespace(batch_size=3, func='levy10_50', init_samples=10, max_samples=1000, seed=44)
+best f(x): -14.461278253204307
+save bo result into: logs/levy10_50/bo-44.csv
+Namespace(active_dims=3, batch_size=3, func='levy10_50', init_samples=10, max_samples=1000, seed=42)
+best f(x): -0.4034100499912108
+save dropout3 result into: logs/levy10_50/dropout3-42.csv
+Namespace(active_dims=3, batch_size=3, func='levy10_50', init_samples=10, max_samples=1000, seed=44)
+best f(x): -0.4985837248657494
+save dropout3 result into: logs/levy10_50/dropout3-44.csv
+Namespace(active_dims=3, batch_size=3, func='levy10_50', init_samples=10, max_samples=1000, seed=43)
+best f(x): -0.32961113648589346
+save dropout3 result into: logs/levy10_50/dropout3-43.csv
+Namespace(active_dims=6, batch_size=3, func='levy10_50', init_samples=10, max_samples=1000, seed=44)
+best f(x): -0.47140098719738943
+save dropout6 result into: logs/levy10_50/dropout6-44.csv
+Namespace(active_dims=6, batch_size=3, func='levy10_50', init_samples=10, max_samples=1000, seed=43)
+best f(x): -0.34202326890117063
+save dropout6 result into: logs/levy10_50/dropout6-43.csv
+Namespace(active_dims=6, batch_size=3, func='levy10_50', init_samples=10, max_samples=1000, seed=42)
+best f(x): -0.2682360075661895
+save dropout6 result into: logs/levy10_50/dropout6-42.csv
+Namespace(active_dims=10, batch_size=3, func='levy10_50', init_samples=10, max_samples=1000, seed=43)
+best f(x): -0.2269987783784384
+save dropout10 result into: logs/levy10_50/dropout10-43.csv
+Namespace(active_dims=10, batch_size=3, func='levy10_50', init_samples=10, max_samples=1000, seed=44)
+best f(x): -0.30965569238727125
+save dropout10 result into: logs/levy10_50/dropout10-44.csv
+Namespace(active_dims=10, batch_size=3, func='levy10_50', init_samples=10, max_samples=1000, seed=42)
+best f(x): -0.302295685438178
+save dropout10 result into: logs/levy10_50/dropout10-42.csv
+Namespace(active_dims=20, batch_size=3, func='levy10_50', init_samples=10, max_samples=1000, seed=42)
+best f(x): -2.423469662773874
+save dropout20 result into: logs/levy10_50/dropout20-42.csv
+Namespace(active_dims=20, batch_size=3, func='levy10_50', init_samples=10, max_samples=1000, seed=43)
+best f(x): -1.9920710332865252
+save dropout20 result into: logs/levy10_50/dropout20-43.csv
+Namespace(active_dims=20, batch_size=3, func='levy10_50', init_samples=10, max_samples=1000, seed=44)
+best f(x): -2.818380414478146
+save dropout20 result into: logs/levy10_50/dropout20-44.csv
+Namespace(active_dims=30, batch_size=3, func='levy10_50', init_samples=10, max_samples=1000, seed=44)
+best f(x): -4.674047448947834
+save dropout30 result into: logs/levy10_50/dropout30-44.csv
+Namespace(active_dims=30, batch_size=3, func='levy10_50', init_samples=10, max_samples=1000, seed=43)
+best f(x): -6.369421239783793
+save dropout30 result into: logs/levy10_50/dropout30-43.csv
+Namespace(active_dims=30, batch_size=3, func='levy10_50', init_samples=10, max_samples=1000, seed=42)
+best f(x): -6.316223886548875
+save dropout30 result into: logs/levy10_50/dropout30-42.csv
+test function:  levy10_100
+Namespace(func='levy10_100', max_samples=1000, seed=44)
+==========
+feature_batch_size: 2
+sample_batch_size: 3
+collect 12 samples for initializing MCTS
+collect 4 features for initializing MCTS
+dims: 100
+min_num_variables: 3
+==========
+best f(x): -0.5430099554800552
+save lamcts_vs result into: logs/levy10_100/lamcts_vs-44.csv
+Namespace(func='levy10_100', max_samples=1000, seed=42)
+==========
+feature_batch_size: 2
+sample_batch_size: 3
+collect 12 samples for initializing MCTS
+collect 4 features for initializing MCTS
+dims: 100
+min_num_variables: 3
+==========
+best f(x): -2.6776195128295384
+save lamcts_vs result into: logs/levy10_100/lamcts_vs-42.csv
+Namespace(func='levy10_100', max_samples=1000, seed=43)
+==========
+feature_batch_size: 2
+sample_batch_size: 3
+collect 12 samples for initializing MCTS
+collect 4 features for initializing MCTS
+dims: 100
+min_num_variables: 3
+==========
+best f(x): -0.8642248703566837
+save lamcts_vs result into: logs/levy10_100/lamcts_vs-43.csv
+Namespace(batch_size=3, func='levy10_100', init_samples=10, max_samples=1000, seed=42)
+best f(x): -14.20895043879807
+save bo result into: logs/levy10_100/bo-42.csv
+Namespace(batch_size=3, func='levy10_100', init_samples=10, max_samples=1000, seed=43)
+best f(x): -15.285424742258483
+save bo result into: logs/levy10_100/bo-43.csv
+Namespace(batch_size=3, func='levy10_100', init_samples=10, max_samples=1000, seed=44)
+best f(x): -7.096288386776202
+save bo result into: logs/levy10_100/bo-44.csv
+Namespace(active_dims=3, batch_size=3, func='levy10_100', init_samples=10, max_samples=1000, seed=43)
+best f(x): -0.3795608932416894
+save dropout3 result into: logs/levy10_100/dropout3-43.csv
+Namespace(active_dims=3, batch_size=3, func='levy10_100', init_samples=10, max_samples=1000, seed=44)
+best f(x): -0.45421200676178064
+save dropout3 result into: logs/levy10_100/dropout3-44.csv
+Namespace(active_dims=3, batch_size=3, func='levy10_100', init_samples=10, max_samples=1000, seed=42)
+best f(x): -0.6620076106168848
+save dropout3 result into: logs/levy10_100/dropout3-42.csv
+Namespace(active_dims=6, batch_size=3, func='levy10_100', init_samples=10, max_samples=1000, seed=44)
+best f(x): -0.19706685069028068
+save dropout6 result into: logs/levy10_100/dropout6-44.csv
+Namespace(active_dims=6, batch_size=3, func='levy10_100', init_samples=10, max_samples=1000, seed=42)
+best f(x): -0.4518012122253734
+save dropout6 result into: logs/levy10_100/dropout6-42.csv
+Namespace(active_dims=6, batch_size=3, func='levy10_100', init_samples=10, max_samples=1000, seed=43)
+best f(x): -0.8057439766085321
+save dropout6 result into: logs/levy10_100/dropout6-43.csv

@@ -160,7 +160,7 @@ class MCTS:
             return False
         
     def dynamic_treeify(self):
-        print('rebuild the tree')
+        # print('rebuild the tree')
         self.num_select_right = 0
         self.populate_training_data()
 #         while self.is_splitable():
@@ -179,7 +179,7 @@ class MCTS:
     def greedy_select(self):
         pass
     
-    def select(self):
+    def select(self, verbose=True):
         self.CURT = self.ROOT
         curt_node = self.ROOT
         path = []
@@ -192,8 +192,10 @@ class MCTS:
             path.append( (curt_node, choice) )
             curt_node = curt_node.kids[choice]
             self.num_select_right += choice # 0: left, 1: right
-            print('=>', curt_node.get_name(), end=' ')
-        print('')
+            if verbose:
+                print('=>', curt_node.get_name(), end=' ')
+        if verbose:
+            print('')
         
         return curt_node, path
     
@@ -205,16 +207,18 @@ class MCTS:
             curt_node.update_bag(feature, samples)
             curt_node = curt_node.parent
         
-    def search(self, iterations):
-        for idx in range(iterations):
-            print('')
-            print('='*10)
-            print('iteration: {}'.format(idx))
-            print('='*10)
+    def search(self, max_samples, verbose=True):
+        idx = 0
+        while True:
+            if verbose:
+                print('')
+                print('='*10)
+                print('iteration: {}'.format(idx))
+                print('='*10)
             
             if self.num_select_right >= self.select_right_threshold:
                 self.dynamic_treeify()
-            leaf, path = self.select()
+            leaf, path = self.select(verbose)
             
             for i in range(1):
                 new_feature, new_comp_features = leaf.sample_features(self.feature_batch_size)
@@ -233,11 +237,16 @@ class MCTS:
             
             self.value_trace.append( (self.sample_counter, self.curt_best_value) )
             
-            self.print_tree()
-            print('axis_score argsort:', np.argsort(self.ROOT.axis_score))
-            print('total samples: {}'.format(len(self.samples)))
-            print('current best f(x): {}'.format(self.curt_best_value))
-            print('current best x: {}'.format(self.curt_best_sample))
+            if verbose:
+                self.print_tree()
+                print('axis_score argsort:', np.argsort(self.ROOT.axis_score))
+                print('total samples: {}'.format(len(self.samples)))
+                print('current best f(x): {}'.format(self.curt_best_value))
+                print('current best x: {}'.format(self.curt_best_sample))
+
+            idx += 1
+            if self.sample_counter >= max_samples:
+                break
             
     def update_feature2sample_map(self, feature, sample, y):
         feature_str = ndarray2str(feature)

@@ -6,6 +6,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.stats import norm
 
+from sklearn.exceptions import ConvergenceWarning
+import warnings
+# warnings.filterwarnings('error', category=ConvergenceWarning)
+warnings.filterwarnings('ignore', category=ConvergenceWarning)
+
 
 def generate_initial_data(func, n, lb, ub):
     train_x = [np.random.uniform(lb, ub) for _ in range(n)]
@@ -84,23 +89,52 @@ def optimize_acqf(dims, gpr, X_sample, Y_sample, n, lb, ub):
 
 
 if __name__ == '__main__':
+    import botorch
+    import pandas as pd
+    import argparse
+    import random
     from benchmark import synthetic_function_problem
-    func = synthetic_function_problem['levy10']
-    lb = func.lb
-    ub = func.ub
-    train_x, train_y = generate_initial_data(func, 10, lb, ub)
-    gpr = get_gpr_model()
+    from utils import latin_hypercube, from_unit_cube, save_results
     
-    best_y  = [np.max(train_y)]
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--func', default='hartmann6_50', type=str)
+    parser.add_argument('--max_samples', default=1000, type=int)
+    parser.add_argument('--init_samples', default=10, type=int)
+    parser.add_argument('--batch_size', default=3, type=int)
+    parser.add_argument('--seed', default=42, type=int)
+    args = parser.parse_args()
+    print(args)
+    
+    random.seed(args.seed)
+    np.random.seed(args.seed)
+    botorch.manual_seed(args.seed)
+    torch.manual_seed(args.seed)
+    
+    func = synthetic_function_problem[args.func]
+    dims, lb, ub = func.dims, func.lb, func.ub
+    points = latin_hypercube(args.init_samples, dims)
+    points = from_unit_cube(points, lb, ub)
+    train_x, train_y = [], []
+    for i in range(args.init_samples):
+        y = func(points[i])
+        train_x.append(points[i])
+        train_y.append(y)
+    
+    sample_counter = args.init_samples
+    gpr = get_gpr_model()
+    best_y  = [(sample_counter, np.max(train_y))]
 
-    for _ in range(70):
+    while True:
         gpr.fit(train_x, train_y)
-        proposed_X, proposed_X_ei = optimize_acqf(func.dims, gpr, train_x, train_y, 3, lb, ub)
+        proposed_X, _ = optimize_acqf(func.dims, gpr, train_x, train_y, args.batch_size, lb, ub)
         proposed_Y = [func(X) for X in proposed_X]
         train_x.extend(proposed_X)
         train_y.extend(proposed_Y)
-        best_y.append(np.max(train_y))
+        sample_counter += len(proposed_X)
+        best_y.append( (sample_counter, np.max(train_y)) )
+        if sample_counter >= args.max_samples:
+            break
     
-    print('best func value:', best_y[-1])
-    plt.plot(best_y)
-    plt.show()
+    print('best f(x):', best_y[-1][1])
+    df_data = pd.DataFrame(best_y, columns=['x', 'y'])
+    save_results('logs', 'bo', args.func, args.seed, df_data)

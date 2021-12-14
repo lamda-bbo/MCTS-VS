@@ -21,6 +21,8 @@ benchmark函数的变量范围怎么确定
 3. 不重要值确定方式：random，bestk。目前：bestk
 4. uct计算时，max、mean。目前：max
 
+画图，在plot-util的363和413行加入
+
 ## 需要思考的
 
 计算get_axis_score时使用feature采样的样本的最大值还是均值，目前是max

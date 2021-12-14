@@ -5,8 +5,8 @@ import os
 import numpy as np
 import pandas
 from collections import defaultdict, namedtuple
-from baselines.bench import monitor
-from baselines.logger import read_json, read_csv
+from plot_tool import monitor
+from plot_tool.logger import read_json, read_csv
 
 def smooth(y, radius, mode='two_sided', valid_only=False):
     '''
@@ -361,16 +361,19 @@ def plot_results(
                 # if group == 'PGG-ES(k=20)':
                 #     color = 'crimson'
                 color = {
-                    'Vanilla ES': 'limegreen',
-                    'CMA-ES': 'blueviolet',
-                    'Guided ES': 'royalblue',
-                    'ASEBO': 'darkorange',
-                    'SGES': 'crimson',
-                    'SGES(k=1)': 'blueviolet',
-                    'SGES(k=5)': 'royalblue',
-                    'SGES(k=10)': 'darkorange',
-                    'SGES(k=20)': 'crimson',
-                    'SGES(k=50)': 'black'
+                    # 'Dropout-3': 'crimson',
+                    # 'Dropout-6': 'limegreen',
+                    # 'Dropout-10': 'darkorange',
+                    # 'Dropout-20': 'royalblue',
+                    # 'Vanilia BO': 'blueviolet',
+                    # 'Lamcts-VS': 'royalblue',
+                    'Dropout-3': 'yellow',
+                    'Dropout-6': 'green',
+                    'Dropout-10': 'red',
+                    'Dropout-20': 'cyan',
+                    'Dropout-30': 'black',
+                    'Vanilia BO': 'magenta',
+                    'Lamcts-VS': 'blue',
                 }[group]
                 origxs = [xy[0] for xy in xys]
                 minxlen = min(map(len, origxs))
@@ -410,14 +413,20 @@ def plot_results(
                     loc=2 if legend_outside else None,
                     bbox_to_anchor=(1,1) if legend_outside else None)
             else:
-                _key = ['Vanilla ES',  'CMA-ES', 'Guided ES',  'ASEBO', 'SGES']
-                # _key = ['Vanilla ES', 'CMA-ES', 'Guided ES', 'ASEBO', 'SGES']
-                # _key = ['Vanilla ES', 'SGES(k=1)', 'SGES(k=5)', 'SGES(k=10)', 'SGES(k=20)', 'SGES(k=50)']
-                _value = [g2l[k] for k in _key]
+                _key = [
+                    'Dropout-3', 
+                    'Dropout-6', 
+                    'Dropout-10', 
+                    'Dropout-20', 
+                    'Dropout-30',
+                    'Vanilia BO', 
+                    'Lamcts-VS',
+                ]
+                _value = [g2l[k] for k in _key if k in g2l.keys()]
                 ax.legend(
                     _value,
                     # ['%s (%i)'%(g, g2c[g]) for g in g2l] if average_group else g2l.keys(),
-                    ['%s' % g for g in _key] if average_group else _key,
+                    ['%s' % g for g in _key if g in g2l.keys()] if average_group else _key,
                     loc=2 if legend_outside else None,
                     bbox_to_anchor=(1,1) if legend_outside else None)
         ax.set_title(sk)
