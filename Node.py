@@ -8,14 +8,12 @@ class Node:
     
     def __init__(self, parent=None, dims=0, active_dims_idx=None, min_num_variables=3, reset_id=False):
         # every node is initialized as a leaf
-        # assert len(active_dims_idx) >= min_num_variables
         self.dims = dims
         self.active_dims_idx = active_dims_idx
         self.min_num_variables = min_num_variables
         self.value = 0
         self.n = 0
         self.uct = 0
-        # self.accumulate_imporve = np.zeros(self.)
         self.kmeans = KMeans(n_clusters=2)
         
         self.parent = parent
@@ -49,17 +47,6 @@ class Node:
             self.features.append(feature)
             self.feature2sample_map[k] = []
         self.feature2sample_map[k].extend(samples)
-        
-    # def is_splitable(self, split_type='median'):
-    #     threshold = getattr(self, split_type)
-    #     num_left = np.sum(self.axis_score >= threshold)
-    #     num_right = np.sum(self.axis_score < threshold)
-    #     if len(self.active_dims_idx) <= self.min_num_variables:
-    #         return False
-    #     elif num_left == 0 or num_right == 0:
-    #         return False
-    #     else:
-    #         return True
     
     def get_cluster_mean(self, plabel):
         assert plabel.shape[0] == self.active_axis_score.shape[0]
@@ -83,7 +70,7 @@ class Node:
         #     return None, None
         
         if split_type in ['median', 'mean']:
-            threshold = getattr(self, split_type)
+            threshold = getattr(self, split_type) # calculated by active dims
             good_idx = np.where(self.axis_score >= threshold)[0]
             good_idx = sorted(set(list(good_idx)) & set(list(self.active_dims_idx)))
             bad_idx = np.where(self.axis_score < threshold)[0]
@@ -113,7 +100,6 @@ class Node:
         assert ( set(good_idx) | set(bad_idx) == set(list(self.active_dims_idx)) )
         assert ( len(set(good_idx) & set(bad_idx)) == 0 )
         
-        # if len(good_idx) < self.min_num_variables or len(bad_idx) < self.min_num_variables:
         if len(good_idx) < self.min_num_variables and len(bad_idx) < self.min_num_variables:
             return None, None
         
@@ -170,7 +156,6 @@ class Node:
         for _ in range(n):
             feature = np.zeros(self.dims)
             comp_feature = np.zeros(self.dims)
-            # print('active idx:', self.active_dims_idx)
             
             active_prob = np.random.uniform(0.0, 1.0, len(self.active_dims_idx))
             

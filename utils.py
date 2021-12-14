@@ -38,7 +38,6 @@ def bernoulli(n, dims, p=0.5):
         if point not in points:
             points.append(point)
             i += 1
-    # print('the number of init points:', len(points))
     
     points = [np.array(point) for point in points]
     

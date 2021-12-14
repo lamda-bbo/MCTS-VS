@@ -18,6 +18,7 @@ class FunctionBenchmark:
     
     
 hartmann6 = Hartmann(6, True)
+hartmann6_20 = FunctionBenchmark(hartmann6, 20, list(range(6)))
 hartmann6_50 = FunctionBenchmark(hartmann6, 50, list(range(6)))
 hartmann6_100 = FunctionBenchmark(hartmann6, 100, list(range(6)))
 
@@ -28,6 +29,7 @@ levy20_50 = FunctionBenchmark(levy20, 50, list(range(20)))
     
 synthetic_function_problem = {
     'hartmann6': hartmann6,
+    'hartmann6_20': hartmann6_20,
     'hartmann6_50': hartmann6_50,
     'hartmann6_100': hartmann6_100,
     'levy10': levy10,

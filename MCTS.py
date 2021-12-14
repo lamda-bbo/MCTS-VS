@@ -2,7 +2,7 @@ import numpy as np
 
 from vanilia_bo import get_gpr_model, optimize_acqf
 from Node import Node
-from uipt_variable_strategy import UiptRandomStrategy, UiptBestKStrategy, UiptCMAESStrategy
+from uipt_variable_strategy import UiptRandomStrategy, UiptBestKStrategy
 from utils import bernoulli, latin_hypercube, from_unit_cube, feature_complementary, ndarray2str, feature_dedup
 
 
@@ -13,15 +13,23 @@ class MCTS:
                  select_right_threshold=5, split_type='mean',
                  ipt_solver='bo', uipt_solver='bestk'):
         # user defined parameters
+        assert len(lb) == dims and len(ub) == dims
         self.func = func
         self.dims = dims
         self.lb = lb
         self.ub = ub
-        self.feature_batch_size = feature_batch_size
-        self.sample_batch_size = sample_batch_size
+        self.feature_batch_size = feature_batch_size # sample feature_batch_size features and feature_batch_size complementary features
+        self.sample_batch_size = sample_batch_size # sample sample_batch_size datas for each feature
         self.Cp = Cp
         self.min_num_variables = min_num_variables
+        self.select_right_threshold = select_right_threshold
         
+        self.split_type = split_type
+        self.ipt_solver = ipt_solver
+        uipt_solver_dict = {'random': UiptRandomStrategy(self.dims), 'bestk': UiptBestKStrategy(self.dims, k=20)}
+        self.uipt_solver = uipt_solver_dict[uipt_solver]
+        
+        # parameters to store datas
         self.features = []
         self.samples = []
         self.feature2sample_map = dict()
@@ -31,18 +39,14 @@ class MCTS:
         self.value_trace = []
         self.sample_counter = 0
         
-        self.split_type = split_type
-        self.ipt_solver = ipt_solver
-        uipt_solver_dict = {'random': UiptRandomStrategy(self.dims), 'bestk': UiptBestKStrategy(self.dims, k=20)}
-        self.uipt_solver = uipt_solver_dict[uipt_solver]
-        
+        # build the tree
         self.nodes = []
         root = Node(parent=None, dims=self.dims, active_dims_idx=list(range(self.dims)), reset_id=True)
         self.nodes.append(root)
         self.ROOT = root
         self.CURT = self.ROOT
         self.num_select_right = float('inf') # run 'dynamic_treeify' when iteration = 1
-        self.select_right_threshold = select_right_threshold
+        
         self.init_train()
         
     def init_train(self):
@@ -52,10 +56,10 @@ class MCTS:
         comp_features = [feature_complementary(features[idx]) for idx in range(self.feature_batch_size)]
         self.features.extend( feature_dedup(features + comp_features) )
         
-        # collect sample for each feature
+        # collect similar sample for each feature
         for feature in self.features:
             points = latin_hypercube(self.sample_batch_size, self.dims)
-            points = from_unit_cube(points, self.func.lb, self.func.ub)
+            points = from_unit_cube(points, self.lb, self.ub)
             for i in range(self.sample_batch_size):
                 y = self.func(points[i])
                 self.samples.append( (points[i], y) )
@@ -63,7 +67,7 @@ class MCTS:
         
         assert len(self.samples) == len(self.features) * self.sample_batch_size
         
-        # update best sample information
+        # update current best sample information
         self.sample_counter += len(self.samples)
         X_sample, Y_sample = zip(*self.samples)
         best_sample_idx = np.argmax(Y_sample)
@@ -157,6 +161,7 @@ class MCTS:
         
     def dynamic_treeify(self):
         print('rebuild the tree')
+        self.num_select_right = 0
         self.populate_training_data()
 #         while self.is_splitable():
 #             to_split = self.get_split_idx()
@@ -170,7 +175,6 @@ class MCTS:
 #                     change_flag = 0
 #             if change_flag:
 #                 break
-        self.num_select_right = 0
         
     def greedy_select(self):
         pass
@@ -184,11 +188,10 @@ class MCTS:
             UCT = []
             for i in curt_node.kids:
                 UCT.append(i.get_uct(self.Cp))
-            # print(curt_node.get_name(), UCT)
             choice = np.random.choice(np.argwhere(UCT == np.amax(UCT)).reshape(-1), 1)[0]
             path.append( (curt_node, choice) )
             curt_node = curt_node.kids[choice]
-            self.num_select_right += choice
+            self.num_select_right += choice # 0: left, 1: right
             print('=>', curt_node.get_name(), end=' ')
         print('')
         
