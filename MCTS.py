@@ -4,6 +4,7 @@ from vanilia_bo import get_gpr_model, optimize_acqf
 from Node import Node
 from uipt_variable_strategy import UiptRandomStrategy, UiptBestKStrategy
 from utils import bernoulli, latin_hypercube, from_unit_cube, feature_complementary, ndarray2str, feature_dedup
+from baseline import Turbo1_VS_Component
 
 
 class MCTS:
@@ -11,7 +12,7 @@ class MCTS:
     def __init__(self, func, dims, lb, ub, feature_batch_size=2, 
                  sample_batch_size=3, Cp=5, min_num_variables=3, 
                  select_right_threshold=5, split_type='mean',
-                 ipt_solver='bo', uipt_solver='bestk'):
+                 ipt_solver='bo', uipt_solver='bestk', turbo_max_evals=50):
         # user defined parameters
         assert len(lb) == dims and len(ub) == dims
         self.func = func
@@ -23,6 +24,7 @@ class MCTS:
         self.Cp = Cp
         self.min_num_variables = min_num_variables
         self.select_right_threshold = select_right_threshold
+        self.turbo_max_evals = turbo_max_evals
         
         self.split_type = split_type
         self.ipt_solver = ipt_solver
@@ -97,35 +99,62 @@ class MCTS:
         ipt_ub = np.array([i for idx, i in enumerate(self.ub) if idx in feature_idx])
         # print('select feature: {}'.format(feature))
         
-        # get important variables
-        gpr = get_gpr_model()
-        gpr.fit(ipt_x, train_y)
-        new_ipt_x, _ = optimize_acqf(len(feature_idx), gpr, ipt_x, train_y, self.sample_batch_size, ipt_lb, ipt_ub)
-        
-        # get unimportant variables
-        X_sample, Y_sample = [], []
-        for i in range(len(new_ipt_x)):
-            fixed_variables = {idx: float(v) for idx, v in zip(feature_idx, new_ipt_x[i])}
-            new_x = self.uipt_solver.get_full_variable(
-                fixed_variables, 
-                self.lb, 
-                self.ub
+        if self.ipt_solver == 'bo':
+            # get important variables
+            gpr = get_gpr_model()
+            gpr.fit(ipt_x, train_y)
+            new_ipt_x, _ = optimize_acqf(len(feature_idx), gpr, ipt_x, train_y, self.sample_batch_size, ipt_lb, ipt_ub)
+            # get unimportant variables
+            X_sample, Y_sample = [], []
+            for i in range(len(new_ipt_x)):
+                fixed_variables = {idx: float(v) for idx, v in zip(feature_idx, new_ipt_x[i])}
+                new_x = self.uipt_solver.get_full_variable(
+                    fixed_variables, 
+                    self.lb, 
+                    self.ub
+                )
+                value = self.func(new_x)
+                self.uipt_solver.update(new_x, value)
+                self.samples.append( (new_x, value) )
+                self.update_feature2sample_map(feature, new_x, value)
+
+                X_sample.append(new_x)
+                Y_sample.append(value)
+        elif self.ipt_solver == 'turbo':
+            turbo1 = Turbo1_VS_Component(
+                f  = lambda x: -self.func(x),              # Handle to objective function
+                lb = ipt_lb,           # Numpy array specifying lower bounds
+                ub = ipt_ub,           # Numpy array specifying upper bounds
+                n_init = 1,            # unused parameter
+                max_evals  = self.turbo_max_evals, # Maximum number of evaluations
+                batch_size = 1,         # How large batch size TuRBO uses
+                verbose=False,           # Print information from each batch
+                use_ard=True,           # Set to true if you want to use ARD for the GP kernel
+                max_cholesky_size=2000, # When we switch from Cholesky to Lanczos
+                n_training_steps=50,    # Number of steps of ADAM to learn the hypers
+                min_cuda=1024,          #  Run on the CPU for small datasets
+                device="cpu",           # "cpu" or "cuda"
+                dtype="float32",        # float64 or float32
             )
-            value = self.func(new_x)
-            self.uipt_solver.update(new_x, value)
-            self.samples.append( (new_x, value) )
-            self.update_feature2sample_map(feature, new_x, value)
             
-            X_sample.append(new_x)
-            Y_sample.append(value)
+            Y_init = -np_train_y
+            X_sample, Y_sample = turbo1.optimize(ipt_x, Y_init, feature_idx, self.uipt_solver, n=1)
+            Y_sample = [-y for y in Y_sample]
             
-        self.sample_counter += self.sample_batch_size
-            
-        best_idx = np.argmax(Y_sample)
-        if Y_sample[best_idx] > self.curt_best_value:
-            self.curt_best_sample = X_sample[best_idx]
-            self.curt_best_value = Y_sample[best_idx]
-            self.best_value_trace.append( (self.sample_counter, self.curt_best_value) )
+            for new_x, value in zip(X_sample, Y_sample):
+                self.samples.append( (new_x, value) )
+                self.update_feature2sample_map(feature, new_x, value)
+        else:
+            assert 0
+        
+        for idx, y in enumerate(Y_sample):
+            self.sample_counter += 1
+            if y > self.curt_best_value:
+                self.curt_best_sample = X_sample[idx]
+                self.curt_best_value = y
+                self.best_value_trace.append( (self.sample_counter, self.curt_best_value) )
+                
+            self.value_trace.append( (self.sample_counter, self.curt_best_value) ) 
             
         return X_sample, Y_sample
     
@@ -234,8 +263,6 @@ class MCTS:
             if left_kid is not None and right_kid is not None:
                 self.nodes.append(left_kid)
                 self.nodes.append(right_kid)
-            
-            self.value_trace.append( (self.sample_counter, self.curt_best_value) )
             
             if verbose:
                 self.print_tree()

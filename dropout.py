@@ -23,6 +23,7 @@ parser.add_argument('--max_samples', default=1000, type=int)
 parser.add_argument('--init_samples', default=10, type=int)
 parser.add_argument('--batch_size', default=3, type=int)
 parser.add_argument('--active_dims', default=6, type=int)
+parser.add_argument('--root_dir', default='simple_logs', type=str)
 parser.add_argument('--seed', default=42, type=int)
 args = parser.parse_args()
 print(args)
@@ -80,4 +81,4 @@ while True:
 
 print('best f(x):', best_y[-1][1])
 df_data = pd.DataFrame(best_y, columns=['x', 'y'])
-save_results('logs', 'dropout{}'.format(args.active_dims), args.func, args.seed, df_data)
+save_results(args.root_dir, 'dropout{}'.format(args.active_dims), args.func, args.seed, df_data)

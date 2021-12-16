@@ -374,6 +374,15 @@ def plot_results(
                     'Dropout-30': 'black',
                     'Vanilia BO': 'magenta',
                     'Lamcts-VS': 'blue',
+                    'Lamcts': 'purple',
+                    
+                    'Lamcts-VS-BO(Cp0.1)': 'yellow',
+                    'Lamcts-VS-BO(Cp0.5)': 'green',
+                    'Lamcts-VS-BO(Cp1)': 'red',
+                    'Lamcts-VS-BO(Cp5)': 'purple',
+                    'Lamcts-VS-BO(Cp10)': 'black',
+                    'Lamcts-VS-BO(Cp15)': 'magenta',
+                    'Lamcts-VS-BO(Cp20)': 'blue',
                 }[group]
                 origxs = [xy[0] for xy in xys]
                 minxlen = min(map(len, origxs))
@@ -421,6 +430,15 @@ def plot_results(
                     'Dropout-30',
                     'Vanilia BO', 
                     'Lamcts-VS',
+                    'Lamcts',
+                    
+                    'Lamcts-VS-BO(Cp0.1)',
+                    'Lamcts-VS-BO(Cp0.5)',
+                    'Lamcts-VS-BO(Cp1)',
+                    'Lamcts-VS-BO(Cp5)',
+                    'Lamcts-VS-BO(Cp10)',
+                    'Lamcts-VS-BO(Cp15)',
+                    'Lamcts-VS-BO(Cp20)',
                 ]
                 _value = [g2l[k] for k in _key if k in g2l.keys()]
                 ax.legend(
