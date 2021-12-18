@@ -53,21 +53,35 @@ def main(root_dir):
         splits = name.split('-')
         alg_name = splits[1]
         if alg_name == 'bo':
-            return 'Vanilia BO'
+            return 'Vanilla BO'
         elif alg_name == 'dropout3':
             return 'Dropout-3'
         elif alg_name == 'dropout6':
             return 'Dropout-6'
         elif alg_name == 'dropout10':
             return 'Dropout-10'
+        elif alg_name == 'dropout15':
+            return 'Dropout-15'
         elif alg_name == 'dropout20':
             return 'Dropout-20'
         elif alg_name == 'dropout30':
             return 'Dropout-30'
-        elif alg_name == 'lamcts_vs':
-            return 'Lamcts-VS'
-        elif alg_name == 'lamcts':
-            return 'Lamcts'
+#         elif alg_name == 'dropout3':
+#             return 'Dropout-BO'
+#         elif alg_name == 'dropout6':
+#             return 'Dropout-BO'
+#         elif alg_name == 'dropout10':
+#             return 'Dropout-BO'
+#         elif alg_name == 'dropout15':
+#             return 'Dropout-BO'
+#         elif alg_name == 'dropout20':
+#             return 'Dropout-BO'
+#         elif alg_name == 'dropout30':
+#             return 'Dropout-BO'
+        elif alg_name == 'lamcts_vs_bo':
+            return 'LVS-BO'
+        elif alg_name == 'lamcts_bo':
+            return 'Lamcts-BO'
         else:
             raise ValueError('%s not supported' % alg_name)
 
@@ -123,5 +137,5 @@ if __name__ == '__main__':
     parser.add_argument('--root_dir', required=True, type=str)
     parser.add_argument('--output_name', required=True, type=str)
     args = parser.parse_args()
-    # main(root_dir=args.root_dir)
-    cp_plot(root_dir=args.root_dir)
+    main(root_dir=args.root_dir)
+    # cp_plot(root_dir=args.root_dir)

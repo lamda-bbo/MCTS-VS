@@ -36,10 +36,25 @@ parameters = [
     {'name': f'x{i}', 'type': 'range', 'bounds': [f.lb[i], f.ub[i]], 'value_type': 'float'} for i in range(dims)
 ]
 
+# from ax.utils.measurement.synthetic_functions import branin
+# def evaluation_function(parameterization):
+#     x = np.array([parameterization["x0"], parameterization["x1"]])
+#     return {"objective": (branin(x), 0.0)}
+
+# parameters = [
+#     {"name": "x0", "type": "range", "bounds": [-5.0, 10.0], "value_type": "float"},
+#     {"name": "x1", "type": "range", "bounds": [0.0, 15.0], "value_type": "float"},
+# ]
+# parameters.extend([
+#     {"name": f"x{i}", "type": "range", "bounds": [-5.0, 10.0], "value_type": "float"}
+#     for i in range(2, 100)
+# ])
+
 
 from ax.modelbridge.strategies.alebo import ALEBOStrategy
 
-alebo_strategy = ALEBOStrategy(D=dims, d=valid_dims, init_size=5)
+# alebo_strategy = ALEBOStrategy(D=dims, d=valid_dims, init_size=5)
+alebo_strategy = ALEBOStrategy(D=100, d=4, init_size=5)
 
 from ax.service.managed_loop import optimize
 
