@@ -7,19 +7,16 @@ smoke_test = True
 if smoke_test:
     func_list = [
         'hartmann6',
-        'hartmann6_50',
         'levy10',
     ]
     max_samples = 100
     seeds = [42, 43]
 else:
     func_list = [
-        'hartmann6',
         'hartmann6_50',
         'hartmann6_100',
         'hartmann6_300',
         'hartmann6_500',
-        'levy10',
         'levy10_50',
         'levy10_100',
         'levy10_300',
@@ -32,9 +29,10 @@ else:
     ]
     max_samples = 1000
     seeds = [42, 43, 44]
-    
-root_dir = 'simple_logs'
 
+n_processes = 16
+root_dir = 'simple_logs'
+cmds = []
 for func in func_list:
     print('test function: {}'.format(func))
     
@@ -47,7 +45,6 @@ for func in func_list:
         Cp = 10
     
     # lamcts variable selection 
-    cmds = []
     for seed in seeds:
         cmds.append(
             f'python3 lamcts_vs.py \
@@ -59,8 +56,6 @@ for func in func_list:
                 --root_dir={root_dir} \
                 --seed={seed}'
         )
-    with Pool(processes=len(seeds)) as p:
-        p.map(os.system, cmds)
         
     # vanilia bo
     cmds = []
@@ -72,8 +67,6 @@ for func in func_list:
                 --root_dir={root_dir} \
                 --seed={seed}'
         )
-    with Pool(processes=len(seeds)) as p:
-        p.map(os.system, cmds)
         
     # dropout bo
     valid_dims = re.findall(r'\d+', func.split('_')[0])
@@ -99,8 +92,6 @@ for func in func_list:
                     --root_dir={root_dir} \
                     --seed={seed}'
             )
-        with Pool(processes=len(seeds)) as p:
-            p.map(os.system, cmds)
             
     for seed in seeds:
         cmds.append(
@@ -113,3 +104,6 @@ for func in func_list:
                 --seed={seed}'
         )
     
+# run all 
+with Pool(processes=n_processes) as p:
+    p.map(os.system, cmds)
