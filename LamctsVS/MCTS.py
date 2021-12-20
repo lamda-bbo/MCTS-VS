@@ -1,14 +1,12 @@
 import numpy as np
-
 from vanilia_bo import get_gpr_model, optimize_acqf
-from Node import Node
+from LamctsVS.Node import Node
 from uipt_variable_strategy import UiptRandomStrategy, UiptBestKStrategy
 from utils import bernoulli, latin_hypercube, from_unit_cube, feature_complementary, ndarray2str, feature_dedup
 from baseline import Turbo1_VS_Component
 
 
 class MCTS:
-    
     def __init__(self, func, dims, lb, ub, feature_batch_size=2, 
                  sample_batch_size=3, Cp=5, min_num_variables=3, 
                  select_right_threshold=5, split_type='mean',

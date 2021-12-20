@@ -10,17 +10,17 @@ import pandas as pd
 import random
 import argparse
 from baseline import MCTS
-from benchmark import synthetic_function_problem
+from benchmark import get_synthetic_function_problem
 from utils import save_results
 
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--func', default='hartmann6_50', type=str)
-parser.add_argument('--max_samples', default=1000, type=int)
+parser.add_argument('--max_samples', default=600, type=int)
 parser.add_argument('--Cp', default=0.1, type=float)
 parser.add_argument('--solver_type', default='bo', type=str)
-parser.add_argument('--root_dir', default='logs', type=str)
-parser.add_argument('--seed', default=42, type=int)
+parser.add_argument('--root_dir', default='synthetic_logs', type=str)
+parser.add_argument('--seed', default=2021, type=int)
 args = parser.parse_args()
 
 print(args)
@@ -29,7 +29,14 @@ random.seed(args.seed)
 np.random.seed(args.seed)
 botorch.manual_seed(args.seed)
 torch.manual_seed(args.seed)
-f = synthetic_function_problem[args.func]
+save_config = {
+    'save_interval': 50,
+    'root_dir': 'logs/' + args.root_dir,
+    'algo': 'lamcts_{}'.format(args.solver_type),
+    'func': args.func,
+    'seed': args.seed
+}
+f = get_synthetic_function_problem(args.func, save_config)
 
 args = parser.parse_args()
 
@@ -41,7 +48,7 @@ agent = MCTS(
     func = f,               # function object to be optimized
     Cp = args.Cp,              # Cp for MCTS
     leaf_size = 20, # tree leaf size
-    solver_type=args.solver_type,
+    solver_type = args.solver_type,
     kernel_type = 'rbf', #SVM configruation
     gamma_type = 'auto'    #SVM configruation
 )
@@ -49,5 +56,3 @@ agent = MCTS(
 agent.search(max_samples = args.max_samples)
 
 print('best f(x):', agent.value_trace[-1][1])
-df_data = pd.DataFrame(agent.value_trace, columns=['x', 'y'])
-save_results(args.root_dir, 'lamcts_{}'.format(args.solver_type), args.func, args.seed, df_data)

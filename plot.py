@@ -16,6 +16,13 @@ import collections
 
 from plot_tool import plot_util as pu
 
+
+COLORS = ['blue', 'green', 'red', 'cyan', 'magenta', 'yellow', 'black', 'purple', 'pink', 'brown', 'orange', 'teal',  'lightblue', 'lime', 'lavender', 'turquoise', 'darkgreen', 'tan', 'salmon', 'gold',  'darkred', 'darkblue']
+
+color_map = {
+    '11': '11'
+}
+
 Result = collections.namedtuple('Result', 'name progress')
 
 
@@ -54,34 +61,15 @@ def main(root_dir):
         alg_name = splits[1]
         if alg_name == 'bo':
             return 'Vanilla BO'
-        elif alg_name == 'dropout3':
-            return 'Dropout-3'
-        elif alg_name == 'dropout6':
-            return 'Dropout-6'
-        elif alg_name == 'dropout10':
-            return 'Dropout-10'
-        elif alg_name == 'dropout15':
-            return 'Dropout-15'
-        elif alg_name == 'dropout20':
-            return 'Dropout-20'
-        elif alg_name == 'dropout30':
-            return 'Dropout-30'
-#         elif alg_name == 'dropout3':
-#             return 'Dropout-BO'
-#         elif alg_name == 'dropout6':
-#             return 'Dropout-BO'
-#         elif alg_name == 'dropout10':
-#             return 'Dropout-BO'
-#         elif alg_name == 'dropout15':
-#             return 'Dropout-BO'
-#         elif alg_name == 'dropout20':
-#             return 'Dropout-BO'
-#         elif alg_name == 'dropout30':
-#             return 'Dropout-BO'
+        elif alg_name.startswith('dropout'):
+            # return 'Dropout-' + alg_name[7: ]
+            return 'Dropout-BO'
         elif alg_name == 'lamcts_vs_bo':
             return 'LVS-BO'
         elif alg_name == 'lamcts_bo':
             return 'Lamcts-BO'
+        elif alg_name == 'rembo':
+            return 'REMBO'
         else:
             raise ValueError('%s not supported' % alg_name)
 
@@ -91,8 +79,8 @@ def main(root_dir):
                                   xlabel='Evaluations', ylabel='Loss')
     plt.subplots_adjust(hspace=0.2, wspace=0.2, bottom=0.2, left=0.08, top=0.95)
     for ax in axarr[0]:
-        ax.set_xticks(np.arange(0, 1000, 100))
-        ax.set_xticklabels([str(i) for i in np.arange(0, 1000, 100)])
+        ax.set_xticks(np.arange(0, 600, 100))
+        ax.set_xticklabels([str(i) for i in np.arange(0, 600, 100)])
     plt.savefig(args.output_name, bbox_inches='tight')
     
     

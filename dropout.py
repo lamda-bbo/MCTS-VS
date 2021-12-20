@@ -5,7 +5,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import random
 import argparse
-from benchmark import synthetic_function_problem
+from benchmark import get_synthetic_function_problem
 from uipt_variable_strategy import UiptRandomStrategy, UiptBestKStrategy
 from vanilia_bo import generate_initial_data, get_gpr_model, optimize_acqf
 from utils import latin_hypercube, from_unit_cube, save_results
@@ -19,12 +19,13 @@ def get_active_idx(dims, active_dims):
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--func', default='hartmann6_50', type=str)
-parser.add_argument('--max_samples', default=1000, type=int)
+parser.add_argument('--max_samples', default=600, type=int)
 parser.add_argument('--init_samples', default=10, type=int)
 parser.add_argument('--batch_size', default=3, type=int)
 parser.add_argument('--active_dims', default=6, type=int)
-parser.add_argument('--root_dir', default='simple_logs', type=str)
-parser.add_argument('--seed', default=42, type=int)
+parser.add_argument('--ipt_solver', default='bo', type=str)
+parser.add_argument('--root_dir', default='synthetic_logs', type=str)
+parser.add_argument('--seed', default=2021, type=int)
 args = parser.parse_args()
 print(args)
 
@@ -33,7 +34,14 @@ np.random.seed(args.seed)
 botorch.manual_seed(args.seed)
 torch.manual_seed(args.seed)
 
-func = synthetic_function_problem[args.func]
+save_config = {
+    'save_interval': 50,
+    'root_dir': 'logs/' + args.root_dir,
+    'algo': 'dropout{}'.format(args.active_dims),
+    'func': args.func,
+    'seed': args.seed
+}
+func = get_synthetic_function_problem(args.func, save_config)
 dims = func.dims
 lb = func.lb
 ub = func.ub
@@ -80,5 +88,3 @@ while True:
         break
 
 print('best f(x):', best_y[-1][1])
-df_data = pd.DataFrame(best_y, columns=['x', 'y'])
-save_results(args.root_dir, 'dropout{}'.format(args.active_dims), args.func, args.seed, df_data)

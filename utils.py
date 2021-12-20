@@ -83,9 +83,9 @@ def feature_dedup(features):
     return dedup
 
 
-def save_results(root_dir, algo, func_name, seed, df_data):
+def save_results(root_dir, algo, func, seed, df_data):
     os.makedirs(root_dir, exist_ok=True)
-    save_dir = os.path.join(root_dir, func_name)
+    save_dir = os.path.join(root_dir, func)
     os.makedirs(save_dir, exist_ok=True)
     save_path = os.path.join(save_dir, '%s-%d.csv' % (algo, seed))
     df_data.to_csv(save_path)

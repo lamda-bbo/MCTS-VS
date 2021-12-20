@@ -93,16 +93,16 @@ if __name__ == '__main__':
     import pandas as pd
     import argparse
     import random
-    from benchmark import synthetic_function_problem
+    from benchmark import get_synthetic_function_problem
     from utils import latin_hypercube, from_unit_cube, save_results
     
     parser = argparse.ArgumentParser()
     parser.add_argument('--func', default='hartmann6_50', type=str)
-    parser.add_argument('--max_samples', default=1000, type=int)
+    parser.add_argument('--max_samples', default=600, type=int)
     parser.add_argument('--init_samples', default=10, type=int)
     parser.add_argument('--batch_size', default=3, type=int)
-    parser.add_argument('--root_dir', default='simple_logs', type=str)
-    parser.add_argument('--seed', default=42, type=int)
+    parser.add_argument('--root_dir', default='synthetic_logs', type=str)
+    parser.add_argument('--seed', default=2021, type=int)
     args = parser.parse_args()
     print(args)
     
@@ -111,7 +111,14 @@ if __name__ == '__main__':
     botorch.manual_seed(args.seed)
     torch.manual_seed(args.seed)
     
-    func = synthetic_function_problem[args.func]
+    save_config = {
+        'save_interval': 50,
+        'root_dir': 'logs/' + args.root_dir,
+        'algo': 'bo',
+        'func': args.func,
+        'seed': args.seed
+    }
+    func = get_synthetic_function_problem(args.func, save_config)
     dims, lb, ub = func.dims, func.lb, func.ub
     points = latin_hypercube(args.init_samples, dims)
     points = from_unit_cube(points, lb, ub)
@@ -137,5 +144,3 @@ if __name__ == '__main__':
             break
     
     print('best f(x):', best_y[-1][1])
-    df_data = pd.DataFrame(best_y, columns=['x', 'y'])
-    save_results(args.root_dir, 'bo', args.func, args.seed, df_data)

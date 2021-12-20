@@ -1,9 +1,11 @@
 import numpy as np
-from benchmark.synthetic_function import Hartmann, Levy
+import re
+from benchmark.synthetic_function import Ackley, Branin, Hartmann, Levy, Rosenbrock
+from benchmark.tracker import Tracker
 
 
 class FunctionBenchmark:
-    def __init__(self, func, dims, valid_idx):
+    def __init__(self, func, dims, valid_idx, save_config):
         assert func.dims == len(valid_idx)
         self.func = func
         self.dims = dims
@@ -12,49 +14,55 @@ class FunctionBenchmark:
         self.ub = func.ub[0] * np.ones(dims)
         self.opt_val = func.opt_val
         
+        self.save_config = save_config
+        self.tracker = Tracker(
+            self.save_config['save_interval'],
+            self.save_config
+        )
+        
     def __call__(self, x):
         assert len(x) == self.dims
-        return self.func(x[self.valid_idx])
+        result = self.func(x[self.valid_idx])
+        self.tracker.track(result)
+        return result
     
-    
+
+ackley20 = Ackley(20, True)
+branin2 = Branin(2, True)
 hartmann6 = Hartmann(6, True)
-hartmann6_50 = FunctionBenchmark(hartmann6, 50, list(range(6)))
-hartmann6_100 = FunctionBenchmark(hartmann6, 100, list(range(6)))
-hartmann6_300 = FunctionBenchmark(hartmann6, 300, list(range(6)))
-hartmann6_500 = FunctionBenchmark(hartmann6, 500, list(range(6)))
-
 levy10 = Levy(10, True)
-levy10_50 = FunctionBenchmark(levy10, 50, list(range(10)))
-levy10_100 = FunctionBenchmark(levy10, 100, list(range(10)))
-levy10_300 = FunctionBenchmark(levy10, 300, list(range(10)))
-levy10_500 = FunctionBenchmark(levy10, 500, list(range(10)))
-
 levy20 = Levy(20, True)
-levy20_50 = FunctionBenchmark(levy20, 50, list(range(20)))
-levy20_100 = FunctionBenchmark(levy20, 100, list(range(20)))
-levy20_300 = FunctionBenchmark(levy20, 300, list(range(20)))
-levy20_500 = FunctionBenchmark(levy20, 500, list(range(20)))
+rosenbrock20 = Rosenbrock(20, True)
+
+
+def get_synthetic_function_problem(func_name, save_config):
+    """
+    save_config: {'save_interval': int, 'root_dir': str, 'algo': str, 'func': str, 'seed': int}
+    """
+    split_result = func_name.split('_')
     
-synthetic_function_problem = {
-    'hartmann6': hartmann6,
-    'hartmann6_50': hartmann6_50,
-    'hartmann6_100': hartmann6_100,
-    'hartmann6_300': hartmann6_300,
-    'hartmann6_500': hartmann6_500,
-    'levy10': levy10,
-    'levy10_50': levy10_50,
-    'levy10_100': levy10_100,
-    'levy10_300': levy10_300,
-    'levy10_500': levy10_500,
-    'levy20': levy20,
-    'levy20_50': levy20_50,
-    'levy20_100': levy20_100,
-    'levy20_300': levy20_300,
-    'levy20_500': levy20_500,
-}
+    if len(split_result) == 1:
+        func = split_result[0]
+        dims = None
+    else:
+        func, dims = split_result
+        dims = int(dims)
+        
+    valid_dims = int(re.findall(r'\d+', func)[0])
+    dims = valid_dims if dims is None else dims
+    return FunctionBenchmark(eval(func), dims, list(range(valid_dims)), save_config)
 
 
 if __name__ == '__main__':
     x = np.random.randn(50)
-    print(x[: 6])
-    print(synthetic_function_problem['hartmann6_50'](x))
+    save_config = {
+        'save_interval': 3,
+        'root_dir': 'logs',
+        'algo': 'bo',
+        'func': 'lecy10_50',
+        'seed': 42
+    }
+    func = get_synthetic_function_problem('levy10_50', save_config)
+    
+    for _ in range(10):
+        func(x)

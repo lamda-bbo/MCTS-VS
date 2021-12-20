@@ -16,13 +16,13 @@ class SyntheticFunction(metaclass=ABCMeta):
 
     
 class Ackley(SyntheticFunction):
-    def __init__(self, dims=2, negate=False):
+    def __init__(self, dims=20, negate=False):
         SyntheticFunction.__init__(
             self, 
             dims, 
             negate, 
-            -32.768 * np.ones(dims),
-            32.768 * np.ones(dims),
+            -10 * np.ones(dims),
+            10 * np.ones(dims),
             0,
             np.array([0]*dims)
         )
@@ -34,8 +34,34 @@ class Ackley(SyntheticFunction):
         result = (-20*np.exp(-0.2 * np.sqrt(np.inner(x,x) / x.size )) -np.exp(np.cos(2*np.pi*x).sum() /x.size) + 20 +np.e )
         if self.negate:
             result = - result
-            
-        return result  
+        return result
+    
+    
+class Branin(SyntheticFunction):
+    def __init__(self, dims=2, negate=False):
+        assert dims == 2
+        SyntheticFunction.__init__(
+            self,
+            dims, 
+            negate,
+            np.array([-5, -5]),
+            np.array([15, 15]),
+            -0.397887,
+            np.array([-np.pi, 12.275]), # [(-math.pi, 12.275), (math.pi, 2.275), (9.42478, 2.475)]
+        )
+        
+    def __call__(self, x):
+        assert len(x) == self.dims
+        assert x.ndim == 1
+        assert np.all(x <= self.ub) and np.all(x >= self.lb)
+        t1 = x[1] \
+            - 5.1 / (4*np.pi**2) * x[0]**2 \
+            + 5 / np.pi * x[0] - 6
+        t2 = 10 * (1 - 1/(8*np.pi)) * np.cos(x[0])
+        result = t1**2 + t2 + 10
+        if self.negate:
+            result = - result
+        return result
     
     
 class Hartmann(SyntheticFunction):
@@ -103,11 +129,44 @@ class Levy(SyntheticFunction):
         return result
     
     
+class Rosenbrock(SyntheticFunction):
+    def __init__(self, dims=2, negate=False):
+        SyntheticFunction.__init__(
+            self, 
+            dims, 
+            negate, 
+            -5 * np.ones(dims),
+            10 * np.ones(dims),
+            0,
+            np.ones(dims)
+        )
+        
+    def __call__(self, x):
+        assert len(x) == self.dims
+        assert x.ndim == 1
+        assert np.all(x <= self.ub) and np.all(x >= self.lb)
+        result = np.sum(100 * (x[1: ] - x[: -1]**2)**2 + (x[: -1] - 1)**2)
+        if self.negate:
+            result = - result
+        return result
+    
+    
 if __name__ == '__main__':
-    x = np.random.randn(6)
-    func = Hartmann(6, True)
-    print(func(x))
+    # x = np.random.randn(6)
+    # func = Hartmann(6, True)
+    # print(func(x))
     # import torch
     # from botorch.test_functions import Hartmann, Branin, Levy
     # func = Hartmann(6, negate=True)
     # print(func(torch.tensor(x)))
+    
+    func = Branin(2, True)
+    print(func(np.array([-np.pi, 12.275])))
+    print(func(np.array([np.pi, 2.275])))
+    print(func(np.array([9.42478, 2.475])))
+    
+    func = Ackley(10, True)
+    print(func(np.zeros(10)))
+    
+    func = Rosenbrock(10, True)
+    print(func(np.ones(10)))
