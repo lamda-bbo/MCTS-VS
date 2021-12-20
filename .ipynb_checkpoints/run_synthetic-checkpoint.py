@@ -13,14 +13,14 @@ if smoke_test:
     seeds = [2022, ]
 else:
     func_list = [
-        'ackley20_50',
-        'branin2_100',
+        'ackley20_100',
+        # 'branin2_100',
         # 'hartmann6_100',
         # 'hartmann6_300',
         # 'hartmann6_500',
         # 'levy10_50',
         # 'levy20_50',
-        'rosenbrock20_50'
+        # 'rosenbrock20_50'
     ]
     max_samples = 600
     seeds = [2021, 2022, 2023, 2024, 2025]
@@ -87,6 +87,18 @@ for func in func_list:
                 --root_dir={root_dir} \
                 --seed={seed}'
         )
+        
+    # rembo
+    for seed in seeds:
+        cmds.append(
+            f'python3 ax_embedding_bo.py \
+                --func={func} \
+                --max_samples={max_samples} \
+                --active_dims={active_dims} \
+                --strategy=rembo \
+                --root_dir={root_dir} \
+                --seed={seed}'
+        )
     
     # lamcts
     for seed in seeds:
@@ -99,8 +111,6 @@ for func in func_list:
                 --root_dir={root_dir} \
                 --seed={seed}'
         )
-        
-    # rembo
     
 # run all 
 with Pool(processes=n_processes) as p:

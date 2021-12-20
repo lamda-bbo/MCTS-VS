@@ -9,7 +9,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import argparse
 import random
-from benchmark import get_synthetic_function_problem
+from benchmark import get_problem
 from utils import save_results
 
 
@@ -21,6 +21,7 @@ def evaluation_function(parameterization):
 parser = argparse.ArgumentParser()
 parser.add_argument('--func', default='hartmann6_50', type=str)
 parser.add_argument('--max_samples', default=600, type=int)
+parser.add_argument('--active_dims', default=6, type=int)
 parser.add_argument('--strategy', default='rembo', type=str)
 parser.add_argument('--root_dir', default='synthetic_logs', type=str)
 parser.add_argument('--seed', default=2021, type=int)
@@ -39,20 +40,19 @@ save_config = {
     'func': args.func,
     'seed': args.seed
 }
-func = get_synthetic_function_problem(args.func, save_config)
+func = get_problem(args.func, save_config)
 dims = func.dims
-valid_dims = len(func.valid_idx)
 
 parameters = [
     {'name': f'x{i}', 'type': 'range', 'bounds': [func.lb[i], func.ub[i]], 'value_type': 'float'} for i in range(dims)
 ]
 
 if args.strategy == 'rembo':
-    embedding_strategy = REMBOStrategy(D=dims, d=valid_dims, init_per_proj=2)
+    embedding_strategy = REMBOStrategy(D=dims, d=args.active_dims, init_per_proj=2)
 elif args.strategy == 'hesbo':
-    embedding_strategy = HeSBOStrategy(D=dims, d=valid_dims, init_per_proj=2)
+    embedding_strategy = HeSBOStrategy(D=dims, d=args.active_dims, init_per_proj=10)
 elif args.strategy == 'alebo':
-    embedding_strategy = ALEBOStrategy(D=dims, d=valid_dims, init_size=10)
+    embedding_strategy = ALEBOStrategy(D=dims, d=args.active_dims, init_size=10)
 else:
     assert 0, 'Strategy should be rembo, hesbo, alebo'
 

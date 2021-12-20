@@ -25,7 +25,7 @@ import torch
 class MCTS:
     #############################################
 
-    def __init__(self, lb, ub, dims, ninits, func, Cp = 1, leaf_size = 20, solver_type='bo', kernel_type = "rbf", gamma_type = "auto"):
+    def __init__(self, lb, ub, dims, ninits, func, Cp = 1, leaf_size = 20, solver_type='bo', turbo_max_evals=50, kernel_type = "rbf", gamma_type = "auto"):
         self.dims                    =  dims
         self.samples                 =  []
         self.nodes                   =  []
@@ -40,6 +40,7 @@ class MCTS:
         self.value_trace             =  []
         self.sample_counter          =  0
         self.visualization           =  False
+        self.turbo_max_evals         =  turbo_max_evals
         
         self.LEAF_SAMPLE_SIZE        =  leaf_size
         self.kernel_type             =  kernel_type
@@ -245,7 +246,7 @@ class MCTS:
                 if self.solver_type == 'bo':
                     samples = leaf.propose_samples_bo( 1, path, self.lb, self.ub, self.samples )
                 elif self.solver_type == 'turbo':
-                    samples, values = leaf.propose_samples_turbo( 10000, path, self.func )
+                    samples, values = leaf.propose_samples_turbo( self.turbo_max_evals, path, self.func )
                     values = values.reshape(-1)
                 else:
                     raise Exception("solver not implemented")

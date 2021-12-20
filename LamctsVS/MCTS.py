@@ -125,7 +125,7 @@ class MCTS:
                 ub = ipt_ub,           # Numpy array specifying upper bounds
                 n_init = 1,            # unused parameter
                 max_evals  = self.turbo_max_evals, # Maximum number of evaluations
-                batch_size = 1,         # How large batch size TuRBO uses
+                batch_size = 10,         # How large batch size TuRBO uses
                 verbose=False,           # Print information from each batch
                 use_ard=True,           # Set to true if you want to use ARD for the GP kernel
                 max_cholesky_size=2000, # When we switch from Cholesky to Lanczos

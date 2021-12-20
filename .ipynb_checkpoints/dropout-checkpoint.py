@@ -9,6 +9,7 @@ from benchmark import get_problem
 from uipt_variable_strategy import UiptRandomStrategy, UiptBestKStrategy
 from vanilia_bo import generate_initial_data, get_gpr_model, optimize_acqf
 from utils import latin_hypercube, from_unit_cube, save_results
+from baseline import Turbo1_VS_Component
 
 
 def get_active_idx(dims, active_dims):
@@ -20,6 +21,7 @@ def get_active_idx(dims, active_dims):
 parser = argparse.ArgumentParser()
 parser.add_argument('--func', default='hartmann6_50', type=str)
 parser.add_argument('--max_samples', default=600, type=int)
+parser.add_argument('--turbo_max_evals', default=50, type=int)
 parser.add_argument('--init_samples', default=10, type=int)
 parser.add_argument('--batch_size', default=3, type=int)
 parser.add_argument('--active_dims', default=6, type=int)
@@ -37,7 +39,7 @@ torch.manual_seed(args.seed)
 save_config = {
     'save_interval': 50,
     'root_dir': 'logs/' + args.root_dir,
-    'algo': 'dropout{}'.format(args.active_dims),
+    'algo': 'dropout_{}_{}'.format(args.ipt_solver, args.active_dims),
     'func': args.func,
     'seed': args.seed
 }
@@ -66,19 +68,43 @@ while True:
     selected_lb = np.array([lb[idx] for idx in selected_dims])
     selected_ub = np.array([ub[idx] for idx in selected_dims])
     np_train_y = np.array(train_y)
-    gpr = get_gpr_model()
-    gpr.fit(selected_x, np_train_y)
-    selected_new_x, _ = optimize_acqf(args.active_dims, gpr, selected_x, np_train_y, args.batch_size, selected_lb, selected_ub)
     
-    # use uipt solver to decide other axis
     X_sample, Y_sample = [], []
-    for i in range(len(selected_new_x)):
-        fixed_variables = {idx: float(v) for idx, v in zip(selected_dims, selected_new_x[i])}
-        new_x = uipt_solver.get_full_variable(fixed_variables, lb, ub)
-        new_y = func(new_x)
-        X_sample.append(new_x)
-        Y_sample.append(new_y)
-        uipt_solver.update(new_x, new_y)
+    if args.ipt_solver == 'bo':
+        gpr = get_gpr_model()
+        gpr.fit(selected_x, np_train_y)
+        selected_new_x, _ = optimize_acqf(args.active_dims, gpr, selected_x, np_train_y, args.batch_size, selected_lb, selected_ub)
+
+        # use uipt solver to decide other axis
+        for i in range(len(selected_new_x)):
+            fixed_variables = {idx: float(v) for idx, v in zip(selected_dims, selected_new_x[i])}
+            new_x = uipt_solver.get_full_variable(fixed_variables, lb, ub)
+            new_y = func(new_x)
+            X_sample.append(new_x)
+            Y_sample.append(new_y)
+            uipt_solver.update(new_x, new_y)
+    elif args.ipt_solver == 'turbo':
+        turbo1 = Turbo1_VS_Component(
+            f  = lambda x: -func(x),              # Handle to objective function
+            lb = selected_lb,           # Numpy array specifying lower bounds
+            ub = selected_ub,           # Numpy array specifying upper bounds
+            n_init = 1,            # unused parameter
+            max_evals  = args.turbo_max_evals, # Maximum number of evaluations
+            batch_size = 10,         # How large batch size TuRBO uses
+            verbose=False,           # Print information from each batch
+            use_ard=True,           # Set to true if you want to use ARD for the GP kernel
+            max_cholesky_size=2000, # When we switch from Cholesky to Lanczos
+            n_training_steps=50,    # Number of steps of ADAM to learn the hypers
+            min_cuda=1024,          #  Run on the CPU for small datasets
+            device="cpu",           # "cpu" or "cuda"
+            dtype="float32",        # float64 or float32
+        )
+
+        Y_init = -np_train_y
+        X_sample, Y_sample = turbo1.optimize(selected_x, Y_init, selected_dims, uipt_solver, n=1)
+        Y_sample = [-y for y in Y_sample]
+    else:
+        assert 0
     
     train_x.extend(X_sample)
     train_y.extend(Y_sample)

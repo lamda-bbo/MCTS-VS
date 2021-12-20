@@ -5,16 +5,16 @@ import pandas as pd
 import random
 import argparse
 
-from benchmark import synthetic_function_problem
+from benchmark import get_problem
 from baseline import Turbo1
 from utils import save_results
 
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--func', default='hartmann6_50', type=str)
-parser.add_argument('--max_samples', default=1000, type=int)
+parser.add_argument('--max_samples', default=600, type=int)
 parser.add_argument('--root_dir', default='sota_logs', type=str)
-parser.add_argument('--seed', default=42, type=int)
+parser.add_argument('--seed', default=2021, type=int)
 args = parser.parse_args()
 
 print(args)
@@ -23,7 +23,14 @@ random.seed(args.seed)
 np.random.seed(args.seed)
 botorch.manual_seed(args.seed)
 torch.manual_seed(args.seed)
-f = synthetic_function_problem[args.func]
+save_config = {
+    'save_interval': 50,
+    'root_dir': 'logs/' + args.root_dir,
+    'algo': 'turbo1',
+    'func': args.func,
+    'seed': args.seed
+}
+f = get_problem(args.func, save_config)
 
 
 turbo1 = Turbo1(
@@ -44,9 +51,4 @@ turbo1 = Turbo1(
 
 turbo1.optimize()
 
-value = np.minimum.accumulate(turbo1.fX)
-value_trace = [(idx+1, -y) for idx, y in enumerate(value.reshape(-1))]
-
-print('best f(x):', value_trace[-1][1])
-df_data = pd.DataFrame(value_trace, columns=['x', 'y'])
-save_results(args.root_dir, 'turbo1', args.func, args.seed, df_data)
+print('best f(x):', f.tracker.best_value_trace[-1])

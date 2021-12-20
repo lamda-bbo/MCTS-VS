@@ -49,6 +49,7 @@ agent = MCTS(
     Cp = args.Cp,              # Cp for MCTS
     leaf_size = 20, # tree leaf size
     solver_type = args.solver_type,
+    turbo_max_evals = 50,
     kernel_type = 'rbf', #SVM configruation
     gamma_type = 'auto'    #SVM configruation
 )

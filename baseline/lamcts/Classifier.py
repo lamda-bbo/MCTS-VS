@@ -342,7 +342,8 @@ class Classifier():
 
     def propose_samples_turbo(self, num_samples, path, func):
         #throw a uniform sampling in the selected partition
-        X_init = self.propose_rand_samples_sobol(30, path, func.lb, func.ub)
+        n_init = 10
+        X_init = self.propose_rand_samples_sobol(n_init, path, func.lb, func.ub)
         #get samples around the selected partition
         # print("sampled ", len(X_init), " for the initialization")
         
@@ -350,9 +351,9 @@ class Classifier():
             f  = lambda x: -func(x),              # Handle to objective function
             lb = func.lb,           # Numpy array specifying lower bounds
             ub = func.ub,           # Numpy array specifying upper bounds
-            n_init = 30,            # Number of initial bounds from an Latin hypercube design
+            n_init = n_init,            # Number of initial bounds from an Latin hypercube design
             max_evals  = num_samples, # Maximum number of evaluations
-            batch_size = 1,         # How large batch size TuRBO uses
+            batch_size = 10,         # How large batch size TuRBO uses
             verbose=False,           # Print information from each batch
             use_ard=True,           # Set to true if you want to use ARD for the GP kernel
             max_cholesky_size=2000, # When we switch from Cholesky to Lanczos
@@ -364,7 +365,7 @@ class Classifier():
         
         proposed_X, fX = turbo1.optimize(X_init=X_init)
         fX = fX*-1
-    
+        
         return proposed_X, fX
         
     

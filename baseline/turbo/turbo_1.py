@@ -24,7 +24,6 @@ from .utils import from_unit_cube, latin_hypercube, to_unit_cube
 
 class Turbo1:
     """The TuRBO-1 algorithm.
-
     Parameters
     ----------
     f : function handle
@@ -40,7 +39,6 @@ class Turbo1:
     min_cuda : We use float64 on the CPU if we have this or fewer datapoints
     device : Device to use for GP fitting ("cpu" or "cuda")
     dtype : Dtype to use for GP fitting ("float32" or "float64")
-
     Example usage:
         turbo1 = Turbo1(f=f, lb=lb, ub=ub, n_init=n_init, max_evals=max_evals)
         turbo1.optimize()  # Run optimization

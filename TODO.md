@@ -7,28 +7,21 @@
 # 任务
 
 0. 方法本身超参数的调优。主要是Cp调整，使得前后两项的量级接近，其他超参数可以顺便当做消融实验来做
-1. 和嵌入的方法比较。对比alebo，并且保证使用的bo都是相同的
 2. 和lamcts对比。结论是Lamcts不适合高维问题。lamcts效果好的原因是迭代的将搜索空间划分成了非常小的部分，在非常小的搜索空间采样，所以新样本质量高，所以性能很好。扩展到高维空间，1是空间指数增大，需要更多(指数多)次的划分才能取得效果，2是划分越多，意味着树越深，即需要训练的分类器越多，加上样本维度高，训练的时间代价巨大。
-3. 对比sota。将bo换为turbo等sota的方法，与turbo比较
-4. 要不要加一个运行时间对比
-
-修改随机种子，log文件名，最大评估次数
-
-需要看论文的：
-1. check最近几年做的真实问题是什么
-2. nasbench的连续化
-
-alebo的需不需要手动实现一个，保证实现方式相同
 
 其他不太急的事情
 1. 用平均排名的变化图展示算法性能。之前大组会上的hyperband，[hyperband](https://arxiv.org/pdf/2105.09821.pdf)。或者像edo cs中，用平均排名，然后画一个优势最大的图
-2. 更多的benchmark
-3. Turbo里用了很多deepcopy，感觉可以优化一下
 4. bestk好像还是容易陷入局部最优，相比于lamcts达不到更高的值，所以应该还能改进
 
 # 具体实验细节
 
-benchmark函数的变量范围怎么确定
+与BO集合：
+lvs-bo，
+lamcts-bo，
+dropout-bo，
+[x] bo，
+rembo
+与turbo结合，lvs-turbo，lamcts-turbo，dropout-turbo，turbo，alebo，cmaes，学习embedding的方法
 
 ## 消融实验
 
