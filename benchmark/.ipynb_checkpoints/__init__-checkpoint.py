@@ -1,1 +1,1 @@
-from benchmark.benchmark_problem import get_synthetic_function_problem
+from benchmark.benchmark_problem import get_problem

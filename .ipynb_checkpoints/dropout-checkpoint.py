@@ -5,7 +5,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import random
 import argparse
-from benchmark import get_synthetic_function_problem
+from benchmark import get_problem
 from uipt_variable_strategy import UiptRandomStrategy, UiptBestKStrategy
 from vanilia_bo import generate_initial_data, get_gpr_model, optimize_acqf
 from utils import latin_hypercube, from_unit_cube, save_results
@@ -41,7 +41,7 @@ save_config = {
     'func': args.func,
     'seed': args.seed
 }
-func = get_synthetic_function_problem(args.func, save_config)
+func = get_problem(args.func, save_config)
 dims = func.dims
 lb = func.lb
 ub = func.ub

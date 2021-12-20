@@ -73,7 +73,7 @@ vs：
 2. MOPTA08：124d，
 
 turbo（实验采集的样本量都很大）：
-robot pushing，16d，
+robot pushing，16d，可以通过turbo中的处理将问题变为无噪声问题
 rover：60d，优化2维空间中的30个点（一条轨迹），
 lunar：12d
 
@@ -86,3 +86,6 @@ hesbo中有一个神经网络参数优化的问题，100d
 2. 神经网络参数优化，在hesbo中只评估了100次
 3. rover、robot pushing，但在turbo中，评估次数是2w和1w
 4. lunar，不一定比得过
+5. rl问题
+
+应该选一个采样数量稍微多一点的

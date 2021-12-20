@@ -93,7 +93,7 @@ if __name__ == '__main__':
     import pandas as pd
     import argparse
     import random
-    from benchmark import get_synthetic_function_problem
+    from benchmark import get_problem
     from utils import latin_hypercube, from_unit_cube, save_results
     
     parser = argparse.ArgumentParser()
@@ -118,7 +118,7 @@ if __name__ == '__main__':
         'func': args.func,
         'seed': args.seed
     }
-    func = get_synthetic_function_problem(args.func, save_config)
+    func = get_problem(args.func, save_config)
     dims, lb, ub = func.dims, func.lb, func.ub
     points = latin_hypercube(args.init_samples, dims)
     points = from_unit_cube(points, lb, ub)

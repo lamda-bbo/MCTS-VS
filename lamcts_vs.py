@@ -5,7 +5,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import argparse
 import random
-from benchmark import get_synthetic_function_problem
+from benchmark import get_problem
 from LamctsVS.MCTS import MCTS
 
 
@@ -38,7 +38,7 @@ save_config = {
     'func': args.func,
     'seed': args.seed
 }
-f = get_synthetic_function_problem(args.func, save_config)
+f = get_problem(args.func, save_config)
 
 agent = MCTS(
     func=f,

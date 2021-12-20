@@ -23,6 +23,8 @@ color_map = {
     '11': '11'
 }
 
+max_samples = 300
+
 Result = collections.namedtuple('Result', 'name progress')
 
 
@@ -35,6 +37,9 @@ def load_results(root_dir, verbose=True):
             if dirname.endswith('.csv'):
                 name = '%s-%s' % (func_name, dirname)
                 progress = pd.read_csv(os.path.join(root_dir, func_name, dirname))
+                # progress = progress[progress['x'] <= max_samples]
+                # progress = progress[progress['y'] >= 0.92]
+                # progress = progress[progress['t'] < 1200]
                 result = Result(name=name, progress=progress)
                 all_results.append(result)
                 print('load %s ' % name)
@@ -42,19 +47,29 @@ def load_results(root_dir, verbose=True):
     return all_results
 
 
+def draw(xy_fn, split_fn, group_fn, xlabel, ylabel, max_x, interval_x):
+    plt.figure(dpi=300)
+    fig, axarr = pu.plot_results(all_results, xy_fn=xy_fn, split_fn=split_fn, group_fn=group_fn, shaded_std=True, shaded_err=False, average_group=True, tiling='horizontal', xlabel=xlabel, ylabel=ylabel)
+    plt.subplots_adjust(hspace=0.2, wspace=0.2, bottom=0.2, left=0.08, top=0.95)
+    for ax in axarr[0]:
+        ax.set_xticks(np.arange(0, max_x, interval_x))
+        ax.set_xticklabels([str(i) for i in np.arange(0, max_x, interval_x)])
+    plt.savefig(args.output_name, bbox_inches='tight')
+
+    
+def xy_fn(r):
+    return r.progress['x'], r.progress['y']
+
+def ty_fn(r):
+    return r.progress['t'], r.progress['y']
+    
+def split_fn(r):
+    name = r.name
+    splits = name.split('-')
+    return splits[0]
+
+
 def main(root_dir):
-    all_results = load_results(root_dir, verbose=True)
-
-    def xy_fn(r):
-        x = r.progress['x']
-        y = r.progress['y']
-        return x, y
-
-    def split_fn(r):
-        name = r.name
-        splits = name.split('-')
-        return splits[0]
-
     def group_fn(r):
         name = r.name
         splits = name.split('-')
@@ -72,31 +87,12 @@ def main(root_dir):
             return 'REMBO'
         else:
             raise ValueError('%s not supported' % alg_name)
-
-    plt.figure(dpi=300)
-    fig, axarr = pu.plot_results(all_results, xy_fn=xy_fn, split_fn=split_fn, group_fn=group_fn, shaded_std=True,
-                                 shaded_err=False, average_group=True, tiling='horizontal',
-                                  xlabel='Evaluations', ylabel='Loss')
-    plt.subplots_adjust(hspace=0.2, wspace=0.2, bottom=0.2, left=0.08, top=0.95)
-    for ax in axarr[0]:
-        ax.set_xticks(np.arange(0, 600, 100))
-        ax.set_xticklabels([str(i) for i in np.arange(0, 600, 100)])
-    plt.savefig(args.output_name, bbox_inches='tight')
+    
+    draw(xy_fn, split_fn, group_fn, 'Evaluations', 'Function value', 600, 100)
+    # draw(ty_fn, split_fn, group_fn, 'Time(sec)', 'Function value', 600, 100)
     
     
 def cp_plot(root_dir):
-    all_results = load_results(root_dir, verbose=True)
-
-    def xy_fn(r):
-        x = r.progress['x']
-        y = r.progress['y']
-        return x, y
-
-    def split_fn(r):
-        name = r.name
-        splits = name.split('-')
-        return splits[0]
-
     def group_fn(r):
         name = r.name
         splits = name.split('-')
@@ -107,16 +103,8 @@ def cp_plot(root_dir):
             return 'Lamcts-VS-BO(' + cp + ')'
         else:
             raise ValueError('%s not supported' % alg_name)
-
-    plt.figure(dpi=300)
-    fig, axarr = pu.plot_results(all_results, xy_fn=xy_fn, split_fn=split_fn, group_fn=group_fn, shaded_std=True,
-                                 shaded_err=False, average_group=True, tiling='horizontal',
-                                  xlabel='Evaluations', ylabel='Loss')
-    plt.subplots_adjust(hspace=0.2, wspace=0.2, bottom=0.2, left=0.08, top=0.95)
-    for ax in axarr[0]:
-        ax.set_xticks(np.arange(0, 1000, 100))
-        ax.set_xticklabels([str(i) for i in np.arange(0, 1000, 100)])
-    plt.savefig(args.output_name, bbox_inches='tight')
+            
+    assert 0
 
 
 if __name__ == '__main__':
@@ -125,5 +113,7 @@ if __name__ == '__main__':
     parser.add_argument('--root_dir', required=True, type=str)
     parser.add_argument('--output_name', required=True, type=str)
     args = parser.parse_args()
+    
+    all_results = load_results(args.root_dir, verbose=True)
     main(root_dir=args.root_dir)
     # cp_plot(root_dir=args.root_dir)

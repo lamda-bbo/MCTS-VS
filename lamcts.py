@@ -10,7 +10,7 @@ import pandas as pd
 import random
 import argparse
 from baseline import MCTS
-from benchmark import get_synthetic_function_problem
+from benchmark import get_problem
 from utils import save_results
 
 
@@ -36,7 +36,7 @@ save_config = {
     'func': args.func,
     'seed': args.seed
 }
-f = get_synthetic_function_problem(args.func, save_config)
+f = get_problem(args.func, save_config)
 
 args = parser.parse_args()
 

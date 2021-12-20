@@ -2,6 +2,7 @@ import numpy as np
 import re
 from benchmark.synthetic_function import Ackley, Branin, Hartmann, Levy, Rosenbrock
 from benchmark.tracker import Tracker
+from benchmark.nas_benchmark import NasBench
 
 
 class FunctionBenchmark:
@@ -35,22 +36,28 @@ levy20 = Levy(20, True)
 rosenbrock20 = Rosenbrock(20, True)
 
 
-def get_synthetic_function_problem(func_name, save_config):
+def get_problem(func_name, save_config):
     """
     save_config: {'save_interval': int, 'root_dir': str, 'algo': str, 'func': str, 'seed': int}
     """
-    split_result = func_name.split('_')
-    
-    if len(split_result) == 1:
-        func = split_result[0]
-        dims = None
+    if func_name in ['nasbench']:
+        if func_name == 'nasbench':
+            return FunctionBenchmark(NasBench(), 36, list(range(36)), save_config)
+        else:
+            assert 0
     else:
-        func, dims = split_result
-        dims = int(dims)
-        
-    valid_dims = int(re.findall(r'\d+', func)[0])
-    dims = valid_dims if dims is None else dims
-    return FunctionBenchmark(eval(func), dims, list(range(valid_dims)), save_config)
+        split_result = func_name.split('_')
+
+        if len(split_result) == 1:
+            func = split_result[0]
+            dims = None
+        else:
+            func, dims = split_result
+            dims = int(dims)
+
+        valid_dims = int(re.findall(r'\d+', func)[0])
+        dims = valid_dims if dims is None else dims
+        return FunctionBenchmark(eval(func), dims, list(range(valid_dims)), save_config)
 
 
 if __name__ == '__main__':
@@ -62,7 +69,7 @@ if __name__ == '__main__':
         'func': 'lecy10_50',
         'seed': 42
     }
-    func = get_synthetic_function_problem('levy10_50', save_config)
+    func = get_problem('levy10_50', save_config)
     
     for _ in range(10):
         func(x)
