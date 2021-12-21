@@ -4,6 +4,8 @@
 
 在被选择的节点，根据节点表示的变量选择方式，
 
+114.212.22.207
+
 # 任务
 
 0. 方法本身超参数的调优。主要是Cp调整，使得前后两项的量级接近，其他超参数可以顺便当做消融实验来做
@@ -22,6 +24,9 @@ dropout-bo，
 [x] bo，
 rembo
 与turbo结合，lvs-turbo，lamcts-turbo，dropout-turbo，turbo，alebo，cmaes，学习embedding的方法
+
+实验超参数：
+alebo会使用2倍的有效维度，rembo使用有效维度，hesbo使用2倍和有效维度
 
 ## 消融实验
 

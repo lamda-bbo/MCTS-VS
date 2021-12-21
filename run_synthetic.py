@@ -14,6 +14,7 @@ if smoke_test:
 else:
     func_list = [
         'ackley20_100',
+        'ackley20_300',
         # 'branin2_100',
         # 'hartmann6_100',
         # 'hartmann6_300',
@@ -23,7 +24,8 @@ else:
         # 'rosenbrock20_50'
     ]
     max_samples = 600
-    seeds = [2021, 2022, 2023, 2024, 2025]
+    seeds = [2021, 2022, 2023]
+    # seeds = [2021, 2022, 2023, 2024, 2025]
     # seeds = [2021, ]
 
 n_processes = 16

@@ -3,6 +3,7 @@ import re
 from benchmark.synthetic_function import Ackley, Branin, Hartmann, Levy, Rosenbrock
 from benchmark.tracker import Tracker
 from benchmark.nas_benchmark import NasBench
+from benchmark.rover_function import Rover
 
 
 class FunctionBenchmark:
@@ -40,9 +41,11 @@ def get_problem(func_name, save_config):
     """
     save_config: {'save_interval': int, 'root_dir': str, 'algo': str, 'func': str, 'seed': int}
     """
-    if func_name in ['nasbench']:
+    if func_name in ['nasbench', 'rover']:
         if func_name == 'nasbench':
             return FunctionBenchmark(NasBench(), 36, list(range(36)), save_config)
+        if func_name == 'rover':
+            return FunctionBenchmark(Rover(), 60, list(range(60)), save_config)
         else:
             assert 0
     else:
