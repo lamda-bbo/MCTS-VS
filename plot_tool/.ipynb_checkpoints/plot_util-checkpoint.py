@@ -376,7 +376,8 @@ def plot_results(
                     'Dropout-BO': 'green',
                     'Vanilla BO': 'magenta',
                     'LVS-BO': 'blue',
-                    'Lamcts-BO': 'purple',
+                    'LVS-TurBO': 'purple',
+                    'TurBO': 'orange',
                     
                     'Lamcts-VS-BO(Cp0.1)': 'yellow',
                     'Lamcts-VS-BO(Cp0.5)': 'green',
@@ -436,7 +437,8 @@ def plot_results(
                     'Dropout-BO',
                     'Vanilla BO', 
                     'LVS-BO',
-                    'Lamcts-BO',
+                    'LVS-TurBO',
+                    'TurBO',
                     
                     'Lamcts-VS-BO(Cp0.1)',
                     'Lamcts-VS-BO(Cp0.5)',

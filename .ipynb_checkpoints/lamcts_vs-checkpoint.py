@@ -12,6 +12,10 @@ from LamctsVS.MCTS import MCTS
 parser = argparse.ArgumentParser()
 parser.add_argument('--func', default='hartmann6_50', type=str)
 parser.add_argument('--max_samples', default=600, type=int)
+parser.add_argument('--feature_batch_size', default=2, type=int)
+parser.add_argument('--sample_batch_size', default=3, type=int)
+parser.add_argument('--min_num_variables', default=3, type=int)
+parser.add_argument('--select_right_threshold', default=5, type=int)
 parser.add_argument('--turbo_max_evals', default=50, type=int)
 parser.add_argument('--Cp', default=0.1, type=float)
 parser.add_argument('--ipt_solver', default='bo', type=str)
@@ -45,9 +49,11 @@ agent = MCTS(
     dims=f.dims,
     lb=f.lb,
     ub=f.ub,
+    feature_batch_size=args.feature_batch_size,
+    sample_batch_size=args.sample_batch_size,
     Cp=args.Cp,
-    min_num_variables=3, 
-    select_right_threshold=5, 
+    min_num_variables=args.min_num_variables, 
+    select_right_threshold=args.select_right_threshold, 
     split_type='mean',
     ipt_solver=args.ipt_solver, 
     uipt_solver=args.uipt_solver,

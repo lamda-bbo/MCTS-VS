@@ -21,14 +21,14 @@ else:
         # 'hartmann6_500',
         # 'levy10_50',
         # 'levy20_50',
-        # 'rosenbrock20_50'
+        'rosenbrock20_50'
     ]
     max_samples = 600
     seeds = [2021, 2022, 2023]
     # seeds = [2021, 2022, 2023, 2024, 2025]
     # seeds = [2021, ]
 
-n_processes = 16
+n_processes = 1
 root_dir = 'synthetic_logs'
 cmds = []
 for func in func_list:
@@ -115,5 +115,8 @@ for func in func_list:
         )
     
 # run all 
-with Pool(processes=n_processes) as p:
-    p.map(os.system, cmds)
+# with Pool(processes=n_processes) as p:
+#     p.map(os.system, cmds)
+for cmd in cmds:
+    os.system(cmd)
+    

@@ -33,6 +33,8 @@ def load_results(root_dir, verbose=True):
     for func_name in os.listdir(root_dir):
         if func_name.startswith('.'):
             continue
+        if func_name != 'nasbench':
+            continue
         for dirname in os.listdir(os.path.join(root_dir, func_name)):
             if dirname.endswith('.csv'):
                 name = '%s-%s' % (func_name, dirname)
@@ -85,6 +87,10 @@ def main(root_dir):
             return 'Lamcts-BO'
         elif alg_name == 'rembo':
             return 'REMBO'
+        elif alg_name == 'lamcts_vs_turbo':
+            return 'LVS-TurBO'
+        elif alg_name == 'turbo1':
+            return 'TurBO'
         else:
             raise ValueError('%s not supported' % alg_name)
     
