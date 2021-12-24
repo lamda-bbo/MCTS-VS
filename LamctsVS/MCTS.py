@@ -245,6 +245,7 @@ class MCTS:
             
             if self.num_select_right >= self.select_right_threshold:
                 self.dynamic_treeify()
+                # print('rebuild')
             leaf, path = self.select(verbose)
             
             for i in range(1):
@@ -264,10 +265,15 @@ class MCTS:
             
             if verbose:
                 self.print_tree()
-                print('axis_score argsort:', np.argsort(self.ROOT.axis_score))
+                print('axis_score argsort:', np.argsort(self.ROOT.axis_score)[: : -1])
                 print('total samples: {}'.format(len(self.samples)))
                 print('current best f(x): {}'.format(self.curt_best_value))
-                print('current best x: {}'.format(self.curt_best_sample))
+                # print('current best x: {}'.format(self.curt_best_sample))
+                node = self.ROOT
+                while len(node.kids) > 0:
+                    node = node.kids[0]
+                print(node.active_dims_idx)
+                print(node.active_axis_score)
 
             idx += 1
             if self.sample_counter >= max_samples:

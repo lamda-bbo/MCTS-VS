@@ -19,11 +19,44 @@ from plot_tool import plot_util as pu
 
 COLORS = ['blue', 'green', 'red', 'cyan', 'magenta', 'yellow', 'black', 'purple', 'pink', 'brown', 'orange', 'teal',  'lightblue', 'lime', 'lavender', 'turquoise', 'darkgreen', 'tan', 'salmon', 'gold',  'darkred', 'darkblue']
 
-color_map = {
-    '11': '11'
+key_map = {
+    # combined with vanilla bo
+    'lamcts_vs_bo': 'LVS-BO',
+    'bo': 'Vanilla BO',
+    'lamcts_bo': 'LA-MCTS-BO',
+    'rembo': 'REMBO',
+    
+    # conbined with turbo
+    'lamcts_vs_turbo': 'LVS-TuRBO',
+    'turbo1': 'TuRBO',
+    'lamcts_turbo': 'LA-MCTS-TuRBO',
+    'alebo': 'ALEBO',
+    'hesbo': 'HeSBO',
+    'cma_es': 'CMA-ES',
+    
+    'fixed_1': 'Fixed',
 }
 
-max_samples = 300
+color_map = {
+    # combined with vanilla bo
+    'LVS-BO': 'blue',
+    'Vanilla BO': 'purple',
+    'Dropout-BO': 'red',
+    'LA-MCTS-BO': 'cyan',
+    'REMBO': 'magenta',
+    
+    # conbined with turbo
+    'LVS-TuRBO': 'orange',
+    'TuRBO': 'green',
+    'Dropout-TuRBO': 'red',
+    'LA-MCTS-TuRBO': 'cyan',
+    'ALEBO': 'brown',
+    'HeSBO': 'yellow',
+    'CMA-ES': 'black',
+    
+    'Fixed': 'blue',
+}
+
 
 Result = collections.namedtuple('Result', 'name progress')
 
@@ -33,15 +66,15 @@ def load_results(root_dir, verbose=True):
     for func_name in os.listdir(root_dir):
         if func_name.startswith('.'):
             continue
-        if func_name != 'nasbench':
-            continue
+        # if func_name != 'nasbench':
+        #     continue
         for dirname in os.listdir(os.path.join(root_dir, func_name)):
             if dirname.endswith('.csv'):
                 name = '%s-%s' % (func_name, dirname)
                 progress = pd.read_csv(os.path.join(root_dir, func_name, dirname))
-                # progress = progress[progress['x'] <= max_samples]
+                # progress = progress[progress['x'] <= 50]
                 # progress = progress[progress['y'] >= 0.92]
-                # progress = progress[progress['t'] < 1200]
+                # progress = progress[progress['t'] < 600]
                 result = Result(name=name, progress=progress)
                 all_results.append(result)
                 print('load %s ' % name)
@@ -57,6 +90,7 @@ def draw(xy_fn, split_fn, group_fn, xlabel, ylabel, max_x, interval_x):
         ax.set_xticks(np.arange(0, max_x, interval_x))
         ax.set_xticklabels([str(i) for i in np.arange(0, max_x, interval_x)])
     plt.savefig(args.output_name, bbox_inches='tight')
+    print('save to {}'.format(args.output_name))
 
     
 def xy_fn(r):
@@ -76,23 +110,16 @@ def main(root_dir):
         name = r.name
         splits = name.split('-')
         alg_name = splits[1]
-        if alg_name == 'bo':
-            return 'Vanilla BO'
-        elif alg_name.startswith('dropout'):
-            # return 'Dropout-' + alg_name[7: ]
-            return 'Dropout-BO'
-        elif alg_name == 'lamcts_vs_bo':
-            return 'LVS-BO'
-        elif alg_name == 'lamcts_bo':
-            return 'Lamcts-BO'
-        elif alg_name == 'rembo':
-            return 'REMBO'
-        elif alg_name == 'lamcts_vs_turbo':
-            return 'LVS-TurBO'
-        elif alg_name == 'turbo1':
-            return 'TurBO'
+        if alg_name.startswith('dropout'):
+            _, solver_type, d = alg_name.split('_')
+            if solver_type == 'bo':
+                return 'Dropout-BO'
+            elif solver_type == 'turbo':
+                return 'Dropout-TuRBO'
+            else:
+                assert 0
         else:
-            raise ValueError('%s not supported' % alg_name)
+            return key_map[alg_name]
     
     draw(xy_fn, split_fn, group_fn, 'Evaluations', 'Function value', 600, 100)
     # draw(ty_fn, split_fn, group_fn, 'Time(sec)', 'Function value', 600, 100)

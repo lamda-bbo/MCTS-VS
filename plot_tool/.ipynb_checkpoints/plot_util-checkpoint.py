@@ -360,33 +360,16 @@ def plot_results(
                 # color = COLORS[groups.index(group) % len(COLORS)]
                 # if group == 'PGG-ES(k=20)':
                 #     color = 'crimson'
-                color = {
-                    # 'Dropout-3': 'crimson',
-                    # 'Dropout-6': 'limegreen',
-                    # 'Dropout-10': 'darkorange',
-                    # 'Dropout-20': 'royalblue',
-                    # 'Vanilia BO': 'blueviolet',
-                    # 'Lamcts-VS': 'royalblue',
-#                     'Dropout-3': 'yellow',
-#                     'Dropout-6': 'green',
-#                     'Dropout-10': 'red',
-                    'Dropout-9': 'pink',
-                    'Dropout-12': 'cyan',
-                    'Dropout-15': 'black',
-                    'Dropout-BO': 'green',
-                    'Vanilla BO': 'magenta',
-                    'LVS-BO': 'blue',
-                    'LVS-TurBO': 'purple',
-                    'TurBO': 'orange',
-                    
-                    'Lamcts-VS-BO(Cp0.1)': 'yellow',
-                    'Lamcts-VS-BO(Cp0.5)': 'green',
-                    'Lamcts-VS-BO(Cp1)': 'red',
-                    'Lamcts-VS-BO(Cp5)': 'purple',
-                    'Lamcts-VS-BO(Cp10)': 'black',
-                    'Lamcts-VS-BO(Cp15)': 'magenta',
-                    'Lamcts-VS-BO(Cp20)': 'blue',
-                }[group]
+                # color = {
+                #     'Vanilla BO': 'magenta',
+                #     'LVS-BO': 'blue',
+                #     'LVS-TurBO': 'purple',
+                #     'Lamcts-TurBO': 'lime',
+                #     'TurBO': 'orange',
+                #     'ALEBO': 'teal',
+                # }[group]
+                from plot import color_map
+                color = color_map[group]
                 origxs = [xy[0] for xy in xys]
                 minxlen = min(map(len, origxs))
                 def allequal(qs):
@@ -425,29 +408,15 @@ def plot_results(
                     loc=2 if legend_outside else None,
                     bbox_to_anchor=(1,1) if legend_outside else None)
             else:
-                _key = [
-                    'Dropout-3', 
-                    'Dropout-6', 
-                    'Dropout-9', 
-                    'Dropout-10', 
-                    'Dropout-12', 
-                    'Dropout-15', 
-                    'Dropout-20', 
-                    'Dropout-30',
-                    'Dropout-BO',
-                    'Vanilla BO', 
-                    'LVS-BO',
-                    'LVS-TurBO',
-                    'TurBO',
-                    
-                    'Lamcts-VS-BO(Cp0.1)',
-                    'Lamcts-VS-BO(Cp0.5)',
-                    'Lamcts-VS-BO(Cp1)',
-                    'Lamcts-VS-BO(Cp5)',
-                    'Lamcts-VS-BO(Cp10)',
-                    'Lamcts-VS-BO(Cp15)',
-                    'Lamcts-VS-BO(Cp20)',
-                ]
+                # _key = [
+                #     'Vanilla BO', 
+                #     'LVS-BO',
+                #     'LVS-TurBO',
+                #     'Lamcts-TurBO',
+                #     'TurBO',
+                #     'ALEBO'
+                # ]
+                _key = list(color_map.keys())
                 _value = [g2l[k] for k in _key if k in g2l.keys()]
                 ax.legend(
                     _value,

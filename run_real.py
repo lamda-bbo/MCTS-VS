@@ -12,8 +12,8 @@ if smoke_test:
     seeds = [2022, ]
 else:
     func_list = [
-        'nasbench',
-        # 'rover'
+        # 'nasbench',
+        'rover'
     ]
     max_samples = 2000
     seeds = [2021, 2022, 2023]
@@ -32,18 +32,18 @@ for func in func_list:
     else:
         assert 0, 'Illegal function name'
         
-#     # lamcts variable selection BO
-#     for seed in seeds:
-#         cmds.append(
-#             f'python3 lamcts_vs.py \
-#                 --func={func} \
-#                 --max_samples={max_samples} \
-#                 --Cp={Cp} \
-#                 --ipt_solver=bo \
-#                 --uipt_solver=bestk \
-#                 --root_dir={root_dir} \
-#                 --seed={seed}'
-#         )
+    # lamcts variable selection BO
+    for seed in seeds:
+        cmds.append(
+            f'python3 lamcts_vs.py \
+                --func={func} \
+                --max_samples={max_samples} \
+                --Cp={Cp} \
+                --ipt_solver=bo \
+                --uipt_solver=bestk \
+                --root_dir={root_dir} \
+                --seed={seed}'
+        )
         
 #     # vanilia bo
 #     for seed in seeds:
@@ -87,23 +87,23 @@ for func in func_list:
 #                 --seed={seed}'
 #         )
     
-    # nasbench
-    for seed in seeds:
-        cmds.append(
-            f'python3 lamcts_vs.py \
-                --func={func} \
-                --max_samples={max_samples} \
-                --feature_batch_size=1 \
-                --sample_batch_size=3 \
-                --min_num_variables=18 \
-                --select_right_threshold=10 \
-                --turbo_max_evals=100 \
-                --Cp={Cp} \
-                --ipt_solver=turbo \
-                --uipt_solver=bestk \
-                --root_dir={root_dir} \
-                --seed={seed}'
-        )
+#     # nasbench
+#     for seed in seeds:
+#         cmds.append(
+#             f'python3 lamcts_vs.py \
+#                 --func={func} \
+#                 --max_samples={max_samples} \
+#                 --feature_batch_size=1 \
+#                 --sample_batch_size=3 \
+#                 --min_num_variables=18 \
+#                 --select_right_threshold=10 \
+#                 --turbo_max_evals=100 \
+#                 --Cp={Cp} \
+#                 --ipt_solver=turbo \
+#                 --uipt_solver=bestk \
+#                 --root_dir={root_dir} \
+#                 --seed={seed}'
+#         )
             
 #     # turbo
 #     for seed in seeds:
