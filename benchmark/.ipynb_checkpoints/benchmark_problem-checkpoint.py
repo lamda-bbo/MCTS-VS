@@ -81,6 +81,7 @@ branin2 = Branin(2, True)
 hartmann6 = Hartmann(6, True)
 levy10 = Levy(10, True)
 levy20 = Levy(20, True)
+rosenbrock10 = Rosenbrock(10, True)
 rosenbrock20 = Rosenbrock(20, True)
 
 
@@ -88,15 +89,15 @@ def get_problem(func_name, save_config, seed=2021):
     """
     save_config: {'save_interval': int, 'root_dir': str, 'algo': str, 'func': str, 'seed': int}
     """
-    if func_name in ['nasbench', 'rover', 'HalfCheetah', 'Walker2d']:
+    if func_name in ['nasbench', 'rover', 'HalfCheetah', 'Walker2d', 'Hopper']:
         if func_name == 'nasbench':
             return FunctionBenchmark(NasBench(), 36, list(range(36)), save_config)
         elif func_name == 'rover':
             return FunctionBenchmark(Rover(), 60, list(range(60)), save_config)
-        elif func_name == 'HalfCheetah':
-            return RLBenchmark(RLEnv('HalfCheetah-v2', seed), 102, list(range(102)), save_config)
-        elif func_name == 'Walker2d':
-            return RLBenchmark(RLEnv('Walker2d-v2', seed), 102, list(range(102)), save_config)
+        elif func_name == 'HalfCheetah' or func_name == 'Walker2d':
+            return RLBenchmark(RLEnv(func_name+'-v2', seed), 102, list(range(102)), save_config)
+        elif func_name == 'Hopper':
+            return RLBenchmark(RLEnv('Hopper-v2', seed), 33, list(range(33)), save_config)
         else:
             assert 0
     else:

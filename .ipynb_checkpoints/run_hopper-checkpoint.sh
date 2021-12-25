@@ -3,7 +3,7 @@
 seed_start=2021
 seed_end=2023
 # func_list=(HalfCheetah Walker2d)
-func_list=(HalfCheetah )
+func_list=(Hopper )
 max_samples=10000
 root_dir=real_logs
 
@@ -40,17 +40,17 @@ do
 #     wait
     
     # turbo
-#     for ((seed=$seed_start; seed<=$seed_end; seed++))
-#     do
-#         {
-#         python3 turbo.py \
-#             --func=$func \
-#             --max_samples=$max_samples \
-#             --root_dir=$root_dir \
-#             --seed=$seed
-#         } &
-#     done
-#     wait
+    for ((seed=$seed_start; seed<=$seed_end; seed++))
+    do
+        {
+        python3 turbo.py \
+            --func=$func \
+            --max_samples=$max_samples \
+            --root_dir=$root_dir \
+            --seed=$seed
+        } &
+    done
+    wait
     
     # lamcts
 #     for ((seed=$seed_start; seed<=$seed_end; seed++))

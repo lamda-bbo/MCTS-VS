@@ -1,4 +1,4 @@
-朴素import torch
+import torch
 import botorch
 import numpy as np
 import pandas as pd
