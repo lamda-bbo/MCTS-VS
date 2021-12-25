@@ -1,33 +1,65 @@
 import numpy as np
 
 
-# openai: https://github.com/openai/baselines/blob/master/baselines/common/running_mean_std.py
 # http://www.johndcook.com/blog/standard_deviation/
-class RunningStat:
-    def __init__(self, shape):
-        self.n = 0
-        self.m = np.zeros(shape)
-        self.s = np.zeros(shape)
+class RunningStat(object):
+    def __init__(self, shape=None):
+        self._n = 0
+        self._M = np.zeros(shape, dtype=np.float64)
+        self._S = np.zeros(shape,  dtype=np.float64)
+
+    def copy(self):
+        other = RunningStat()
+        other._n = self._n
+        other._M = np.copy(self._M)
+        other._S = np.copy(self._S)
+        return other
 
     def push(self, x):
-        x = np.array(x)
-        assert x.shape == self.m.shape
-        self.n += 1
-        if self.n == 1:
-            self.m = x
+        x = np.asarray(x)
+        # Unvectorized update of the running statistics.
+        assert x.shape == self._M.shape, ("x.shape = {}, self.shape = {}".format(x.shape, self._M.shape))
+        n1 = self._n
+        self._n += 1
+        if self._n == 1:
+            self._M[...] = x
         else:
-            old_m = self.m.copy()
-            self.m = old_m + (x - old_m) / self.n
-            self.s = self.s + (x - old_m) * (x - self.m)
+            delta = x - self._M
+            self._M[...] += delta / self._n
+            self._S[...] += delta * delta * n1 / self._n
+
+    def update(self, other):
+        n1 = self._n
+        n2 = other._n
+        n = n1 + n2
+        delta = self._M - other._M
+        delta2 = delta * delta
+        M = (n1 * self._M + n2 * other._M) / n
+        S = self._S + other._S + delta2 * n1 * n2 / n
+        self._n = n
+        self._M = M
+        self._S = S
+
+    def __repr__(self):
+        return '(n={}, mean_mean={}, mean_std={})'.format(
+            self.n, np.mean(self.mean), np.mean(self.std))
+
+    @property
+    def n(self):
+        return self._n
 
     @property
     def mean(self):
-        return self.m
+        return self._M
 
     @property
     def var(self):
-        return self.s / (self.n - 1) if self.n > 1 else np.zeros(self.m.shape)
+        return self._S / (self._n - 1) if self._n > 1 else np.square(self._M)
 
     @property
     def std(self):
         return np.sqrt(self.var)
+
+    @property
+    def shape(self):
+        return self._M.shape

@@ -36,7 +36,7 @@ save_config = {
     'func': args.func,
     'seed': args.seed
 }
-f = get_problem(args.func, save_config)
+f = get_problem(args.func, save_config, args.seed)
 
 args = parser.parse_args()
 

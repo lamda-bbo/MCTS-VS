@@ -1,0 +1,112 @@
+nohup: ignoring input
+Function:  HalfCheetah
+Namespace(Cp=50.0, feature_batch_size=2, func='HalfCheetah', ipt_solver='bo', max_samples=5000, min_num_variables=3, postfix=None, root_dir='real_logs', sample_batch_size=3, seed=2022, select_right_threshold=5, turbo_max_evals=50, uipt_solver='bestk')
+==========
+feature_batch_size: 2
+sample_batch_size: 3
+collect 12 samples for initializing MCTS
+collect 4 features for initializing MCTS
+dims: 102
+min_num_variables: 3
+==========
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+save lamcts_vs_bo result into: logs/real_logs/HalfCheetah/lamcts_vs_bo-2022.csv
+best f(x): 354.1980150943729

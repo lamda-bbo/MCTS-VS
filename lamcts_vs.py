@@ -1,4 +1,4 @@
-import torch
+朴素import torch
 import botorch
 import numpy as np
 import pandas as pd
@@ -42,7 +42,7 @@ save_config = {
     'func': args.func,
     'seed': args.seed
 }
-f = get_problem(args.func, save_config)
+f = get_problem(args.func, save_config, args.seed)
 
 agent = MCTS(
     func=f,
