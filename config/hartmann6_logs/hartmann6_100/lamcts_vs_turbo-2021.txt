@@ -1,0 +1,13 @@
+func: hartmann6_100
+max_samples: 60
+feature_batch_size: 2
+sample_batch_size: 3
+min_num_variables: 3
+select_right_threshold: 5
+turbo_max_evals: 50
+Cp: 0.1
+ipt_solver: turbo
+uipt_solver: bestk
+root_dir: hartmann6_logs
+postfix: None
+seed: 2021

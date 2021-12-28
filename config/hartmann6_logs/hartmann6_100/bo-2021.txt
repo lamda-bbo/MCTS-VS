@@ -1,0 +1,6 @@
+func: hartmann6_100
+max_samples: 60
+init_samples: 10
+batch_size: 3
+root_dir: hartmann6_logs
+seed: 2021

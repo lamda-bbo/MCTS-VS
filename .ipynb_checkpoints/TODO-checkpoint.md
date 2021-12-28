@@ -44,6 +44,15 @@ claim：
 实验超参数：
 alebo会使用2倍的有效维度，rembo使用有效维度，hesbo使用2倍和有效维度
 
+目前的函数：
+ackley20_100 ackley20_300
+hartmann6_50 hartmann6_100 hartmann6_300 hartmann6_500
+levy10_50 levy10_100 levy10_300
+lvs-bo，lvs-turbo，bo，dropout-bo，lamcts-bo，rembo
+turbo，hesbo，alebo，
+
+
+
 ## 消融实验
 
 1. split时的依据：mean、median、kmeans。目前：mean

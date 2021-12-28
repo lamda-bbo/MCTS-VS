@@ -1,7 +1,7 @@
 #!/bin/bash
 
 seed_start=2021
-seed_end=2026
+seed_end=2025
 
 func_list=(ackley20_100 ackley20_300)
 max_samples=1000
