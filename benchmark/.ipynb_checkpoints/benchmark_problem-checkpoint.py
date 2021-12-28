@@ -4,9 +4,7 @@ import re
 import time
 from benchmark.synthetic_function import Ackley, Branin, Hartmann, Levy, Rosenbrock
 from benchmark.tracker import Tracker, save_results
-from benchmark.nas_benchmark import NasBench
 from benchmark.rover_function import Rover
-from benchmark.rl_benchmark import RLEnv
 
 
 class FunctionBenchmark:
@@ -90,7 +88,11 @@ def get_problem(func_name, save_config, seed=2021):
     save_config: {'save_interval': int, 'root_dir': str, 'algo': str, 'func': str, 'seed': int}
     """
     if func_name in ['nasbench', 'rover', 'HalfCheetah', 'Walker2d', 'Hopper']:
+        if func_name in ['HalfCheetah', 'Walker2d', 'Hopper']:
+            from benchmark.rl_benchmark import RLEnv
+            
         if func_name == 'nasbench':
+            from benchmark.nas_benchmark import NasBench
             return FunctionBenchmark(NasBench(), 36, list(range(36)), save_config)
         elif func_name == 'rover':
             return FunctionBenchmark(Rover(), 60, list(range(60)), save_config)

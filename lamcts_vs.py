@@ -7,6 +7,7 @@ import argparse
 import random
 from benchmark import get_problem
 from LamctsVS.MCTS import MCTS
+from utils import save_args
 
 
 parser = argparse.ArgumentParser()
@@ -43,6 +44,14 @@ save_config = {
     'seed': args.seed
 }
 f = get_problem(args.func, save_config, args.seed)
+
+save_args(
+    'config/' + args.root_dir,
+    algo_name,
+    args.func,
+    args.seed,
+    args
+)
 
 agent = MCTS(
     func=f,

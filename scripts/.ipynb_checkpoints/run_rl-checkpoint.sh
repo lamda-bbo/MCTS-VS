@@ -1,15 +1,16 @@
 #!/bin/bash
 
 seed_start=2021
-seed_end=2023
-
-func_list=(rosenbrock10_100 rosenbrock10_300)
-max_samples=600
-root_dir=sota_logs
+seed_end=2021
+func_list=(Hopper Walker2d)
+max_samples=50
+Cp=50
+root_dir=rl_logs
 
 for func in ${func_list[@]}
 do
-    Cp=10
+    echo "Function: " $func
+    # lvs-bo
     for ((seed=$seed_start; seed<=$seed_end; seed++))
     do
         {
@@ -23,6 +24,22 @@ do
     done
     wait
     
+    # lvs-turbo
+    for ((seed=$seed_start; seed<=$seed_end; seed++))
+    do
+        {
+        python3 lamcts_vs.py \
+            --func=$func \
+            --max_samples=$max_samples \
+            --Cp=$Cp \
+            --ipt_solver=turbo \
+            --root_dir=$root_dir \
+            --seed=$seed
+        } &
+    done
+    wait
+    
+    # turbo
     for ((seed=$seed_start; seed<=$seed_end; seed++))
     do
         {
@@ -35,13 +52,15 @@ do
     done
     wait
     
+    # lamcts
     for ((seed=$seed_start; seed<=$seed_end; seed++))
     do
         {
-        python3 dropout.py \
+        python3 lamcts.py \
             --func=$func \
             --max_samples=$max_samples \
-            --active_dims=10 \
+            --Cp=$Cp \
+            --solver_type=turbo \
             --root_dir=$root_dir \
             --seed=$seed
         } &

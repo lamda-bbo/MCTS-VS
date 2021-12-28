@@ -94,7 +94,7 @@ if __name__ == '__main__':
     import argparse
     import random
     from benchmark import get_problem
-    from utils import latin_hypercube, from_unit_cube, save_results
+    from utils import latin_hypercube, from_unit_cube, save_results, save_args
     
     parser = argparse.ArgumentParser()
     parser.add_argument('--func', default='hartmann6_50', type=str)
@@ -119,6 +119,15 @@ if __name__ == '__main__':
         'seed': args.seed
     }
     func = get_problem(args.func, save_config)
+    
+    save_args(
+        'config/' + args.root_dir,
+        'bo',
+        args.func,
+        args.seed,
+        args
+    )
+    
     dims, lb, ub = func.dims, func.lb, func.ub
     points = latin_hypercube(args.init_samples, dims)
     points = from_unit_cube(points, lb, ub)

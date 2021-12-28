@@ -7,7 +7,7 @@ import argparse
 from benchmark import get_problem
 from uipt_variable_strategy import UiptRandomStrategy, UiptBestKStrategy
 from vanilia_bo import generate_initial_data, get_gpr_model, optimize_acqf
-from utils import latin_hypercube, from_unit_cube, save_results
+from utils import latin_hypercube, from_unit_cube, save_results, save_args
 from baseline import Turbo1_VS_Component
 
 
@@ -47,6 +47,14 @@ dims = func.dims
 lb = func.lb
 ub = func.ub
 uipt_solver = UiptBestKStrategy(dims, k=20)
+
+save_args(
+    'config/' + args.root_dir,
+    'dropout_{}_{}'.format(args.ipt_solver, args.active_dims),
+    args.func,
+    args.seed,
+    args
+)
 
 # train_x, train_y = generate_initial_data(func, args.init_samples, lb, ub)
 points = latin_hypercube(args.init_samples, dims)

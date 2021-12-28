@@ -11,7 +11,7 @@ import random
 import argparse
 from baseline import MCTS
 from benchmark import get_problem
-from utils import save_results
+from utils import save_results, save_args
 
 
 parser = argparse.ArgumentParser()
@@ -38,7 +38,13 @@ save_config = {
 }
 f = get_problem(args.func, save_config, args.seed)
 
-args = parser.parse_args()
+save_args(
+    'config/' + args.root_dir,
+    'lamcts_{}'.format(args.solver_type),
+    args.func,
+    args.seed,
+    args
+)
 
 agent = MCTS(
     lb = f.lb,              # the lower bound of each problem dimensions

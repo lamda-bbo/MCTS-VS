@@ -1,10 +1,8 @@
 # 基本想法
 
-每个节点代表的是一种变量激活方式，根节点表示所有变量都激活(即都有概率被选择)。根据实际被选择变量采样样本和补样本(补样本很重要，因为这样保证了每个变量被采样次数相等)，然后累加各个维度的估值，对维度进行分类，找到好的维度(即f值更高的维度)。根节点的左节点表示
-
-在被选择的节点，根据节点表示的变量选择方式，
-
 114.212.22.207
+
+114.212.21.221
 
 # 任务
 
@@ -17,13 +15,27 @@
 
 # 具体实验细节
 
-与BO集合：
-lvs-bo，
-lamcts-bo，
-dropout-bo，
-[x] bo，
-rembo
-与turbo结合，lvs-turbo，lamcts-turbo，dropout-turbo，turbo，alebo，cmaes，学习embedding的方法
+claim：
+1. 低维情况以及少量适合turbo的问题中，lvs-turbo能够达到至少和turbo一样甚至更高的性能，并且消耗的时间更短
+2. 大部分中高维情况下，turbo不再适合(说明一下turbo的缺点)，结合bo时能够超过高维BO的sota？？？
+
+第一组：BO，Dropout-BO，LA-MCTS-BO，LVS-BO，REMBO，说明我们无论是低维还是高维情况下算法的变量选择的有效性。
+1. 低维：levy10_50，levy20_50
+2. 高维：hartmann6_100/300/500
+(低维和高维都要同时有levy和hartmann)
+
+第二组：TuRBO，HeSBO，ALEBO，LVS-BO，LVS-TuRBO，CMA-ES，说明低维和高维情况下的性能可以达到最优。
+1. 低维以及少量适合turbo的情况下问题为ackley20_100和ackley20_300，
+2. 高维的情况下问题为hartmann6_300和hartmann6_500。待选rosenbrock10_300
+确定的四个问题：levy低维，ackley20_300说明适合turbo的情况下表现更好，hartmann6_300、hartmann6_500。
+
+真实问题：TuRBO，HeSBO，ALEBO，LVS-BO，LVS-TuRBO，CMA-ES。
+先跑LA-MCTS-TuRBO、TuRBO、LVS-TuRBO和LVS-BO
+1. nasbench
+1. rover：lvs-turbo收敛效果差不多，时间更好
+2. hopper作为低维的真实问题，lvs-turbo远远超过turbo
+3. walker高维问题，lvs-bo表现大于等于turbo
+
 
 实验超参数：
 alebo会使用2倍的有效维度，rembo使用有效维度，hesbo使用2倍和有效维度

@@ -7,7 +7,7 @@ import argparse
 
 from benchmark import get_problem
 from baseline import Turbo1
-from utils import save_results
+from utils import save_results, save_args
 
 
 parser = argparse.ArgumentParser()
@@ -32,6 +32,13 @@ save_config = {
 }
 f = get_problem(args.func, save_config, args.seed)
 
+save_args(
+    'config/' + args.root_dir,
+    'turbo1',
+    args.func,
+    args.seed,
+    args
+)
 
 turbo1 = Turbo1(
     f=lambda x: -f(x),  # Handle to objective function
@@ -51,4 +58,4 @@ turbo1 = Turbo1(
 
 turbo1.optimize()
 
-print('best f(x):', f.tracker.best_value_trace[-1])
+# print('best f(x):', f.tracker.best_value_trace[-1])

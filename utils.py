@@ -91,6 +91,17 @@ def save_results(root_dir, algo, func, seed, df_data):
     df_data.to_csv(save_path)
     print('save %s result into: %s' % (algo, save_path))
     
+    
+def save_args(root_dir, algo, func, seed, args):
+    os.makedirs(root_dir, exist_ok=True)
+    save_dir = os.path.join(root_dir, func)
+    os.makedirs(save_dir, exist_ok=True)
+    save_path = os.path.join(save_dir, '%s-%d.txt' % (algo, seed))
+    with open(save_path, 'w') as f:
+        for k, v in args.__dict__.items():
+            f.write('{}: {}\n'.format(k, v))
+    print('save {} config into: {}'.format(algo, save_path))
+    
 
 if __name__ == '__main__':
     # print(latin_hypercube(3, 6))

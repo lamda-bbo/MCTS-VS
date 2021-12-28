@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 import argparse
 import random
 from benchmark import get_problem
-from utils import save_results
+from utils import save_results, save_args
 
 
 def evaluation_function(parameterization):
@@ -42,6 +42,14 @@ save_config = {
 }
 func = get_problem(args.func, save_config)
 dims = func.dims
+
+save_args(
+    'config/' + args.root_dir,
+    args.strategy,
+    args.func,
+    args.seed,
+    args
+)
 
 parameters = [
     {'name': f'x{i}', 'type': 'range', 'bounds': [func.lb[i], func.ub[i]], 'value_type': 'float'} for i in range(dims)

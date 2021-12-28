@@ -1,0 +1,6 @@
+func: Hopper
+max_samples: 50
+Cp: 50.0
+solver_type: turbo
+root_dir: rl_logs
+seed: 2021

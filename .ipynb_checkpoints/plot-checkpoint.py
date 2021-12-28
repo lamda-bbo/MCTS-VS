@@ -122,6 +122,7 @@ def main(root_dir):
             return key_map[alg_name]
     
     draw(xy_fn, split_fn, group_fn, 'Evaluations', 'Function value', 600, 100)
+    # draw(xy_fn, split_fn, group_fn, 'Evaluations', 'Function value', 10000, 2000)
     # draw(ty_fn, split_fn, group_fn, 'Time(sec)', 'Function value', 600, 100)
     
     

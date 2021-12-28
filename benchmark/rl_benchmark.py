@@ -3,7 +3,7 @@ import gym
 from benchmark.filter import RunningStat
 
 
-ENV_NAME = ['HalfCheetah-v2', 'Walker2d-v2']
+ENV_NAME = ['HalfCheetah-v2', 'Walker2d-v2', 'Hopper-v2']
 
 
 class RLEnv:
@@ -33,7 +33,7 @@ class RLEnv:
             obs = self.env.reset()
             while True:
                 self.rs.push(obs)
-                norm_obs = (obs - self.rs.mean) / self.rs.std
+                norm_obs = (obs - self.rs.mean) / (self.rs.std + 1e-6)
                 action = np.dot(M, norm_obs)
                 obs, r, done, _ = self.env.step(action)
                 total_r += r
