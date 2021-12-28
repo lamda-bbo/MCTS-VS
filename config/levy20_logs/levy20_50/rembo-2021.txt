@@ -1,0 +1,6 @@
+func: levy20_50
+max_samples: 50
+active_dims: 20
+strategy: rembo
+root_dir: levy20_logs
+seed: 2021

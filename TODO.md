@@ -21,8 +21,12 @@ claim：
 
 第一组：BO，Dropout-BO，LA-MCTS-BO，LVS-BO，REMBO，说明我们无论是低维还是高维情况下算法的变量选择的有效性。
 1. 低维：levy10_50，levy20_50
-2. 高维：hartmann6_100/300/500
-(低维和高维都要同时有levy和hartmann)
+2. 高维：hartmann6_100/300/500, levy20_100, levy10_300
+(低维和高维都要同时有levy和hartmann)并且保证和下面的一致性
+
+最好的情况是
+1. hartmann6_50, levy10_50, levy20_50
+2. hartmann6_100/300/500, levy20_100, levy10_300
 
 第二组：TuRBO，HeSBO，ALEBO，LVS-BO，LVS-TuRBO，CMA-ES，说明低维和高维情况下的性能可以达到最优。
 1. 低维以及少量适合turbo的情况下问题为ackley20_100和ackley20_300，

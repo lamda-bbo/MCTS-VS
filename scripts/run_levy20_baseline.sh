@@ -1,43 +1,16 @@
 #!/bin/bash
 
 seed_start=2021
-seed_end=2023
+seed_end=2026
 
-func_list=(levy10_50 levy20_50)
+func_list=(levy20_50 levy20_100 levy20_300)
 max_samples=600
 Cp=10
-root_dir=sota_logs
+root_dir=levy20_logs
 
 for func in ${func_list[@]}
 do
-    for ((seed=$seed_start; seed<=$seed_end; seed++))
-    do
-        {
-        python3 lamcts_vs.py \
-            --func=$func \
-            --max_samples=$max_samples \
-            --Cp=$Cp \
-            --root_dir=$root_dir \
-            --seed=$seed
-        } &
-    done
-    wait
-    
-    for ((seed=$seed_start; seed<=$seed_end; seed++))
-    do
-        {
-        python3 lamcts_vs.py \
-            --func=$func \
-            --max_samples=$max_samples \
-            --turbo_max_evals=50 \
-            --Cp=$Cp \
-            --ipt_solver=turbo \
-            --root_dir=$root_dir \
-            --seed=$seed
-        } &
-    done
-    wait
-    
+    # turbo
     for ((seed=$seed_start; seed<=$seed_end; seed++))
     do
         {
@@ -50,16 +23,35 @@ do
     done
     wait
     
-#     for ((seed=$seed_start; seed<=$seed_end; seed++))
-#     do
-#         {
-#         python3 dropout.py \
-#             --func=$func \
-#             --max_samples=$max_samples \
-#             --active_dims=10 \
-#             --root_dir=$root_dir \
-#             --seed=$seed
-#         } &
-#     done
-#     wait
+    # hesbo
+    for ((seed=$seed_start; seed<=$seed_end; seed++))
+    do
+        {
+        python3 ax_embedding_bo.py \
+            --func=$func \
+            --max_samples=$max_samples \
+            --active_dims=20 \
+            --strategy=hesbo \
+            --root_dir=$root_dir \
+            --seed=$seed
+        } &
+    done
+    wait
+    
+    # alebo
+    for ((seed=$seed_start; seed<=$seed_end; seed++))
+    do
+        {
+        python3 ax_embedding_bo.py \
+            --func=$func \
+            --max_samples=$max_samples \
+            --active_dims=20 \
+            --strategy=alebo \
+            --root_dir=$root_dir \
+            --seed=$seed
+        } &
+    done
+    wait
+    
+    # cma-es
 done
