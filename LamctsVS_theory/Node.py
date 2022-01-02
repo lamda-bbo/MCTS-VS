@@ -28,6 +28,12 @@ class Node:
         self.id = Node.obj_counter
         Node.obj_counter += 1
         
+        if self.parent == None:
+            self.axis_score = self.get_active_axis_score()
+        else:
+            # self.axis_score = self.get_active_axis_score()
+            self.axis_score = self.parent.axis_score
+        
     def init_bag(self, features, samples, feature2sample_map):
         # clear and init
         self.features.clear()
@@ -71,13 +77,13 @@ class Node:
         #     return None, None
         
         if split_type in ['median', 'mean']:
-            # axis_score = self.axis_score
-            axis_score = self.get_active_axis_score()
+            axis_score = self.axis_score
+            # axis_score = self.get_active_axis_score()
             active_axis_score = axis_score[self.active_dims_idx]
             threshold = getattr(np, split_type)(active_axis_score) # calculated by active dims
-            good_idx = np.where(axis_score >= threshold)[0]
+            good_idx = np.where(axis_score > threshold)[0]
             good_idx = sorted(set(list(good_idx)) & set(list(self.active_dims_idx)))
-            bad_idx = np.where(axis_score < threshold)[0]
+            bad_idx = np.where(axis_score <= threshold)[0]
             bad_idx = sorted(set(list(bad_idx)) & set(list(self.active_dims_idx)))
         elif split_type == 'kmeans':
             # 0: good cluster, 1: bad cluster
@@ -145,6 +151,9 @@ class Node:
         grad = np.asarray([Fi*epsi for Fi, epsi in zip(F, eps)])
         grad = grad.sum(axis=0) / (2 * n * sigma**2)
         axis_score = np.abs(grad)
+        
+        print('axis score', axis_score)
+        print(np.mean(axis_score))
             
         # print(axis_score)
         # print(axis_score.argsort())
@@ -170,7 +179,7 @@ class Node:
         grad = np.asarray([Fi*epsi for Fi, epsi in zip(F, eps)])
         grad = grad.sum(axis=0) / (2 * n * sigma**2)
         axis_score = np.abs(grad)
-            
+        
         # print(axis_score)
         # print(axis_score.argsort())
         # print(np.where(axis_score >= np.mean(axis_score)))
@@ -189,7 +198,8 @@ class Node:
             return float('inf')
         if self.n == 0:
             return float('inf')
-        v = self.get_active_axis_score()
+        # v = self.get_active_axis_score()
+        v = self.axis_score
         v = np.max(v[self.active_dims_idx])
         return v + 2 * Cp * np.sqrt(2 * np.power(self.parent.n, 0.5) / self.n)
     
@@ -227,9 +237,9 @@ class Node:
                 comp_features.append(comp_feature)
         return features, comp_features
 
-    @property
-    def axis_score(self):
-        return self.get_axis_score()
+    # @property
+    # def axis_score(self):
+    #     return self.get_axis_score()
     
     @property
     def active_axis_score(self):

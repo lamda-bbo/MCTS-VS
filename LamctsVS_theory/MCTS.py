@@ -41,9 +41,9 @@ class MCTS:
         
         # build the tree
         self.nodes = []
-        root = Node(self.func, parent=None, dims=self.dims, active_dims_idx=list(range(self.dims)), reset_id=True)
-        self.nodes.append(root)
-        self.ROOT = root
+        # root = Node(self.func, parent=None, dims=self.dims, active_dims_idx=list(range(self.dims)), reset_id=True)
+        # self.nodes.append(root)
+        self.ROOT = None
         self.CURT = self.ROOT
         self.num_select_right = float('inf') # run 'dynamic_treeify' when iteration = 1
         
@@ -254,8 +254,6 @@ class MCTS:
             for i in range(1):
                 new_feature, new_comp_features = leaf.sample_features(self.feature_batch_size)
                 all_features = feature_dedup(new_feature + new_comp_features)
-                
-                # self.selected_variables.append( np.vstack(all_features) )
                 
                 for feature in all_features:
                     if ndarray2str(feature) not in self.feature2sample_map.keys():

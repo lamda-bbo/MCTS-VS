@@ -15,10 +15,10 @@ parser.add_argument('--func', default='hartmann6_50', type=str)
 parser.add_argument('--max_samples', default=200, type=int)
 parser.add_argument('--feature_batch_size', default=2, type=int)
 parser.add_argument('--sample_batch_size', default=3, type=int)
-parser.add_argument('--min_num_variables', default=8, type=int)
+parser.add_argument('--min_num_variables', default=7, type=int)
 parser.add_argument('--select_right_threshold', default=5, type=int)
 parser.add_argument('--turbo_max_evals', default=50, type=int)
-parser.add_argument('--Cp', default=0, type=float)
+parser.add_argument('--Cp', default=0.1, type=float)
 parser.add_argument('--ipt_solver', default='bo', type=str)
 parser.add_argument('--uipt_solver', default='bestk', type=str)
 parser.add_argument('--root_dir', default='theory_logs', type=str)
@@ -33,7 +33,7 @@ np.random.seed(args.seed)
 botorch.manual_seed(args.seed)
 torch.manual_seed(args.seed)
 
-algo_name = 'lamcts_vs_theory'
+algo_name = 'lamcts_vs_g'
 if args.postfix is not None:
     algo_name += ('_' + args.postfix)
 save_config = {
@@ -79,7 +79,7 @@ agent = MCTS(
     Cp=args.Cp,
     min_num_variables=args.min_num_variables, 
     select_right_threshold=args.select_right_threshold, 
-    split_type='mean',
+    split_type='median',
     ipt_solver=args.ipt_solver, 
     uipt_solver=args.uipt_solver,
     turbo_max_evals=args.turbo_max_evals,
@@ -89,15 +89,40 @@ agent.search(max_samples=args.max_samples, verbose=False)
 
 print(agent.selected_variables)
 
+
+# TP
+TP = []
+for selected in agent.selected_variables:
+    TP.append(len(set(range(len(f.valid_idx))) & set(selected)))
+print('TP:', TP)
+
+recall = [t / len(f.valid_idx) for t in TP]
+precision = [TP[idx] / len(agent.selected_variables[idx]) for idx in range(len(TP))]
+
+print('recall:', recall)
+print('precision:', precision)
+
+plt.figure()
+plt.plot(recall)
+plt.title('recall')
+plt.savefig('theory_result/recall_g.png')
+
+plt.figure()
+plt.plot(precision)
+plt.title('precision')
+plt.savefig('theory_result/precision_g.png')
+
+
+# 
 delta = []
 for selected in agent.selected_variables:
-    # sum_selected = selected.sum(axis=0)
     delta.append(len(set(range(len(f.valid_idx))) - set(selected)))
     
-print(delta)
+print('delta:', delta)
 res = [np.sum(delta[: idx+1]) / (idx + 1) for idx in range(len(delta))]
 print(res)
+plt.figure()
 plt.plot(res)
-plt.savefig('theory.png')
+plt.savefig('theory_result/theory.png')
 
 print('best f(x):', agent.value_trace[-1][1])

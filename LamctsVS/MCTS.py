@@ -49,6 +49,8 @@ class MCTS:
         
         self.init_train()
         
+        self.selected_variables = []
+        
     def init_train(self):
         assert len(self.features) == 0 and len(self.samples) == 0
         # init features
@@ -247,6 +249,7 @@ class MCTS:
                 self.dynamic_treeify()
                 # print('rebuild')
             leaf, path = self.select(verbose)
+            self.selected_variables.append(leaf.active_dims_idx)
             
             for i in range(1):
                 new_feature, new_comp_features = leaf.sample_features(self.feature_batch_size)

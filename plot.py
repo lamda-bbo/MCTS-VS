@@ -66,14 +66,16 @@ def load_results(root_dir, verbose=True):
     for func_name in os.listdir(root_dir):
         if func_name.startswith('.'):
             continue
-        # if func_name != 'nasbench':
-        #     continue
         for dirname in os.listdir(os.path.join(root_dir, func_name)):
+            if dirname.startswith('rembo'):
+                continue
             if dirname.endswith('.csv'):
                 name = '%s-%s' % (func_name, dirname)
                 progress = pd.read_csv(os.path.join(root_dir, func_name, dirname))
-                # progress = progress[progress['x'] <= 50]
                 # progress = progress[progress['y'] >= 0.92]
+                # progress = progress[progress['x'] <= 50]
+                # progress = progress[progress['x'] <= 150]
+                # progress = progress[100 <= progress['x']]
                 # progress = progress[progress['t'] < 600]
                 result = Result(name=name, progress=progress)
                 all_results.append(result)
@@ -121,6 +123,7 @@ def main(root_dir):
         else:
             return key_map[alg_name]
     
+    # draw(xy_fn, split_fn, group_fn, 'Evaluations', 'Function value', 50, 10)
     draw(xy_fn, split_fn, group_fn, 'Evaluations', 'Function value', 600, 100)
     # draw(xy_fn, split_fn, group_fn, 'Evaluations', 'Function value', 10000, 2000)
     # draw(ty_fn, split_fn, group_fn, 'Time(sec)', 'Function value', 600, 100)
