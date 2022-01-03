@@ -3,7 +3,7 @@
 seed_start=2021
 seed_end=2025
 
-func_list=(hartmann6_50 hartmann6_100 hartmann6_300 hartmann6_500)
+func_list=(hartmann6_100 hartmann6_300 hartmann6_500)
 max_samples=600
 Cp=0.1
 root_dir=hartmann6_logs
