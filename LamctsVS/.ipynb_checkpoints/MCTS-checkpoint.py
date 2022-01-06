@@ -249,7 +249,8 @@ class MCTS:
                 self.dynamic_treeify()
                 # print('rebuild')
             leaf, path = self.select(verbose)
-            self.selected_variables.append(leaf.active_dims_idx)
+            # self.selected_variables.append((idx, leaf.active_dims_idx))
+            self.selected_variables.append((self.sample_counter, leaf.active_dims_idx))
             
             for i in range(1):
                 new_feature, new_comp_features = leaf.sample_features(self.feature_batch_size)

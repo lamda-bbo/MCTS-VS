@@ -79,6 +79,7 @@ branin2 = Branin(2, True)
 hartmann6 = Hartmann(6, True)
 levy10 = Levy(10, True)
 levy20 = Levy(20, True)
+levy50 = Levy(50, True)
 rosenbrock10 = Rosenbrock(10, True)
 rosenbrock20 = Rosenbrock(20, True)
 

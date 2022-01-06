@@ -72,6 +72,10 @@ def load_results(root_dir, verbose=True):
             if dirname.endswith('.csv'):
                 name = '%s-%s' % (func_name, dirname)
                 progress = pd.read_csv(os.path.join(root_dir, func_name, dirname))
+                if func_name.startswith('levy10') or func_name.startswith('levy20'):
+                    progress = progress[progress['y'] >= -100]
+                if func_name.startswith('Hopper'):
+                    progress = progress[progress['x'] <= 2000]
                 # progress = progress[progress['y'] >= 0.92]
                 # progress = progress[progress['x'] <= 50]
                 # progress = progress[progress['x'] <= 150]
@@ -125,7 +129,7 @@ def main(root_dir):
     
     # draw(xy_fn, split_fn, group_fn, 'Evaluations', 'Function value', 50, 10)
     draw(xy_fn, split_fn, group_fn, 'Evaluations', 'Function value', 600, 100)
-    # draw(xy_fn, split_fn, group_fn, 'Evaluations', 'Function value', 10000, 2000)
+    # draw(xy_fn, split_fn, group_fn, 'Evaluations', 'Function value', 2000, 500)
     # draw(ty_fn, split_fn, group_fn, 'Time(sec)', 'Function value', 600, 100)
     
     

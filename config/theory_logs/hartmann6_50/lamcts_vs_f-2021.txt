@@ -1,5 +1,5 @@
 func: hartmann6_50
-max_samples: 5000
+max_samples: 200
 feature_batch_size: 2
 sample_batch_size: 3
 min_num_variables: 7

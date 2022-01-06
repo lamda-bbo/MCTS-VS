@@ -1,0 +1,6 @@
+func: rosenbrock10_100
+max_samples: 600
+active_dims: 10
+strategy: hesbo
+root_dir: rosenbrock10_logs
+seed: 2023

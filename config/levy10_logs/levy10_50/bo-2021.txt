@@ -1,0 +1,6 @@
+func: levy10_50
+max_samples: 600
+init_samples: 10
+batch_size: 3
+root_dir: levy10_logs
+seed: 2021

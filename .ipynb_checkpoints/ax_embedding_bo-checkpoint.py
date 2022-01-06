@@ -58,7 +58,7 @@ parameters = [
 if args.strategy == 'rembo':
     embedding_strategy = REMBOStrategy(D=dims, d=args.active_dims, init_per_proj=2)
 elif args.strategy == 'hesbo':
-    embedding_strategy = HeSBOStrategy(D=dims, d=args.active_dims, init_per_proj=10)
+    embedding_strategy = HeSBOStrategy(D=dims, d=args.active_dims, init_per_proj=2)
 elif args.strategy == 'alebo':
     embedding_strategy = ALEBOStrategy(D=dims, d=args.active_dims, init_size=10)
 else:

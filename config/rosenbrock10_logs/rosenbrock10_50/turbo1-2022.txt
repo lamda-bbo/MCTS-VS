@@ -1,0 +1,4 @@
+func: rosenbrock10_50
+max_samples: 600
+root_dir: rosenbrock10_logs
+seed: 2022

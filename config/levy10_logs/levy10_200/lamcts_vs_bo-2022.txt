@@ -1,0 +1,13 @@
+func: levy10_200
+max_samples: 600
+feature_batch_size: 2
+sample_batch_size: 3
+min_num_variables: 10
+select_right_threshold: 5
+turbo_max_evals: 50
+Cp: 20.0
+ipt_solver: bo
+uipt_solver: bestk
+root_dir: levy10_logs
+postfix: None
+seed: 2022

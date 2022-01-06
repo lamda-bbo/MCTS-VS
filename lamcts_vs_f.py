@@ -53,22 +53,6 @@ save_args(
     args
 )
 
-# point = np.random.uniform(0, 1, f.dims)
-# # eps = np.random.randn(f.dims) * 0.01
-# # eps_point = np.clip(point + eps, f.lb, f.ub)
-# eps = np.random.randn() * 0.01
-# basis = np.zeros(f.dims)
-# basis[3] = 1
-# eps_point = np.clip(point + eps*basis, f.lb, f.ub)
-
-# print(f(point))
-# print(f(point) - f(eps_point))
-
-
-
-
-
-
 agent = MCTS(
     func=f,
     dims=f.dims,
@@ -87,17 +71,20 @@ agent = MCTS(
 
 agent.search(max_samples=args.max_samples, verbose=False)
 
-print(agent.selected_variables)
+t, selected_variables = zip(*agent.selected_variables)
 
+print(t)
+print(selected_variables)
+n_selected = [len(selected) for selected in selected_variables]
 
 # TP
 TP = []
-for selected in agent.selected_variables:
+for selected in selected_variables:
     TP.append(len(set(range(len(f.valid_idx))) & set(selected)))
 print('TP:', TP)
 
 recall = [t / len(f.valid_idx) for t in TP]
-precision = [TP[idx] / len(agent.selected_variables[idx]) for idx in range(len(TP))]
+precision = [TP[idx] / len(selected_variables[idx]) for idx in range(len(TP))]
 
 print('recall:', recall)
 print('precision:', precision)
@@ -105,24 +92,31 @@ print('precision:', precision)
 plt.figure()
 plt.plot(recall)
 plt.title('recall')
-plt.savefig('theory_result/recall_f.png')
+plt.savefig('theory_result/recall_{}.png'.format(args.seed))
 
 plt.figure()
 plt.plot(precision)
 plt.title('precision')
-plt.savefig('theory_result/precision_f.png')
+plt.savefig('theory_result/precision_{}.png'.format(args.seed))
 
+recall_pd = pd.DataFrame(zip(t, recall, n_selected), columns=['t', 'recall', 'n'])
+precision_pd = pd.DataFrame(zip(t, precision, n_selected), columns=['t', 'precision', 'n'])
+recall_pd.to_csv('theory_result/recall_{}.csv'.format(args.seed))
+precision_pd.to_csv('theory_result/precision_{}.csv'.format(args.seed))
+
+n_selected_pd = pd.DataFrame(zip(t, n_selected), columns=['t', 'n'])
+n_selected_pd.to_csv('theory_result/n_selected_{}.csv'.format(args.seed))
 
 # 
-delta = []
-for selected in agent.selected_variables:
-    delta.append(len(set(range(len(f.valid_idx))) - set(selected)))
+# delta = []
+# for selected in selected_variables:
+#     delta.append(len(set(range(len(f.valid_idx))) - set(selected)))
     
-print('delta:', delta)
-res = [np.sum(delta[: idx+1]) / (idx + 1) for idx in range(len(delta))]
-print(res)
-plt.figure()
-plt.plot(res)
-plt.savefig('theory_result/lamcts_f.png')
+# print('delta:', delta)
+# res = [np.sum(delta[: idx+1]) / (idx + 1) for idx in range(len(delta))]
+# print(res)
+# plt.figure()
+# plt.plot(res)
+# plt.savefig('theory_result/lamcts_f.png')
 
 print('best f(x):', agent.value_trace[-1][1])
