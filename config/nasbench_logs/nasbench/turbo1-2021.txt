@@ -1,0 +1,4 @@
+func: nasbench
+max_samples: 200
+root_dir: nasbench_logs
+seed: 2021

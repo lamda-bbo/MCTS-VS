@@ -7,6 +7,7 @@ import os
 
 # read .csv files
 root_dir = 'theory_result'
+max_samples = 200
 recall_list = []
 precision_list = []
 n_selected_list = []
@@ -21,7 +22,7 @@ for file_name in os.listdir(root_dir):
         # interpolation
         file = pd.read_csv(path)
         tmp = []
-        for i in range(200):
+        for i in range(max_samples):
             if len(file.loc[file['t'] < i]) > 0:
                 tmp.append((i, file.loc[file['t'] < i].iloc[-1][file_type]))
             else:
@@ -34,7 +35,14 @@ for file_name in os.listdir(root_dir):
             precision_list.append(pd.DataFrame(tmp, columns=['t', 'precision']))
     
     elif file_name.startswith('n_selected'):
-        n_selected_list.append(pd.read_csv(path))
+        file = pd.read_csv(path)
+        tmp = []
+        for i in range(max_samples):
+            if len(file.loc[file['t'] < i]) > 0:
+                tmp.append((i, file.loc[file['t'] < i].iloc[-1]['n']))
+            else:
+                tmp.append((i, 0))
+        n_selected_list.append(pd.DataFrame(tmp, columns=['t', 'n']))
     else:
         continue
 
@@ -57,17 +65,27 @@ average_n_selected = sum_n_selected / len(n_selected_list)
 # print(average_recall)
 # print(average_precision)
 
-plt.figure()
-plt.plot(average_recall)
-plt.title('recall')
-plt.savefig('theory_result/average_recall.png')
+fig = plt.figure()
+ax1 = fig.add_subplot(111)
+ax1.plot(average_n_selected, color='b', label='#selected')
+ax1.legend(loc=1)
+ax2 = ax1.twinx()
+ax2.plot(average_recall, color='r', label='recall')
+ax2.legend(loc=2)
+plt.savefig('theory_result/twinx.png')
 
-plt.figure()
-plt.plot(average_precision)
-plt.title('precision')
-plt.savefig('theory_result/average_precision.png')
+# =====================================
+# plt.figure()
+# plt.plot(average_recall)
+# plt.title('recall')
+# plt.savefig('theory_result/average_recall.png')
 
-plt.figure()
-plt.plot(average_n_selected)
-plt.title('n_selected')
-plt.savefig('theory_result/average_n_selected.png')
+# plt.figure()
+# plt.plot(average_precision)
+# plt.title('precision')
+# plt.savefig('theory_result/average_precision.png')
+
+# plt.figure()
+# plt.plot(average_n_selected)
+# plt.title('n_selected')
+# plt.savefig('theory_result/average_n_selected.png')

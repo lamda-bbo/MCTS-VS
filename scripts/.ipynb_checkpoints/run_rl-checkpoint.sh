@@ -1,6 +1,6 @@
 #!/bin/bash
 
-seed_start=2024
+seed_start=2021
 seed_end=2025
 # func_list=(Hopper Walker2d)
 func_list=(Hopper )

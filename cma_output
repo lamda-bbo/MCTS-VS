@@ -1,0 +1,16 @@
+Namespace(func='hartmann6_300', max_samples=600, pop_size=5, root_dir='synthetic_logs', seed=2021, sigma=0.01)
+save cmaes config into: config/synthetic_logs/hartmann6_300/cmaes-2021.txt
+(2_w,5mirr1)-aCMA-ES (mu_w=1.6,w_1=73%) in dimension 300 (seed=2021, Sat Jan  8 11:16:37 2022)
+save cmaes result into: logs/synthetic_logs/hartmann6_300/cmaes-2021.csv
+save cmaes result into: logs/synthetic_logs/hartmann6_300/cmaes-2021.csv
+save cmaes result into: logs/synthetic_logs/hartmann6_300/cmaes-2021.csv
+save cmaes result into: logs/synthetic_logs/hartmann6_300/cmaes-2021.csv
+save cmaes result into: logs/synthetic_logs/hartmann6_300/cmaes-2021.csv
+save cmaes result into: logs/synthetic_logs/hartmann6_300/cmaes-2021.csv
+save cmaes result into: logs/synthetic_logs/hartmann6_300/cmaes-2021.csv
+save cmaes result into: logs/synthetic_logs/hartmann6_300/cmaes-2021.csv
+save cmaes result into: logs/synthetic_logs/hartmann6_300/cmaes-2021.csv
+save cmaes result into: logs/synthetic_logs/hartmann6_300/cmaes-2021.csv
+save cmaes result into: logs/synthetic_logs/hartmann6_300/cmaes-2021.csv
+save cmaes result into: logs/synthetic_logs/hartmann6_300/cmaes-2021.csv
+best f(x): (600, 0.5494650253586557, 0.3138456344604492)

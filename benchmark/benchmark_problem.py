@@ -94,7 +94,7 @@ def get_problem(func_name, save_config, seed=2021):
             
         if func_name == 'nasbench':
             from benchmark.nas_benchmark import NasBench
-            return FunctionBenchmark(NasBench(), 36, list(range(36)), save_config)
+            return FunctionBenchmark(NasBench(seed=seed), 36, list(range(36)), save_config)
         elif func_name == 'rover':
             return FunctionBenchmark(Rover(), 60, list(range(60)), save_config)
         elif func_name == 'HalfCheetah' or func_name == 'Walker2d':

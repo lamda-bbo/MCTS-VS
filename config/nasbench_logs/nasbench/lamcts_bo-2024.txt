@@ -1,0 +1,6 @@
+func: nasbench
+max_samples: 200
+Cp: 0.1
+solver_type: bo
+root_dir: nasbench_logs
+seed: 2024

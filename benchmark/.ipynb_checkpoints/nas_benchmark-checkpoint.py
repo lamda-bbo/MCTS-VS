@@ -15,8 +15,8 @@ ALLOWED_OPS = [CONV3X3, CONV1X1, MAXPOOL3X3]
 
 
 class NasBench:
-    def __init__(self, path=NASBENCH_TFRECORD):
-        self.nasbench = api.NASBench(path)
+    def __init__(self, path=NASBENCH_TFRECORD, seed=None):
+        self.nasbench = api.NASBench(path, seed)
         self.dims = 36 # 15 + 21
         self.lb = np.zeros(self.dims)
         self.ub = np.ones(self.dims)

@@ -1,0 +1,6 @@
+func: nasbench
+max_samples: 200
+active_dims: 10
+strategy: hesbo
+root_dir: nasbench_logs
+seed: 2025
