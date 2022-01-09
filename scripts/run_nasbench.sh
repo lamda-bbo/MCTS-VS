@@ -67,9 +67,9 @@ do
 #             --solver_type=bo \
 #             --root_dir=$root_dir \
 #             --seed=$seed
-#         } &
+#         } 
 #     done
-#     wait
+    # wait
 
     # hesbo
 #     for ((seed=$seed_start; seed<=$seed_end; seed++))
@@ -104,13 +104,13 @@ do
     for ((seed=$seed_start; seed<=$seed_end; seed++))
     do
         {
-        python3 ax_embedding_bo.py \
+        python3 cmaes.py \
             --func=$func \
             --max_samples=$max_samples \
-            --active_dims=10 \
-            --strategy=alebo \
+            --sigma=0.1 \
             --root_dir=$root_dir \
             --seed=$seed
-        }
+        } &
     done
+    wait
 done

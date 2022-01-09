@@ -1,0 +1,6 @@
+func: Walker2d
+max_samples: 20
+active_dims: 20
+strategy: hesbo
+root_dir: rl_logs
+seed: 2021

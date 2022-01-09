@@ -48,7 +48,7 @@ save_args(
 total_sample = 0
 x = np.random.uniform(f.lb, f.ub, f.dims)
 cmaes = cma.CMAEvolutionStrategy(x, args.sigma, {'popsize': args.pop_size, 'bounds': [0, 1], 'seed': args.seed})
-print(cmaes.opts['bounds'])
+# print(cmaes.opts['bounds'])
 
 while total_sample < args.max_samples:
     population = cmaes.ask()

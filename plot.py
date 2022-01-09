@@ -32,7 +32,7 @@ key_map = {
     'lamcts_turbo': 'LA-MCTS-TuRBO',
     'alebo': 'ALEBO',
     'hesbo': 'HeSBO',
-    'cma_es': 'CMA-ES',
+    'cmaes': 'CMA-ES',
     
     'fixed_1': 'Fixed',
 }
@@ -75,7 +75,7 @@ def load_results(root_dir, verbose=True):
                 
                 if func_name.startswith('levy10') or func_name.startswith('levy20'):
                     progress = progress[progress['y'] >= -100]
-                if func_name.startswith('Hopper'):
+                if func_name.startswith('Hopper') or func_name.startswith('Walker'):
                     progress = progress[progress['x'] <= 2000]
                 if func_name.startswith('nas'):
                     progress.loc[(progress['y'] < 0.90), 'y'] = 0.90
@@ -136,10 +136,10 @@ def main(root_dir):
     # draw(xy_fn, split_fn, group_fn, 'Evaluations', 'Function value', 100, 20)
     
     # rl
-    # draw(xy_fn, split_fn, group_fn, 'Evaluations', 'Function value', 2000, 500)
+    draw(xy_fn, split_fn, group_fn, 'Evaluations', 'Function value', 2000, 500)
     
     # time
-    draw(ty_fn, split_fn, group_fn, 'Time(sec)', 'Function value', 600, 100)
+    # draw(ty_fn, split_fn, group_fn, 'Time(sec)', 'Function value', 600, 100)
     
     
 def cp_plot(root_dir):

@@ -102,6 +102,8 @@ class MCTS:
         if self.ipt_solver == 'bo':
             # get important variables
             gpr = get_gpr_model()
+            # print(ipt_x)
+            # print(train_y)
             gpr.fit(ipt_x, train_y)
             new_ipt_x, _ = optimize_acqf(len(feature_idx), gpr, ipt_x, train_y, self.sample_batch_size, ipt_lb, ipt_ub)
             # get unimportant variables

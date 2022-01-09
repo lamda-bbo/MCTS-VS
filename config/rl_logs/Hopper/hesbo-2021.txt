@@ -1,0 +1,6 @@
+func: Hopper
+max_samples: 20
+active_dims: 10
+strategy: hesbo
+root_dir: rl_logs
+seed: 2021
