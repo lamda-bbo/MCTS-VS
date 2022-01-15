@@ -5,7 +5,6 @@ import matplotlib.pyplot as plt
 import os
 
 
-# read .csv files
 root_dir = 'theory_result'
 max_samples = 600
 for func_name in os.listdir(root_dir):

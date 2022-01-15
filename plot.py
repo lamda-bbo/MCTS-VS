@@ -35,23 +35,29 @@ key_map = {
     'cmaes': 'CMA-ES',
 }
 
+'Vanilla ES': 'limegreen',
+'CMA-ES': 'blueviolet',
+'Guided ES': 'royalblue',
+'ASEBO': 'darkorange',
+'SGES': 'crimson',
+
 color_map = {
     # combined with vanilla bo
     'LVS-BO': 'red',
     # 'Vanilla BO': (127, 165, 183),
     # 'Dropout-BO': (56, 89, 137),
     'Vanilla BO': 'gray',
-    'Dropout-BO': 'blue',
+    'Dropout-BO': 'orange',
     'LA-MCTS-BO': 'cyan',
     'REMBO': 'magenta',
     
     # conbined with turbo
-    'LVS-TuRBO': 'orange',
+    'LVS-TuRBO': 'blue',
     'TuRBO': 'green',
-    'Dropout-TuRBO': 'red',
+    'Dropout-TuRBO': 'lavender',
     'LA-MCTS-TuRBO': 'cyan',
     'ALEBO': 'brown',
-    'HeSBO': 'yellow',
+    'HeSBO': 'teal',
     'CMA-ES': 'black',
     
     'Fixed': 'blue',
@@ -84,7 +90,8 @@ exp2_algo = (
     'hesbo',
     'alebo',
     'cmaes',
-    'lamcts'
+    'lamcts',
+    'bo',
 )
 
 
@@ -104,7 +111,9 @@ def load_results(root_dir, verbose=True):
             if dirname.startswith('rembo'):
                 continue
                 
-            if not dirname.startswith(exp1_algo_1):
+            # if not dirname.startswith(exp1_algo_1):
+            if not dirname.startswith(exp1_algo_2):
+            # if not dirname.startswith(exp2_algo):
                 continue
                 
             if dirname.endswith('.csv'):
@@ -145,7 +154,7 @@ def ty_fn(r):
 def split_fn(r):
     name = r.name
     splits = name.split('-')
-    return splits[0]
+    return splits[0].title()
 
 
 def main(root_dir):
@@ -168,13 +177,11 @@ def main(root_dir):
     draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Value', 600, 100)
     
     # nasbench
-    # draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Value', 100, 20)
+    # draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Value', 200, 50)
+    # draw(ty_fn, split_fn, group_fn, 'Time(sec)', 'Value', 4000, 1000)
     
     # rl
     # draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Reward', 2000, 500)
-    
-    # time
-    # draw(ty_fn, split_fn, group_fn, 'Time(sec)', 'Value', 600, 100)
     
     
 def cp_plot(root_dir):

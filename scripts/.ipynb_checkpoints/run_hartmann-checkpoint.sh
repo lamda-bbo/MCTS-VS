@@ -97,6 +97,21 @@ do
 #         } &
 #     done
 #     wait
+
+#     # lamcts-turbo
+#     for ((seed=$seed_start; seed<=$seed_end; seed++))
+#     do
+#         {
+#         python3 lamcts.py \
+#             --func=$func \
+#             --max_samples=$max_samples \
+#             --Cp=$Cp \
+#             --solver_type=turbo \
+#             --root_dir=$root_dir \
+#             --seed=$seed
+#         } &
+#     done
+#     wait
     
     # rembo
     # for ((seed=$seed_start; seed<=$seed_end; seed++))
