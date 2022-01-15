@@ -1,0 +1,6 @@
+func: hartmann6_500
+max_samples: 600
+pop_size: 20
+sigma: 0.8
+root_dir: hartmann6_logs
+seed: 2024

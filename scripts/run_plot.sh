@@ -24,4 +24,6 @@
 # python3 plot.py --root_dir=saved_logs/levy10_logs/ --output_name=results/saved_levy10.pdf
 # python3 plot.py --root_dir=saved_logs/levy20_logs/ --output_name=results/saved_levy20.pdf
 
-python3 plot.py --root_dir=saved_logs/rl_logs/ --output_name=results/saved_rl.pdf
+# python3 plot.py --root_dir=saved_logs/rl_logs/ --output_name=results/saved_rl.pdf
+
+python3 plot.py --root_dir=saved_logs/hartmann6_logs/ --output_name=results/hartmann6_exp1_1.pdf

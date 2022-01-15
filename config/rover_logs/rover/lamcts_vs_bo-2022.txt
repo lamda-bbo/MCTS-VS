@@ -1,8 +1,8 @@
 func: rover
-max_samples: 600
+max_samples: 1500
 feature_batch_size: 2
 sample_batch_size: 3
-min_num_variables: 10
+min_num_variables: 3
 select_right_threshold: 5
 turbo_max_evals: 50
 Cp: 1.0

@@ -1,4 +1,4 @@
 func: rover
-max_samples: 600
+max_samples: 1500
 root_dir: rover_logs
 seed: 2022

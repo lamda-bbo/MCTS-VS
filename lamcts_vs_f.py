@@ -5,6 +5,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import argparse
 import random
+import os
 from benchmark import get_problem
 from LamctsVS.MCTS import MCTS
 from utils import save_args
@@ -89,23 +90,27 @@ precision = [TP[idx] / len(selected_variables[idx]) for idx in range(len(TP))]
 print('recall:', recall)
 print('precision:', precision)
 
+dir_name = 'theory_result/{}/lamcts_vs_bo_{}/'.format(args.func, args.seed)
+
+os.makedirs(dir_name, exist_ok=True)
+
 plt.figure()
 plt.plot(recall)
 plt.title('recall')
-plt.savefig('theory_result/recall_{}.png'.format(args.seed))
+plt.savefig(dir_name+'recall_{}.png'.format(args.seed))
 
 plt.figure()
 plt.plot(precision)
 plt.title('precision')
-plt.savefig('theory_result/precision_{}.png'.format(args.seed))
+plt.savefig(dir_name+'precision_{}.png'.format(args.seed))
 
 recall_pd = pd.DataFrame(zip(t, recall, n_selected), columns=['t', 'recall', 'n'])
 precision_pd = pd.DataFrame(zip(t, precision, n_selected), columns=['t', 'precision', 'n'])
-recall_pd.to_csv('theory_result/recall_{}.csv'.format(args.seed))
-precision_pd.to_csv('theory_result/precision_{}.csv'.format(args.seed))
+recall_pd.to_csv(dir_name+'recall_{}.csv'.format(args.seed))
+precision_pd.to_csv(dir_name+'precision_{}.csv'.format(args.seed))
 
 n_selected_pd = pd.DataFrame(zip(t, n_selected), columns=['t', 'n'])
-n_selected_pd.to_csv('theory_result/n_selected_{}.csv'.format(args.seed))
+n_selected_pd.to_csv(dir_name+'n_selected_{}.csv'.format(args.seed))
 
 # 
 # delta = []

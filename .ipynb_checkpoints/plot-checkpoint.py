@@ -33,15 +33,15 @@ key_map = {
     'alebo': 'ALEBO',
     'hesbo': 'HeSBO',
     'cmaes': 'CMA-ES',
-    
-    'fixed_1': 'Fixed',
 }
 
 color_map = {
     # combined with vanilla bo
-    'LVS-BO': 'blue',
-    'Vanilla BO': 'purple',
-    'Dropout-BO': 'red',
+    'LVS-BO': 'red',
+    # 'Vanilla BO': (127, 165, 183),
+    # 'Dropout-BO': (56, 89, 137),
+    'Vanilla BO': 'gray',
+    'Dropout-BO': 'blue',
     'LA-MCTS-BO': 'cyan',
     'REMBO': 'magenta',
     
@@ -57,6 +57,36 @@ color_map = {
     'Fixed': 'blue',
 }
 
+tmp_color_map = {}
+for k, v in color_map.items():
+    if isinstance(v, tuple):
+        v = tuple([i/255 for i in v])
+    tmp_color_map[k] = v
+color_map = tmp_color_map
+
+
+exp1_algo_1 = (
+    'lamcts_vs_bo',
+    'dropout_bo',
+    'bo',
+)
+
+exp1_algo_2 = (
+    'lamcts_vs_turbo',
+    'dropout_turbo',
+    'turbo',
+)
+
+exp2_algo = (
+    'lamcts_vs_bo',
+    'lamcts_vs_turbo',
+    'turbo',
+    'hesbo',
+    'alebo',
+    'cmaes',
+    'lamcts'
+)
+
 
 Result = collections.namedtuple('Result', 'name progress')
 
@@ -66,23 +96,28 @@ def load_results(root_dir, verbose=True):
     for func_name in os.listdir(root_dir):
         if func_name.startswith('.'):
             continue
+            
+        if not func_name.startswith(args.func_name):
+            continue
+        
         for dirname in os.listdir(os.path.join(root_dir, func_name)):
             if dirname.startswith('rembo'):
                 continue
+                
+            if not dirname.startswith(exp1_algo_1):
+                continue
+                
             if dirname.endswith('.csv'):
                 name = '%s-%s' % (func_name, dirname)
                 progress = pd.read_csv(os.path.join(root_dir, func_name, dirname))
                 
                 if func_name.startswith('levy10') or func_name.startswith('levy20'):
-                    progress = progress[progress['y'] >= -100]
+                    progress = progress[progress['y'] >= -50]
                 if func_name.startswith('Hopper') or func_name.startswith('Walker'):
                     progress = progress[progress['x'] <= 2000]
                 if func_name.startswith('nas'):
                     progress.loc[(progress['y'] < 0.90), 'y'] = 0.90
                     # progress = progress[progress['x'] <= 100]
-                # progress = progress[progress['x'] <= 150]
-                # progress = progress[100 <= progress['x']]
-                # progress = progress[progress['t'] < 600]
                 result = Result(name=name, progress=progress)
                 all_results.append(result)
                 print('load %s ' % name)
@@ -130,16 +165,16 @@ def main(root_dir):
             return key_map[alg_name]
     
     # synthetic function
-    # draw(xy_fn, split_fn, group_fn, 'Evaluations', 'Function value', 600, 100)
+    draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Value', 600, 100)
     
     # nasbench
-    # draw(xy_fn, split_fn, group_fn, 'Evaluations', 'Function value', 100, 20)
+    # draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Value', 100, 20)
     
     # rl
-    draw(xy_fn, split_fn, group_fn, 'Evaluations', 'Function value', 2000, 500)
+    # draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Reward', 2000, 500)
     
     # time
-    # draw(ty_fn, split_fn, group_fn, 'Time(sec)', 'Function value', 600, 100)
+    # draw(ty_fn, split_fn, group_fn, 'Time(sec)', 'Value', 600, 100)
     
     
 def cp_plot(root_dir):
@@ -160,6 +195,7 @@ def cp_plot(root_dir):
 if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser()
+    parser.add_argument('--func_name', required=True, type=str)
     parser.add_argument('--root_dir', required=True, type=str)
     parser.add_argument('--output_name', required=True, type=str)
     args = parser.parse_args()
@@ -167,4 +203,3 @@ if __name__ == '__main__':
     all_results = load_results(args.root_dir, verbose=True)
     
     main(root_dir=args.root_dir)
-    # cp_plot(root_dir=args.root_dir)
