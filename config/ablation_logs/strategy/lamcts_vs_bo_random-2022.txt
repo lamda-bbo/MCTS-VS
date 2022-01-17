@@ -1,0 +1,14 @@
+func: hartmann6_300
+max_samples: 600
+feature_batch_size: 2
+sample_batch_size: 3
+min_num_variables: 3
+select_right_threshold: 5
+turbo_max_evals: 50
+Cp: 0.1
+ipt_solver: bo
+uipt_solver: random
+root_dir: ablation_logs
+dir_name: strategy
+postfix: random
+seed: 2022

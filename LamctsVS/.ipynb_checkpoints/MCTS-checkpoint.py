@@ -41,7 +41,7 @@ class MCTS:
         
         # build the tree
         self.nodes = []
-        root = Node(parent=None, dims=self.dims, active_dims_idx=list(range(self.dims)), reset_id=True)
+        root = Node(parent=None, dims=self.dims, active_dims_idx=list(range(self.dims)), min_num_variables=self.min_num_variables, reset_id=True)
         self.nodes.append(root)
         self.ROOT = root
         self.CURT = self.ROOT
@@ -162,7 +162,7 @@ class MCTS:
     
     def populate_training_data(self):
         self.nodes.clear()
-        self.ROOT = Node(parent=None, dims=self.dims, active_dims_idx=list(range(self.dims)), reset_id=True)
+        self.ROOT = Node(parent=None, dims=self.dims, active_dims_idx=list(range(self.dims)), min_num_variables=self.min_num_variables, reset_id=True)
         self.nodes.append(self.ROOT)
         self.CURT = self.ROOT
         self.ROOT.init_bag(self.features, self.samples, self.feature2sample_map)

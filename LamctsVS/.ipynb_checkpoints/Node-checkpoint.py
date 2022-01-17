@@ -106,9 +106,9 @@ class Node:
         if len(good_idx) == 0 or len(bad_idx) == 0:
             return None, None
         
-        left = Node(parent=self, dims=self.dims, active_dims_idx=good_idx, reset_id=False)
+        left = Node(parent=self, dims=self.dims, active_dims_idx=good_idx, min_num_variables=self.min_num_variables, reset_id=False)
         left.init_bag(self.features, self.samples, self.feature2sample_map)
-        right = Node(parent=self, dims=self.dims, active_dims_idx=bad_idx, reset_id=False)
+        right = Node(parent=self, dims=self.dims, active_dims_idx=bad_idx, min_num_variables=self.min_num_variables, reset_id=False)
         right.init_bag(self.features, self.samples, self.feature2sample_map)
         
         self.kids = [left, right]

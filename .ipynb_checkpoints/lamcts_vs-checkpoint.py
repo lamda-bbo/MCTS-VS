@@ -22,6 +22,7 @@ parser.add_argument('--Cp', default=0.1, type=float)
 parser.add_argument('--ipt_solver', default='bo', type=str)
 parser.add_argument('--uipt_solver', default='bestk', type=str)
 parser.add_argument('--root_dir', default='synthetic_logs', type=str)
+parser.add_argument('--dir_name', default=None, type=str)
 parser.add_argument('--postfix', default=None, type=str)
 parser.add_argument('--seed', default=2021, type=int)
 args = parser.parse_args()
@@ -40,7 +41,7 @@ save_config = {
     'save_interval': 50,
     'root_dir': 'logs/' + args.root_dir,
     'algo': algo_name,
-    'func': args.func,
+    'func': args.func if args.dir_name is None else args.dir_name,
     'seed': args.seed
 }
 f = get_problem(args.func, save_config, args.seed)
@@ -48,7 +49,7 @@ f = get_problem(args.func, save_config, args.seed)
 save_args(
     'config/' + args.root_dir,
     algo_name,
-    args.func,
+    args.func if args.dir_name is None else args.dir_name,
     args.seed,
     args
 )

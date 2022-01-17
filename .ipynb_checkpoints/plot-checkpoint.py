@@ -35,40 +35,47 @@ key_map = {
     'cmaes': 'CMA-ES',
 }
 
-'Vanilla ES': 'limegreen',
-'CMA-ES': 'blueviolet',
-'Guided ES': 'royalblue',
-'ASEBO': 'darkorange',
-'SGES': 'crimson',
-
 color_map = {
     # combined with vanilla bo
-    'LVS-BO': 'red',
-    # 'Vanilla BO': (127, 165, 183),
-    # 'Dropout-BO': (56, 89, 137),
-    'Vanilla BO': 'gray',
-    'Dropout-BO': 'orange',
-    'LA-MCTS-BO': 'cyan',
+    'LVS-BO': 'crimson',#
+    'Vanilla BO': 'gray',#
+    'Dropout-BO': 'darkorange',#
+    'LA-MCTS-BO': 'royalblue',
     'REMBO': 'magenta',
     
     # conbined with turbo
-    'LVS-TuRBO': 'blue',
-    'TuRBO': 'green',
-    'Dropout-TuRBO': 'lavender',
-    'LA-MCTS-TuRBO': 'cyan',
+    'LVS-TuRBO': 'cyan',#
+    'TuRBO': 'green',#
+    'Dropout-TuRBO': 'brown',
+    'LA-MCTS-TuRBO': 'royalblue',
     'ALEBO': 'brown',
-    'HeSBO': 'teal',
-    'CMA-ES': 'black',
+    'HeSBO': 'olive',
+    'CMA-ES': 'blueviolet',
     
-    'Fixed': 'blue',
+    # ============== ablation =============
+    # 
+    'bestk': 'crimson',
+    'random': 'royalblue',
+    
+    # Cp
+    'Cp=0.01': 'crimson',
+    'Cp=0.1': 'royalblue',
+    'Cp=1': 'darkgreen',
+    
+    # min_num_variables
+    'd=3': 'crimson',
+    'd=6': 'royalblue',
+    'd=10': 'darkgreen',
+    'd=20': 'lavender',
+    'd=50': 'salmon',
+    
+    '$N_{feature}$=2,$N_{sample}$=3': 'crimson',
+    '$N_{feature}$=2,$N_{sample}$=5': 'royalblue',
+    '$N_{feature}$=2,$N_{sample}$=10': 'darkgreen',
+    '$N_{feature}$=5,$N_{sample}$=3': 'lavender',
+    '$N_{feature}$=5,$N_{sample}$=5': 'salmon',
+    '$N_{feature}$=5,$N_{sample}$=10': 'black',
 }
-
-tmp_color_map = {}
-for k, v in color_map.items():
-    if isinstance(v, tuple):
-        v = tuple([i/255 for i in v])
-    tmp_color_map[k] = v
-color_map = tmp_color_map
 
 
 exp1_algo_1 = (
@@ -112,8 +119,8 @@ def load_results(root_dir, verbose=True):
                 continue
                 
             # if not dirname.startswith(exp1_algo_1):
-            if not dirname.startswith(exp1_algo_2):
-            # if not dirname.startswith(exp2_algo):
+            # if not dirname.startswith(exp1_algo_2):
+            if not dirname.startswith(exp2_algo):
                 continue
                 
             if dirname.endswith('.csv'):
@@ -150,14 +157,14 @@ def xy_fn(r):
 
 def ty_fn(r):
     return r.progress['t'], r.progress['y']
-    
-def split_fn(r):
-    name = r.name
-    splits = name.split('-')
-    return splits[0].title()
 
 
 def main(root_dir):
+    def split_fn(r):
+        name = r.name
+        splits = name.split('-')
+        return splits[0].title()
+    
     def group_fn(r):
         name = r.name
         splits = name.split('-')
@@ -174,29 +181,83 @@ def main(root_dir):
             return key_map[alg_name]
     
     # synthetic function
-    draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Value', 600, 100)
+    # draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Value', 600, 100)
     
     # nasbench
     # draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Value', 200, 50)
     # draw(ty_fn, split_fn, group_fn, 'Time(sec)', 'Value', 4000, 1000)
     
+    # rover 
+    # draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Value', 1500, 300)
+    draw(ty_fn, split_fn, group_fn, 'Time(sec)', 'Value', 4000, 1000)
+    
     # rl
     # draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Reward', 2000, 500)
     
     
-def cp_plot(root_dir):
+def ablation_strategy(root_dir):
+    def split_fn(r):
+        name = r.name
+        splits = name.split('-')
+        return 'Fill-in strategy'
+    
     def group_fn(r):
         name = r.name
         splits = name.split('-')
         alg_name = splits[1]
-        cp = alg_name.split('_')[-1]
-        alg_name = alg_name[: 12]
-        if alg_name == 'lamcts_vs_bo':
-            return 'Lamcts-VS-BO(' + cp + ')'
-        else:
-            raise ValueError('%s not supported' % alg_name)
-            
-    assert 0
+        
+        return alg_name.split('_')[-1]
+    
+    draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Value', 600, 100)
+    
+
+def ablation_Cp(root_dir):
+    def split_fn(r):
+        name = r.name
+        splits = name.split('-')
+        return 'Cp'
+    
+    def group_fn(r):
+        name = r.name
+        splits = name.split('-')
+        alg_name = splits[1]
+        
+        return 'Cp='+alg_name.split('_')[-1]
+    
+    draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Value', 600, 100)
+    
+    
+def ablation_min_num_variables(root_dir):
+    def split_fn(r):
+        name = r.name
+        splits = name.split('-')
+        return 'min_num_variables'
+    
+    def group_fn(r):
+        name = r.name
+        splits = name.split('-')
+        alg_name = splits[1]
+        
+        return 'd='+alg_name.split('_')[-1]
+    
+    draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Value', 600, 100)
+    
+    
+def ablation_num_samples(root_dir):
+    def split_fn(r):
+        name = r.name
+        splits = name.split('-')
+        return 'Number of samples'
+    
+    def group_fn(r):
+        name = r.name
+        splits = name.split('-')
+        alg_name = splits[1]
+        f_bs, s_bs = alg_name.split('_')[-2], alg_name.split('_')[-1]
+        
+        return r'$N_{feature}$=' + f_bs + r',$N_{sample}$=' + s_bs
+    
+    draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Value', 600, 100)
 
 
 if __name__ == '__main__':
@@ -209,4 +270,8 @@ if __name__ == '__main__':
     
     all_results = load_results(args.root_dir, verbose=True)
     
-    main(root_dir=args.root_dir)
+    # main(root_dir=args.root_dir)
+    # ablation_strategy(root_dir=args.root_dir)
+    # ablation_Cp(root_dir=args.root_dir)
+    # ablation_min_num_variables(root_dir=args.root_dir)
+    ablation_num_samples(root_dir=args.root_dir)
