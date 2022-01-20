@@ -72,41 +72,56 @@ do
 #     done
 #     wait
 
-    if [ "$func" = "Hopper" ]
-    then
-        active_dims=10
-    elif [ "$func" = "Walker2d" ]
-    then
-        active_dims=20
-    else
-        echo "333"
-    fi
+#     if [ "$func" = "Hopper" ]
+#     then
+#         active_dims=10
+#     elif [ "$func" = "Walker2d" ]
+#     then
+#         active_dims=20
+#     else
+#         echo "333"
+#     fi
 
-    # hesbo
-    for ((seed=$seed_start; seed<=$seed_end; seed++))
-    do
-        {
-        python3 ax_embedding_bo.py \
-            --func=$func \
-            --max_samples=$max_samples \
-            --active_dims=$active_dims \
-            --strategy=hesbo \
-            --root_dir=$root_dir \
-            --seed=$seed
-        }
-    done
+#     # hesbo
+#     for ((seed=$seed_start; seed<=$seed_end; seed++))
+#     do
+#         {
+#         python3 ax_embedding_bo.py \
+#             --func=$func \
+#             --max_samples=$max_samples \
+#             --active_dims=$active_dims \
+#             --strategy=hesbo \
+#             --root_dir=$root_dir \
+#             --seed=$seed
+#         }
+#     done
     
-    # alebo
+#     # alebo
+#     for ((seed=$seed_start; seed<=$seed_end; seed++))
+#     do
+#         {
+#         python3 ax_embedding_bo.py \
+#             --func=$func \
+#             --max_samples=$max_samples \
+#             --active_dims=$active_dims \
+#             --strategy=alebo \
+#             --root_dir=$root_dir \
+#             --seed=$seed
+#         }
+#     done
+    
+    # cmaes
     for ((seed=$seed_start; seed<=$seed_end; seed++))
     do
         {
-        python3 ax_embedding_bo.py \
+        python3 cmaes.py \
             --func=$func \
             --max_samples=$max_samples \
-            --active_dims=$active_dims \
-            --strategy=alebo \
+            --pop_size=50 \
+            --sigma=0.01 \
             --root_dir=$root_dir \
             --seed=$seed
-        }
+        } &
     done
+    wait
 done

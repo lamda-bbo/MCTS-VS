@@ -21,7 +21,7 @@ def get_key(file_name):
 
 # read .csv files
 # root_dir = 'saved_logs/hartmann6_logs'
-root_dir = 'saved_logs/levy10_logs'
+root_dir = 'logs/time_logs'
 max_samples = 600
 for func_name in os.listdir(root_dir):
     if func_name.startswith('.'):

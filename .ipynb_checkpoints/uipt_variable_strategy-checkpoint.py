@@ -65,6 +65,34 @@ class UiptBestKStrategy(UiptStrategy):
                 self.best_xs[idx] = x
                 self.best_ys[idx] = y
         assert len(self.best_xs) <= self.k
+        
+        
+class UiptCopyStrategy(UiptStrategy):
+    def __init__(self, dims, seed=42):
+        self.copy_strategy = UiptBestKStrategy(dims, 1, seed)
+    
+    def get_full_variable(self, fixed_variables, lb, ub):
+        return self.copy_strategy.get_full_variable(fixed_variables, lb, ub)
+    
+    def update(self, x, y):
+        self.copy_strategy.update(x, y)
+        
+        
+class UiptMixStrategy(UiptStrategy):
+    def __init__(self, dims, p=0.1, seed=42):
+        self.p = p
+        self.random_strategy = UiptRandomStrategy(dims, seed)
+        self.copy_strategy = UiptCopyStrategy(dims, seed)
+        
+    def get_full_variable(self, fixed_variables, lb, ub):
+        if np.random.uniform() < self.p:
+            return self.random_strategy.get_full_variable(fixed_variables, lb, ub)
+        else:
+            return self.copy_strategy.get_full_variable(fixed_variables, lb, ub)
+    
+    def update(self, x, y):
+        self.random_strategy.update(x, y)
+        self.copy_strategy.update(x, y)
             
 
 # class UiptCMAESStrategy(UiptStrategy):

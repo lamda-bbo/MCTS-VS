@@ -1,0 +1,6 @@
+func: hartmann6_300
+max_samples: 100
+active_dims: 6
+strategy: hesbo
+root_dir: time_logs
+seed: 2027

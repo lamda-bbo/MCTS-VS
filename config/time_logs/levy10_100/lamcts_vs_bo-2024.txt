@@ -1,0 +1,14 @@
+func: levy10_100
+max_samples: 100
+feature_batch_size: 2
+sample_batch_size: 3
+min_num_variables: 3
+select_right_threshold: 5
+turbo_max_evals: 50
+Cp: 10.0
+ipt_solver: bo
+uipt_solver: bestk
+root_dir: time_logs
+dir_name: None
+postfix: None
+seed: 2024

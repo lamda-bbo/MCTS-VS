@@ -1,7 +1,7 @@
 import numpy as np
 from vanilia_bo import get_gpr_model, optimize_acqf
 from LamctsVS.Node import Node
-from uipt_variable_strategy import UiptRandomStrategy, UiptBestKStrategy
+from uipt_variable_strategy import UiptRandomStrategy, UiptBestKStrategy, UiptCopyStrategy, UiptMixStrategy
 from utils import bernoulli, latin_hypercube, from_unit_cube, feature_complementary, ndarray2str, feature_dedup
 from baseline import Turbo1_VS_Component
 
@@ -26,7 +26,12 @@ class MCTS:
         
         self.split_type = split_type
         self.ipt_solver = ipt_solver
-        uipt_solver_dict = {'random': UiptRandomStrategy(self.dims), 'bestk': UiptBestKStrategy(self.dims, k=20)}
+        uipt_solver_dict = {
+            'random': UiptRandomStrategy(self.dims), 
+            'bestk': UiptBestKStrategy(self.dims, k=20),
+            'copy': UiptCopyStrategy(self.dims),
+            'mix': UiptMixStrategy(self.dims),
+        }
         self.uipt_solver = uipt_solver_dict[uipt_solver]
         
         # parameters to store datas

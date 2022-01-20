@@ -56,6 +56,8 @@ color_map = {
     # 
     'bestk': 'crimson',
     'random': 'royalblue',
+    'copy': 'darkgreen',
+    'mix': 'lavender',
     
     # Cp
     'Cp=0.01': 'crimson',
@@ -189,10 +191,10 @@ def main(root_dir):
     
     # rover 
     # draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Value', 1500, 300)
-    draw(ty_fn, split_fn, group_fn, 'Time(sec)', 'Value', 4000, 1000)
+    # draw(ty_fn, split_fn, group_fn, 'Time(sec)', 'Value', 4000, 1000)
     
     # rl
-    # draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Reward', 2000, 500)
+    draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Reward', 2000, 500)
     
     
 def ablation_strategy(root_dir):
@@ -271,7 +273,7 @@ if __name__ == '__main__':
     all_results = load_results(args.root_dir, verbose=True)
     
     # main(root_dir=args.root_dir)
-    # ablation_strategy(root_dir=args.root_dir)
+    ablation_strategy(root_dir=args.root_dir)
     # ablation_Cp(root_dir=args.root_dir)
     # ablation_min_num_variables(root_dir=args.root_dir)
-    ablation_num_samples(root_dir=args.root_dir)
+    # ablation_num_samples(root_dir=args.root_dir)

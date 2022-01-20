@@ -37,7 +37,7 @@
 # python3 plot.py --func=Walker --root_dir=saved_logs/rl_logs/ --output_name=results/walker.pdf
 
 # =============== ablation =====================
-# python3 plot.py --func=strategy --root_dir=logs/ablation_logs --output_name=results/ablation_strategy.pdf
+python3 plot.py --func=strategy --root_dir=logs/ablation_logs --output_name=results/ablation_strategy.pdf
 # python3 plot.py --func=Cp --root_dir=logs/ablation_logs --output_name=results/ablation_Cp.pdf
 # python3 plot.py --func=min_num_variables --root_dir=logs/ablation_logs --output_name=results/ablation_min_num_variables.pdf
-python3 plot.py --func=num_samples --root_dir=logs/ablation_logs --output_name=results/ablation_num_samples.pdf
+# python3 plot.py --func=num_samples --root_dir=logs/ablation_logs --output_name=results/ablation_num_samples.pdf

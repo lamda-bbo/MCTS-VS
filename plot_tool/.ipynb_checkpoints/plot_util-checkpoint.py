@@ -389,12 +389,15 @@ def plot_results(
                 ymean = np.mean(ys, axis=0)
                 ystd = np.std(ys, axis=0)
                 ystderr = ystd / np.sqrt(len(ys))
-                l, = axarr[idx_row][idx_col].plot(usex, ymean, c=color)
-                g2l[group] = l
-                if shaded_err:
-                    ax.fill_between(usex, ymean - ystderr, ymean + ystderr, color=color, alpha=.4)
-                if shaded_std:
-                    ax.fill_between(usex, ymean - ystd,    ymean + ystd,    color=color, alpha=.2)
+                # l, = axarr[idx_row][idx_col].plot(usex, ymean, c=color)
+                # g2l[group] = l
+                # if shaded_err:
+                #     ax.fill_between(usex, ymean - ystderr, ymean + ystderr, color=color, alpha=.4)
+                # if shaded_std:
+                #     ax.fill_between(usex, ymean - ystd,    ymean + ystd,    color=color, alpha=.2)
+                
+                l = axarr[idx_row][idx_col].errorbar(usex, ymean, ystderr, errorevery=int(len(ymean) / 10))
+                g2l[group] = l.lines[0]
 
 
         # https://matplotlib.org/users/legend_guide.html

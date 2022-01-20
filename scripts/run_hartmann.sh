@@ -5,6 +5,7 @@ seed_end=2025
 
 # func_list=(hartmann6_100 hartmann6_300 hartmann6_500)
 func_list=(hartmann6_300 hartmann6_500)
+# func_list=(hartmann6_1000)
 max_samples=600
 Cp=0.1
 root_dir=hartmann6_logs
@@ -98,20 +99,20 @@ do
 #     done
 #     wait
 
-#     # lamcts-turbo
-#     for ((seed=$seed_start; seed<=$seed_end; seed++))
-#     do
-#         {
-#         python3 lamcts.py \
-#             --func=$func \
-#             --max_samples=$max_samples \
-#             --Cp=$Cp \
-#             --solver_type=turbo \
-#             --root_dir=$root_dir \
-#             --seed=$seed
-#         } &
-#     done
-#     wait
+    # lamcts-turbo
+    for ((seed=$seed_start; seed<=$seed_end; seed++))
+    do
+        {
+        python3 lamcts.py \
+            --func=$func \
+            --max_samples=$max_samples \
+            --Cp=$Cp \
+            --solver_type=turbo \
+            --root_dir=$root_dir \
+            --seed=$seed
+        } &
+    done
+    wait
     
     # rembo
     # for ((seed=$seed_start; seed<=$seed_end; seed++))
@@ -157,19 +158,18 @@ do
 #     wait
     
     # alebo
-    for ((seed=$seed_start; seed<=$seed_end; seed++))
-    do
-        {
-        python3 ax_embedding_bo.py \
-            --func=$func \
-            --max_samples=$max_samples \
-            --active_dims=6 \
-            --strategy=alebo \
-            --root_dir=$root_dir \
-            --seed=$seed
-        }
-    done
-    # wait
+#     for ((seed=$seed_start; seed<=$seed_end; seed++))
+#     do
+#         {
+#         python3 ax_embedding_bo.py \
+#             --func=$func \
+#             --max_samples=$max_samples \
+#             --active_dims=6 \
+#             --strategy=alebo \
+#             --root_dir=$root_dir \
+#             --seed=$seed
+#         }
+#     done
     
     # cmaes
 #     for ((seed=$seed_start; seed<=$seed_end; seed++))
