@@ -396,7 +396,7 @@ def plot_results(
                 # if shaded_std:
                 #     ax.fill_between(usex, ymean - ystd,    ymean + ystd,    color=color, alpha=.2)
                 
-                l = axarr[idx_row][idx_col].errorbar(usex, ymean, ystderr, errorevery=int(len(ymean) / 10))
+                l = axarr[idx_row][idx_col].errorbar(usex, ymean, ystderr, errorevery=int(len(ymean) / 8), c=color)
                 g2l[group] = l.lines[0]
 
 

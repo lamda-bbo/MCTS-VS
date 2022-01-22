@@ -1,0 +1,6 @@
+func: hartmann6_300
+max_samples: 100
+pop_size: 20
+sigma: 0.8
+root_dir: time_logs
+seed: 2043

@@ -1,0 +1,6 @@
+func: hartmann6_500
+max_samples: 100
+active_dims: 6
+strategy: alebo
+root_dir: time_logs
+seed: 2034

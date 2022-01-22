@@ -34,7 +34,9 @@ for func_name in os.listdir(root_dir):
         k = get_key(file_name)
         path = os.path.join(root_dir, func_name, file_name)
         df = pd.read_csv(path)
-        epoch_time = df['t'].iloc[-1] / df['x'].iloc[-1]
+        df = df[df['x'] <= 100]
+        # epoch_time = df['t'].iloc[-1] / df['x'].iloc[-1]
+        epoch_time = df['t'].iloc[-1]
         if epoch_time_dict.get(k, None) is None:
             epoch_time_dict[k] = [epoch_time]
         else:

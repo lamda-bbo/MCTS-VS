@@ -23,7 +23,7 @@ key_map = {
     # combined with vanilla bo
     'lamcts_vs_bo': 'LVS-BO',
     'bo': 'Vanilla BO',
-    'lamcts_bo': 'LA-MCTS-BO',
+    # 'lamcts_bo': 'LA-MCTS-BO',
     'rembo': 'REMBO',
     
     # conbined with turbo
@@ -40,7 +40,7 @@ color_map = {
     'LVS-BO': 'crimson',#
     'Vanilla BO': 'gray',#
     'Dropout-BO': 'darkorange',#
-    'LA-MCTS-BO': 'royalblue',
+    # 'LA-MCTS-BO': 'royalblue',
     'REMBO': 'magenta',
     
     # conbined with turbo
@@ -113,11 +113,13 @@ def load_results(root_dir, verbose=True):
         if func_name.startswith('.'):
             continue
             
-        if not func_name.startswith(args.func_name):
+        # if not func_name.startswith(args.func_name):
+        #     continue
+        if func_name != args.func_name:
             continue
         
         for dirname in os.listdir(os.path.join(root_dir, func_name)):
-            if dirname.startswith('rembo'):
+            if dirname.startswith('rembo') or dirname.startswith('lamcts_bo'):
                 continue
                 
             # if not dirname.startswith(exp1_algo_1):
@@ -183,7 +185,7 @@ def main(root_dir):
             return key_map[alg_name]
     
     # synthetic function
-    # draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Value', 600, 100)
+    draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Value', 600, 100)
     
     # nasbench
     # draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Value', 200, 50)
@@ -194,7 +196,7 @@ def main(root_dir):
     # draw(ty_fn, split_fn, group_fn, 'Time(sec)', 'Value', 4000, 1000)
     
     # rl
-    draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Reward', 2000, 500)
+    # draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Reward', 2000, 500)
     
     
 def ablation_strategy(root_dir):
@@ -272,8 +274,8 @@ if __name__ == '__main__':
     
     all_results = load_results(args.root_dir, verbose=True)
     
-    # main(root_dir=args.root_dir)
-    ablation_strategy(root_dir=args.root_dir)
+    main(root_dir=args.root_dir)
+    # ablation_strategy(root_dir=args.root_dir)
     # ablation_Cp(root_dir=args.root_dir)
     # ablation_min_num_variables(root_dir=args.root_dir)
     # ablation_num_samples(root_dir=args.root_dir)

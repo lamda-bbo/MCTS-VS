@@ -1,0 +1,4 @@
+func: levy10_300
+max_samples: 100
+root_dir: time_logs
+seed: 2045
