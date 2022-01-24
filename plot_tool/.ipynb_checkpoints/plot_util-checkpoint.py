@@ -246,6 +246,7 @@ def plot_results(
     shaded_std=True,
     shaded_err=True,
     figsize=None,
+    legend_show=True,
     legend_outside=False,
     resample=0,
     smooth_step=1.0,
@@ -402,31 +403,32 @@ def plot_results(
 
         # https://matplotlib.org/users/legend_guide.html
         plt.tight_layout()
-        if any(g2l.keys()):
-            if False:
-                ax.legend(
-                    g2l.values(),
-                    # ['%s (%i)'%(g, g2c[g]) for g in g2l] if average_group else g2l.keys(),
-                    ['%s' % g for g in g2l] if average_group else g2l.keys(),
-                    loc=2 if legend_outside else None,
-                    bbox_to_anchor=(1,1) if legend_outside else None)
-            else:
-                # _key = [
-                #     'Vanilla BO', 
-                #     'LVS-BO',
-                #     'LVS-TurBO',
-                #     'Lamcts-TurBO',
-                #     'TurBO',
-                #     'ALEBO'
-                # ]
-                _key = list(color_map.keys())
-                _value = [g2l[k] for k in _key if k in g2l.keys()]
-                ax.legend(
-                    _value,
-                    # ['%s (%i)'%(g, g2c[g]) for g in g2l] if average_group else g2l.keys(),
-                    ['%s' % g for g in _key if g in g2l.keys()] if average_group else _key,
-                    loc=2 if legend_outside else None,
-                    bbox_to_anchor=(1,1) if legend_outside else None)
+        if legend_show:
+            if any(g2l.keys()):
+                if False:
+                    ax.legend(
+                        g2l.values(),
+                        # ['%s (%i)'%(g, g2c[g]) for g in g2l] if average_group else g2l.keys(),
+                        ['%s' % g for g in g2l] if average_group else g2l.keys(),
+                        loc=2 if legend_outside else None,
+                        bbox_to_anchor=(1,1) if legend_outside else None)
+                else:
+                    # _key = [
+                    #     'Vanilla BO', 
+                    #     'LVS-BO',
+                    #     'LVS-TurBO',
+                    #     'Lamcts-TurBO',
+                    #     'TurBO',
+                    #     'ALEBO'
+                    # ]
+                    _key = list(color_map.keys())
+                    _value = [g2l[k] for k in _key if k in g2l.keys()]
+                    ax.legend(
+                        _value,
+                        # ['%s (%i)'%(g, g2c[g]) for g in g2l] if average_group else g2l.keys(),
+                        ['%s' % g for g in _key if g in g2l.keys()] if average_group else _key,
+                        loc=2 if legend_outside else None,
+                        bbox_to_anchor=(1,1) if legend_outside else None)
         ax.set_title(sk)
         # add xlabels, but only to the bottom row
         if xlabel is not None:

@@ -3,8 +3,8 @@
 seed_start=2021
 seed_end=2025
 
-func_list=(levy10_50 levy10_100)
-# func_list=(levy10_300)
+# func_list=(levy10_50 levy10_100)
+func_list=(levy10_100 levy10_300)
 # levt10_100 cp=10 min=5
 max_samples=600
 Cp=10
@@ -75,19 +75,19 @@ do
 #     wait
 
     # lamcts-turbo
-    for ((seed=$seed_start; seed<=$seed_end; seed++))
-    do
-        {
-        python3 lamcts.py \
-            --func=$func \
-            --max_samples=$max_samples \
-            --Cp=$Cp \
-            --solver_type=turbo \
-            --root_dir=$root_dir \
-            --seed=$seed
-        } &
-    done
-    wait
+#     for ((seed=$seed_start; seed<=$seed_end; seed++))
+#     do
+#         {
+#         python3 lamcts.py \
+#             --func=$func \
+#             --max_samples=$max_samples \
+#             --Cp=$Cp \
+#             --solver_type=turbo \
+#             --root_dir=$root_dir \
+#             --seed=$seed
+#         } &
+#     done
+#     wait
     
 #     # dropout-bo
 #     for ((seed=$seed_start; seed<=$seed_end; seed++))

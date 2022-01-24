@@ -3,13 +3,12 @@
 seed_start=2021
 seed_end=2025
 
-func=hartmann6_500
+func=hartmann6_300
 max_samples=600
 root_dir=ablation_logs
 
 # fill-in strategy
-strategy_list=(bestk random)
-# strategy_list=(copy mix)
+strategy_list=(bestk random copy mix)
 for strategy in ${strategy_list[@]}
 do
     for ((seed=$seed_start; seed<=$seed_end; seed++))
@@ -52,25 +51,26 @@ done
 
 # min_num_variable
 # min_num_variables_list=(3 6 10 20 50)
-# for min_num_variables in ${min_num_variables_list[@]}
-# do
-#     for ((seed=$seed_start; seed<=$seed_end; seed++))
-#     do
-#         {
-#         python3 lamcts_vs.py \
-#             --func=$func \
-#             --max_samples=$max_samples \
-#             --min_num_variables=$min_num_variables \
-#             --Cp=0.1 \
-#             --uipt_solver=bestk \
-#             --postfix=$min_num_variables \
-#             --dir_name=min_num_variables \
-#             --root_dir=$root_dir \
-#             --seed=$seed
-#         } &
-#     done
-#     wait
-# done
+min_num_variables_list=(3)
+for min_num_variables in ${min_num_variables_list[@]}
+do
+    for ((seed=$seed_start; seed<=$seed_end; seed++))
+    do
+        {
+        python3 lamcts_vs.py \
+            --func=$func \
+            --max_samples=$max_samples \
+            --min_num_variables=$min_num_variables \
+            --Cp=0.1 \
+            --uipt_solver=bestk \
+            --postfix=$min_num_variables \
+            --dir_name=min_num_variables \
+            --root_dir=$root_dir \
+            --seed=$seed
+        } &
+    done
+    wait
+done
 
 # number of samples
 # feature_bs_list=(2 5)

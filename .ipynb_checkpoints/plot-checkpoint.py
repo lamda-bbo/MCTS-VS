@@ -21,15 +21,18 @@ COLORS = ['blue', 'green', 'red', 'cyan', 'magenta', 'yellow', 'black', 'purple'
 
 key_map = {
     # combined with vanilla bo
-    'lamcts_vs_bo': 'LVS-BO',
+    'lamcts_vs_bo': 'MCTS-VS-BO',
     'bo': 'Vanilla BO',
     # 'lamcts_bo': 'LA-MCTS-BO',
-    'rembo': 'REMBO',
+    # 'rembo': 'REMBO',
+    'vae': 'VAE-BO',
     
     # conbined with turbo
-    'lamcts_vs_turbo': 'LVS-TuRBO',
+    'lamcts_vs_turbo': 'MCTS-VS-TuRBO',
     'turbo1': 'TuRBO',
     'lamcts_turbo': 'LA-MCTS-TuRBO',
+    
+    # other sota
     'alebo': 'ALEBO',
     'hesbo': 'HeSBO',
     'cmaes': 'CMA-ES',
@@ -37,17 +40,20 @@ key_map = {
 
 color_map = {
     # combined with vanilla bo
-    'LVS-BO': 'crimson',#
-    'Vanilla BO': 'gray',#
-    'Dropout-BO': 'darkorange',#
+    'MCTS-VS-BO': 'crimson',
+    'Vanilla BO': 'gray',
+    'Dropout-BO': 'darkorange',
     # 'LA-MCTS-BO': 'royalblue',
-    'REMBO': 'magenta',
+    # 'REMBO': 'magenta',
+    'VAE-BO': 'darkgreen',
     
     # conbined with turbo
-    'LVS-TuRBO': 'cyan',#
-    'TuRBO': 'green',#
+    'MCTS-VS-TuRBO': 'cyan',
+    'TuRBO': 'green',
     'Dropout-TuRBO': 'brown',
     'LA-MCTS-TuRBO': 'royalblue',
+    
+    # other sota
     'ALEBO': 'brown',
     'HeSBO': 'olive',
     'CMA-ES': 'blueviolet',
@@ -147,7 +153,7 @@ def load_results(root_dir, verbose=True):
 
 def draw(xy_fn, split_fn, group_fn, xlabel, ylabel, max_x, interval_x):
     plt.figure(dpi=300)
-    fig, axarr = pu.plot_results(all_results, xy_fn=xy_fn, split_fn=split_fn, group_fn=group_fn, shaded_std=True, shaded_err=False, average_group=True, tiling='horizontal', xlabel=xlabel, ylabel=ylabel)
+    fig, axarr = pu.plot_results(all_results, xy_fn=xy_fn, split_fn=split_fn, group_fn=group_fn, shaded_std=True, shaded_err=False, average_group=True, tiling='horizontal', xlabel=xlabel, ylabel=ylabel, legend_show=False)
     plt.subplots_adjust(hspace=0.2, wspace=0.2, bottom=0.2, left=0.08, top=0.95)
     for ax in axarr[0]:
         ax.set_xticks(np.arange(0, max_x, interval_x))
@@ -274,8 +280,8 @@ if __name__ == '__main__':
     
     all_results = load_results(args.root_dir, verbose=True)
     
-    main(root_dir=args.root_dir)
-    # ablation_strategy(root_dir=args.root_dir)
+    # main(root_dir=args.root_dir)
+    ablation_strategy(root_dir=args.root_dir)
     # ablation_Cp(root_dir=args.root_dir)
     # ablation_min_num_variables(root_dir=args.root_dir)
     # ablation_num_samples(root_dir=args.root_dir)

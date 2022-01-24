@@ -1,0 +1,9 @@
+func: hartmann6_500
+max_samples: 600
+init_samples: 10
+batch_size: 3
+update_interval: 30
+active_dims: 6
+lr: 0.01
+root_dir: hartmann6_logs
+seed: 2025
