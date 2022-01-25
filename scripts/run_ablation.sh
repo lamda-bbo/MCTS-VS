@@ -8,25 +8,25 @@ max_samples=600
 root_dir=ablation_logs
 
 # fill-in strategy
-strategy_list=(bestk random copy mix)
-for strategy in ${strategy_list[@]}
-do
-    for ((seed=$seed_start; seed<=$seed_end; seed++))
-    do
-        {
-        python3 lamcts_vs.py \
-            --func=$func \
-            --max_samples=$max_samples \
-            --Cp=0.1 \
-            --uipt_solver=$strategy \
-            --postfix=$strategy \
-            --dir_name=strategy \
-            --root_dir=$root_dir \
-            --seed=$seed
-        } &
-    done
-    wait
-done
+# strategy_list=(bestk random copy mix)
+# for strategy in ${strategy_list[@]}
+# do
+#     for ((seed=$seed_start; seed<=$seed_end; seed++))
+#     do
+#         {
+#         python3 lamcts_vs.py \
+#             --func=$func \
+#             --max_samples=$max_samples \
+#             --Cp=0.1 \
+#             --uipt_solver=$strategy \
+#             --postfix=$strategy \
+#             --dir_name=strategy \
+#             --root_dir=$root_dir \
+#             --seed=$seed
+#         } &
+#     done
+#     wait
+# done
 
 # # Cp
 # Cp_list=(0.01 0.1 1)
@@ -51,26 +51,25 @@ done
 
 # min_num_variable
 # min_num_variables_list=(3 6 10 20 50)
-min_num_variables_list=(3)
-for min_num_variables in ${min_num_variables_list[@]}
-do
-    for ((seed=$seed_start; seed<=$seed_end; seed++))
-    do
-        {
-        python3 lamcts_vs.py \
-            --func=$func \
-            --max_samples=$max_samples \
-            --min_num_variables=$min_num_variables \
-            --Cp=0.1 \
-            --uipt_solver=bestk \
-            --postfix=$min_num_variables \
-            --dir_name=min_num_variables \
-            --root_dir=$root_dir \
-            --seed=$seed
-        } &
-    done
-    wait
-done
+# for min_num_variables in ${min_num_variables_list[@]}
+# do
+#     for ((seed=$seed_start; seed<=$seed_end; seed++))
+#     do
+#         {
+#         python3 lamcts_vs.py \
+#             --func=$func \
+#             --max_samples=$max_samples \
+#             --min_num_variables=$min_num_variables \
+#             --Cp=0.1 \
+#             --uipt_solver=bestk \
+#             --postfix=$min_num_variables \
+#             --dir_name=min_num_variables \
+#             --root_dir=$root_dir \
+#             --seed=$seed
+#         } &
+#     done
+#     wait
+# done
 
 # number of samples
 # feature_bs_list=(2 5)
@@ -98,3 +97,25 @@ done
 #         wait
 #     done
 # done
+
+# k of best-k
+k_list=(1 5 10 15 20)
+for k in ${k_list[@]}
+do
+    for ((seed=$seed_start; seed<=$seed_end; seed++))
+    do
+        {
+        python3 lamcts_vs.py \
+            --func=$func \
+            --max_samples=$max_samples \
+            --Cp=0.1 \
+            --k=$k \
+            --uipt_solver=bestk \
+            --postfix=$k \
+            --dir_name=param_k \
+            --root_dir=$root_dir \
+            --seed=$seed
+        } &
+    done
+    wait
+done

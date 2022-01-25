@@ -19,8 +19,10 @@
 # done
 
 # ================= nasbench =================
-# python3 plot.py --func=nasbench --root_dir=logs/nasbench_logs/ --output_name=results/nas.pdf
-# python3 plot.py --func=nasbench --root_dir=logs/nasbench_logs/ --output_name=results/nas_time.pdf
+# python3 plot.py --func=nasbench --root_dir=saved_logs/nasbench_logs/ --output_name=results/nas.pdf
+# python3 plot.py --func=nasbench --root_dir=saved_logs/nasbench_logs/ --output_name=results/nas_partial.pdf
+# python3 plot.py --func=nasbench --root_dir=saved_logs/nasbench_logs/ --output_name=results/nas_time.pdf
+python3 plot.py --func=nasbench --root_dir=saved_logs/nasbench_logs/ --output_name=results/nas_time_partial.pdf
 
 # ==================== rover ========================
 # python3 plot.py --func=rover --root_dir=logs/rover_logs/ --output_name=results/rover.pdf
@@ -31,7 +33,8 @@
 # python3 plot.py --func=Walker2d --root_dir=saved_logs/rl_logs/ --output_name=results/walker.pdf
 
 # =============== ablation =====================
-python3 plot.py --func=strategy --root_dir=logs/ablation_logs --output_name=results/ablation_strategy.pdf
-# python3 plot.py --func=Cp --root_dir=logs/ablation_logs --output_name=results/ablation_Cp.pdf
-# python3 plot.py --func=min_num_variables --root_dir=logs/ablation_logs --output_name=results/ablation_min_num_variables.pdf
-# python3 plot.py --func=num_samples --root_dir=logs/ablation_logs --output_name=results/ablation_num_samples.pdf
+# python3 plot.py --func=strategy --legend_show=True --root_dir=saved_logs/ablation_logs --output_name=results/ablation_strategy.pdf
+# python3 plot.py --func=Cp --legend_show=True --root_dir=saved_logs/ablation_logs --output_name=results/ablation_Cp.pdf
+# python3 plot.py --func=min_num_variables --legend_show=True --root_dir=saved_logs/ablation_logs --output_name=results/ablation_min_num_variables.pdf
+# python3 plot.py --func=num_samples --legend_show=True --root_dir=saved_logs/ablation_logs --output_name=results/ablation_num_samples.pdf
+# python3 plot.py --func=param_k --legend_show=True --root_dir=saved_logs/ablation_logs --output_name=results/ablation_param_k.pdf

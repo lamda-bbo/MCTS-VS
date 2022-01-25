@@ -9,7 +9,7 @@ from baseline import Turbo1_VS_Component
 class MCTS:
     def __init__(self, func, dims, lb, ub, feature_batch_size=2, 
                  sample_batch_size=3, Cp=5, min_num_variables=3, 
-                 select_right_threshold=5, split_type='mean',
+                 select_right_threshold=5, k=20, split_type='mean',
                  ipt_solver='bo', uipt_solver='bestk', turbo_max_evals=50):
         # user defined parameters
         assert len(lb) == dims and len(ub) == dims
@@ -28,7 +28,7 @@ class MCTS:
         self.ipt_solver = ipt_solver
         uipt_solver_dict = {
             'random': UiptRandomStrategy(self.dims), 
-            'bestk': UiptBestKStrategy(self.dims, k=20),
+            'bestk': UiptBestKStrategy(self.dims, k=k),
             'copy': UiptCopyStrategy(self.dims),
             'mix': UiptMixStrategy(self.dims),
         }

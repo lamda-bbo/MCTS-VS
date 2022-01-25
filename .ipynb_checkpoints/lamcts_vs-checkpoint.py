@@ -18,6 +18,7 @@ parser.add_argument('--sample_batch_size', default=3, type=int)
 parser.add_argument('--min_num_variables', default=3, type=int)
 parser.add_argument('--select_right_threshold', default=5, type=int)
 parser.add_argument('--turbo_max_evals', default=50, type=int)
+parser.add_argument('--k', default=20, type=int)
 parser.add_argument('--Cp', default=0.1, type=float)
 parser.add_argument('--ipt_solver', default='bo', type=str)
 parser.add_argument('--uipt_solver', default='bestk', type=str)
@@ -64,6 +65,7 @@ agent = MCTS(
     Cp=args.Cp,
     min_num_variables=args.min_num_variables, 
     select_right_threshold=args.select_right_threshold, 
+    k=args.k,
     split_type='mean',
     ipt_solver=args.ipt_solver, 
     uipt_solver=args.uipt_solver,

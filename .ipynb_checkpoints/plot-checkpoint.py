@@ -77,12 +77,18 @@ color_map = {
     'd=20': 'lavender',
     'd=50': 'salmon',
     
-    '$N_{feature}$=2,$N_{sample}$=3': 'crimson',
-    '$N_{feature}$=2,$N_{sample}$=5': 'royalblue',
-    '$N_{feature}$=2,$N_{sample}$=10': 'darkgreen',
-    '$N_{feature}$=5,$N_{sample}$=3': 'lavender',
-    '$N_{feature}$=5,$N_{sample}$=5': 'salmon',
-    '$N_{feature}$=5,$N_{sample}$=10': 'black',
+    '$N_v$=2,$N_s$=3': 'crimson',
+    '$N_v$=2,$N_s$=5': 'royalblue',
+    '$N_v$=2,$N_s$=10': 'darkgreen',
+    '$N_v$=5,$N_s$=3': 'lavender',
+    '$N_v$=5,$N_s$=5': 'salmon',
+    '$N_v$=5,$N_s$=10': 'black',
+    
+    '$k$=1': 'crimson',
+    '$k$=5': 'royalblue',
+    '$k$=10': 'darkgreen',
+    '$k$=15': 'lavender',
+    '$k$=20': 'salmon',
 }
 
 
@@ -143,7 +149,9 @@ def load_results(root_dir, verbose=True):
                     progress = progress[progress['x'] <= 2000]
                 if func_name.startswith('nas'):
                     progress.loc[(progress['y'] < 0.90), 'y'] = 0.90
-                    # progress = progress[progress['x'] <= 100]
+                    # progress = progress[progress['y'] >= 0.90]
+                    # progress = progress[progress['x'] >= 150]
+                    progress = progress[progress['t'] <= 300]
                 result = Result(name=name, progress=progress)
                 all_results.append(result)
                 print('load %s ' % name)
@@ -153,11 +161,15 @@ def load_results(root_dir, verbose=True):
 
 def draw(xy_fn, split_fn, group_fn, xlabel, ylabel, max_x, interval_x):
     plt.figure(dpi=300)
-    fig, axarr = pu.plot_results(all_results, xy_fn=xy_fn, split_fn=split_fn, group_fn=group_fn, shaded_std=True, shaded_err=False, average_group=True, tiling='horizontal', xlabel=xlabel, ylabel=ylabel, legend_show=False)
+    fig, axarr = pu.plot_results(all_results, xy_fn=xy_fn, split_fn=split_fn, group_fn=group_fn, shaded_std=True, shaded_err=False, average_group=True, tiling='horizontal', xlabel=xlabel, ylabel=ylabel, legend_show=args.legend_show)
     plt.subplots_adjust(hspace=0.2, wspace=0.2, bottom=0.2, left=0.08, top=0.95)
     for ax in axarr[0]:
         ax.set_xticks(np.arange(0, max_x, interval_x))
         ax.set_xticklabels([str(i) for i in np.arange(0, max_x, interval_x)])
+        
+        # nas partial
+        # ax.set_xticks(np.arange(150, 200, 10))
+        # ax.set_xticklabels([str(i) for i in np.arange(150, 200, 10)])
     plt.savefig(args.output_name, bbox_inches='tight')
     print('save to {}'.format(args.output_name))
 
@@ -191,11 +203,14 @@ def main(root_dir):
             return key_map[alg_name]
     
     # synthetic function
-    draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Value', 600, 100)
+    # draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Value', 600, 100)
     
     # nasbench
     # draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Value', 200, 50)
+    # draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Value', 50, 10)
     # draw(ty_fn, split_fn, group_fn, 'Time(sec)', 'Value', 4000, 1000)
+    # draw(ty_fn, split_fn, group_fn, 'Time(sec)', 'Value', 200, 50)
+    draw(ty_fn, split_fn, group_fn, 'Time(sec)', 'Value', 300, 100)
     
     # rover 
     # draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Value', 1500, 300)
@@ -265,7 +280,41 @@ def ablation_num_samples(root_dir):
         alg_name = splits[1]
         f_bs, s_bs = alg_name.split('_')[-2], alg_name.split('_')[-1]
         
-        return r'$N_{feature}$=' + f_bs + r',$N_{sample}$=' + s_bs
+        return r'$N_v$=' + f_bs + r',$N_s$=' + s_bs
+    
+    draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Value', 600, 100)
+    
+
+def ablation_num_samples(root_dir):
+    def split_fn(r):
+        name = r.name
+        splits = name.split('-')
+        return 'Number of samples'
+    
+    def group_fn(r):
+        name = r.name
+        splits = name.split('-')
+        alg_name = splits[1]
+        f_bs, s_bs = alg_name.split('_')[-2], alg_name.split('_')[-1]
+        
+        return r'$N_v$=' + f_bs + r',$N_s$=' + s_bs
+    
+    draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Value', 600, 100)
+    
+    
+def ablation_param_k(root_dir):
+    def split_fn(r):
+        name = r.name
+        splits = name.split('-')
+        return 'Parameter $k$ of best-$k$'
+    
+    def group_fn(r):
+        name = r.name
+        splits = name.split('-')
+        alg_name = splits[1]
+        k = alg_name.split('_')[-1]
+        
+        return r'$k$=' + k
     
     draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Value', 600, 100)
 
@@ -274,14 +323,16 @@ if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument('--func_name', required=True, type=str)
+    parser.add_argument('--legend_show', default=False, type=bool)
     parser.add_argument('--root_dir', required=True, type=str)
     parser.add_argument('--output_name', required=True, type=str)
     args = parser.parse_args()
     
     all_results = load_results(args.root_dir, verbose=True)
     
-    # main(root_dir=args.root_dir)
-    ablation_strategy(root_dir=args.root_dir)
+    main(root_dir=args.root_dir)
+    # ablation_strategy(root_dir=args.root_dir)
     # ablation_Cp(root_dir=args.root_dir)
     # ablation_min_num_variables(root_dir=args.root_dir)
     # ablation_num_samples(root_dir=args.root_dir)
+    # ablation_param_k(root_dir=args.root_dir)
