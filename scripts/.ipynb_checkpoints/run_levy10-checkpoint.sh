@@ -4,8 +4,8 @@ seed_start=2021
 seed_end=2025
 
 # func_list=(levy10_50 levy10_100)
+# func_list=(levy10_100 levy10_300)
 func_list=(levy10_100 levy10_300)
-# levt10_100 cp=10 min=5
 max_samples=600
 Cp=10
 root_dir=levy10_logs
@@ -173,4 +173,20 @@ do
 #         } &
 #     done
 #     wait
+
+    # vae-bo
+    for ((seed=$seed_start; seed<=$seed_end; seed++))
+    do
+        {
+        python3 vae_bo.py \
+            --func=$func \
+            --max_samples=$max_samples \
+            --update_interval=30 \
+            --active_dims=10 \
+            --lr=0.001 \
+            --root_dir=$root_dir \
+            --seed=$seed
+        } &
+    done
+    wait
 done

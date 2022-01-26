@@ -29,25 +29,30 @@ root_dir=ablation_logs
 # done
 
 # # Cp
-# Cp_list=(0.01 0.1 1)
-# for Cp in ${Cp_list[@]}
-# do
-#     for ((seed=$seed_start; seed<=$seed_end; seed++))
-#     do
-#         {
-#         python3 lamcts_vs.py \
-#             --func=$func \
-#             --max_samples=$max_samples \
-#             --Cp=$Cp \
-#             --uipt_solver=bestk \
-#             --postfix=$Cp \
-#             --dir_name=Cp \
-#             --root_dir=$root_dir \
-#             --seed=$seed
-#         } &
-#     done
-#     wait
-# done
+root_dir=ablation_logs
+Cp_list=(0.01 0.1 1 10 100)
+func_list=(hartmann6_300 hartmann6_500 levy10_100 levy10_300)
+for func in ${func_list[@]}
+do
+    for Cp in ${Cp_list[@]}
+    do
+        for ((seed=$seed_start; seed<=$seed_end; seed++))
+        do
+            {
+            python3 lamcts_vs.py \
+                --func=$func \
+                --max_samples=$max_samples \
+                --Cp=$Cp \
+                --uipt_solver=bestk \
+                --postfix=$Cp \
+                --dir_name=${func}_Cp \
+                --root_dir=$root_dir \
+                --seed=$seed
+            } &
+        done
+        wait
+    done
+done
 
 # min_num_variable
 # min_num_variables_list=(3 6 10 20 50)

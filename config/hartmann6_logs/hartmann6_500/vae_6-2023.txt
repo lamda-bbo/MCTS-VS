@@ -4,6 +4,6 @@ init_samples: 10
 batch_size: 3
 update_interval: 30
 active_dims: 6
-lr: 0.01
+lr: 0.001
 root_dir: hartmann6_logs
 seed: 2023

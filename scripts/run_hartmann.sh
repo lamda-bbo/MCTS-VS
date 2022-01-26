@@ -4,7 +4,7 @@ seed_start=2021
 seed_end=2025
 
 # func_list=(hartmann6_100 hartmann6_300 hartmann6_500)
-func_list=(hartmann6_300 hartmann6_500)
+func_list=(hartmann6_100 hartmann6_300 hartmann6_500 hartmann6_1000)
 # func_list=(hartmann6_1000)
 max_samples=600
 Cp=0.1
@@ -195,7 +195,7 @@ do
             --max_samples=$max_samples \
             --update_interval=30 \
             --active_dims=6 \
-            --lr=0.01 \
+            --lr=0.001 \
             --root_dir=$root_dir \
             --seed=$seed
         } &

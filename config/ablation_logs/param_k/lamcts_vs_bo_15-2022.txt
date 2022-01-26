@@ -1,4 +1,4 @@
-func: hartmann6_300
+func: levy10_300
 max_samples: 600
 feature_batch_size: 2
 sample_batch_size: 3

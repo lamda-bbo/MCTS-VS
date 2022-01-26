@@ -25,7 +25,7 @@ key_map = {
     'bo': 'Vanilla BO',
     # 'lamcts_bo': 'LA-MCTS-BO',
     # 'rembo': 'REMBO',
-    'vae': 'VAE-BO',
+    # 'vae': 'VAE-BO',
     
     # conbined with turbo
     'lamcts_vs_turbo': 'MCTS-VS-TuRBO',
@@ -45,7 +45,7 @@ color_map = {
     'Dropout-BO': 'darkorange',
     # 'LA-MCTS-BO': 'royalblue',
     # 'REMBO': 'magenta',
-    'VAE-BO': 'darkgreen',
+    'VAE-BO': 'yellow',
     
     # conbined with turbo
     'MCTS-VS-TuRBO': 'cyan',
@@ -62,33 +62,35 @@ color_map = {
     # 
     'bestk': 'crimson',
     'random': 'royalblue',
-    'copy': 'darkgreen',
-    'mix': 'lavender',
+    # 'copy': 'darkgreen',
+    # 'mix': 'orange',
     
     # Cp
     'Cp=0.01': 'crimson',
     'Cp=0.1': 'royalblue',
     'Cp=1': 'darkgreen',
+    'Cp=10': 'orange',
+    'Cp=100': 'salmon',
     
     # min_num_variables
-    'd=3': 'crimson',
-    'd=6': 'royalblue',
-    'd=10': 'darkgreen',
-    'd=20': 'lavender',
-    'd=50': 'salmon',
+    '$N_{split}$=3': 'crimson',
+    '$N_{split}$=6': 'royalblue',
+    '$N_{split}$=10': 'darkgreen',
+    '$N_{split}$=20': 'orange',
+    '$N_{split}$=50': 'salmon',
     
     '$N_v$=2,$N_s$=3': 'crimson',
     '$N_v$=2,$N_s$=5': 'royalblue',
     '$N_v$=2,$N_s$=10': 'darkgreen',
-    '$N_v$=5,$N_s$=3': 'lavender',
+    '$N_v$=5,$N_s$=3': 'orange',
     '$N_v$=5,$N_s$=5': 'salmon',
     '$N_v$=5,$N_s$=10': 'black',
     
-    '$k$=1': 'crimson',
+    '$k$=1': 'salmon',
     '$k$=5': 'royalblue',
     '$k$=10': 'darkgreen',
-    '$k$=15': 'lavender',
-    '$k$=20': 'salmon',
+    '$k$=15': 'orange',
+    '$k$=20': 'crimson',
 }
 
 
@@ -112,7 +114,7 @@ exp2_algo = (
     'alebo',
     'cmaes',
     'lamcts',
-    'bo',
+    'vae',
 )
 
 
@@ -133,6 +135,8 @@ def load_results(root_dir, verbose=True):
         for dirname in os.listdir(os.path.join(root_dir, func_name)):
             if dirname.startswith('rembo') or dirname.startswith('lamcts_bo'):
                 continue
+            if dirname.startswith('lamcts_vs_bo_copy') or dirname.startswith('lamcts_vs_bo_mix'):
+                continue
                 
             # if not dirname.startswith(exp1_algo_1):
             # if not dirname.startswith(exp1_algo_2):
@@ -144,9 +148,9 @@ def load_results(root_dir, verbose=True):
                 progress = pd.read_csv(os.path.join(root_dir, func_name, dirname))
                 
                 if func_name.startswith('levy10') or func_name.startswith('levy20'):
-                    progress = progress[progress['y'] >= -50]
+                    progress = progress[progress['y'] >= -60]
                 if func_name.startswith('Hopper') or func_name.startswith('Walker'):
-                    progress = progress[progress['x'] <= 2000]
+                    progress = progress[progress['x'] <= 1200]
                 if func_name.startswith('nas'):
                     progress.loc[(progress['y'] < 0.90), 'y'] = 0.90
                     # progress = progress[progress['y'] >= 0.90]
@@ -185,7 +189,10 @@ def main(root_dir):
     def split_fn(r):
         name = r.name
         splits = name.split('-')
-        return splits[0].title()
+        if splits[0] == 'nasbench':
+            return 'NAS-Bench-101'
+        else:
+            return splits[0].title()
     
     def group_fn(r):
         name = r.name
@@ -199,6 +206,8 @@ def main(root_dir):
                 return 'Dropout-TuRBO'
             else:
                 assert 0
+        elif alg_name.startswith('vae'):
+            return 'VAE-BO'
         else:
             return key_map[alg_name]
     
@@ -206,18 +215,17 @@ def main(root_dir):
     # draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Value', 600, 100)
     
     # nasbench
-    # draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Value', 200, 50)
-    # draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Value', 50, 10)
-    # draw(ty_fn, split_fn, group_fn, 'Time(sec)', 'Value', 4000, 1000)
-    # draw(ty_fn, split_fn, group_fn, 'Time(sec)', 'Value', 200, 50)
-    draw(ty_fn, split_fn, group_fn, 'Time(sec)', 'Value', 300, 100)
+    # draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Accuracy', 200, 50)
+    # draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Accuracy', 50, 10)
+    # draw(ty_fn, split_fn, group_fn, 'Time(sec)', 'Accuracy', 4000, 1000)
+    draw(ty_fn, split_fn, group_fn, 'Time(sec)', 'Accuracy', 300, 100)
     
     # rover 
     # draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Value', 1500, 300)
     # draw(ty_fn, split_fn, group_fn, 'Time(sec)', 'Value', 4000, 1000)
     
     # rl
-    # draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Reward', 2000, 500)
+    # draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Reward', 1200, 300)
     
     
 def ablation_strategy(root_dir):
@@ -240,7 +248,7 @@ def ablation_Cp(root_dir):
     def split_fn(r):
         name = r.name
         splits = name.split('-')
-        return 'Cp'
+        return splits[0][: -3].title() + ' Cp'
     
     def group_fn(r):
         name = r.name
@@ -256,14 +264,14 @@ def ablation_min_num_variables(root_dir):
     def split_fn(r):
         name = r.name
         splits = name.split('-')
-        return 'min_num_variables'
+        return r'$N_{split}$'
     
     def group_fn(r):
         name = r.name
         splits = name.split('-')
         alg_name = splits[1]
         
-        return 'd='+alg_name.split('_')[-1]
+        return r'$N_{split}$='+alg_name.split('_')[-1]
     
     draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Value', 600, 100)
     
