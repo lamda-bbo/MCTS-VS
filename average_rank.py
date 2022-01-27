@@ -3,6 +3,16 @@ import matplotlib.pyplot as plt
 import os
 import collections
 
+import matplotlib
+params = {
+    'lines.linewidth': 2,
+    'legend.fontsize': 20,
+    'axes.labelsize': 24,
+    'axes.titlesize': 24,
+    'xtick.labelsize': 20,
+    'ytick.labelsize': 20,
+}
+matplotlib.rcParams.update(params)
 
 Result = collections.namedtuple('Result', 'name progress')
 
@@ -11,8 +21,6 @@ def load_results(root_dir, verbose=True):
     for func_name in os.listdir(root_dir):
         if func_name.startswith('.'):
             continue
-        # if func_name.startswith('levy10_50') or func_name.startswith('levy20_50'):
-        #     continue
         
         for dirname in os.listdir(os.path.join(root_dir, func_name)):
             if not (dirname.startswith('lamcts_vs') or dirname.startswith('dropout')):
@@ -28,7 +36,6 @@ def load_results(root_dir, verbose=True):
 
 
 results = load_results('saved_logs/dropout_logs', False)
-# results = load_results('old_logs/logs1215/full_logs_1215', False)
 all_result = dict()
 
 for i in range(len(results)):
@@ -40,7 +47,6 @@ for i in range(len(results)):
     if algo.startswith('dropout'):
         algo = algo.split('_')
         algo = algo[0] + '_' + algo[2]
-        # algo = algo[: 7] + '_' + algo[7: ]
     
     if all_result.get(func, None) is None:
         all_result[func] = dict()
@@ -61,7 +67,7 @@ for func in all_result.keys():
     value_df_dict[func] = value_df_dict[func].drop('x', axis=1)
     rank_df_dict[func] = value_df_dict[func].rank(axis=1, ascending=False)
     rank_df_dict[func]['x'] = x
-print(rank_df_dict)
+# print(rank_df_dict)
 rank_sum = dict()
 rank_cnt = dict()
 x = None
@@ -81,25 +87,27 @@ rank_mean = dict()
 for algo in rank_sum.keys():
     rank_mean[algo] = rank_sum[algo] / rank_cnt[algo]
     
-# print(rank_mean)
 print(rank_cnt)
 
 plt.figure(figsize=(16, 12))
 key_map = {
     # 'bo': ('Vanilla BO', 'magenta'),
-    'dropout_3': ('Dropout3', 'yellow'),
-    'dropout_6': ('Dropout6', 'green'),
-    'dropout_10': ('Dropout10', 'red'),
-    'dropout_15': ('Dropout15', 'pink'),
-    'dropout_20': ('Dropout20', 'orange'),
-    'dropout_30': ('Dropout30', 'black'),
-    # 'lamcts_bo': ('LaMCTS-BO', 'purple'),
-    'lamcts_vs_bo': ('LVS-BO', 'blue'),
+    'dropout_3': ('Dropout-3', (62, 122, 178)),
+    'dropout_6': ('Dropout-6', (76, 175, 73)),
+    'dropout_10': ('Dropout-10', (152, 78, 163)),
+    'dropout_15': ('Dropout-15', (255, 176, 105)),
+    'dropout_20': ('Dropout-20', (141, 84, 71)),
+    'dropout_30': ('Dropout-30', (71, 71, 71)),
+    'lamcts_vs_bo': ('MCTS-VS-BO', 'crimson'),
 }
+for k, v in key_map.items():
+    if isinstance(v[1], tuple):
+        key_map[k] = (v[0], tuple([i/255 for i in v[1]]))
 for algo in key_map.keys():
     if algo in rank_mean.keys():
         plt.plot(x, rank_mean[algo], label=key_map[algo][0], color=key_map[algo][1])
         print('plot: {}'.format(algo))
+plt.title(r'Dropout with different $d$')
 plt.legend(loc='best')
 plt.xlabel('Evaluations')
 plt.ylabel('Average rank')
