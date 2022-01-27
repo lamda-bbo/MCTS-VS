@@ -22,7 +22,7 @@
 # python3 plot.py --func=nasbench --root_dir=saved_logs/nasbench_logs/ --output_name=results/nas.pdf
 # python3 plot.py --func=nasbench --root_dir=saved_logs/nasbench_logs/ --output_name=results/nas_partial.pdf
 # python3 plot.py --func=nasbench --root_dir=saved_logs/nasbench_logs/ --output_name=results/nas_time.pdf
-python3 plot.py --func=nasbench --root_dir=saved_logs/nasbench_logs/ --output_name=results/nas_time_partial.pdf
+# python3 plot.py --func=nasbench --root_dir=saved_logs/nasbench_logs/ --output_name=results/nas_time_partial.pdf
 
 # ================== rl =======================
 # python3 plot.py --func=Hopper --root_dir=saved_logs/rl_logs/ --output_name=results/hopper.pdf
@@ -39,4 +39,4 @@ python3 plot.py --func=nasbench --root_dir=saved_logs/nasbench_logs/ --output_na
 
 # python3 plot.py --func=min_num_variables --legend_show=True --root_dir=saved_logs/ablation_logs --output_name=results/ablation/ablation_min_num_variables.pdf
 # python3 plot.py --func=num_samples --legend_show=True --root_dir=saved_logs/ablation_logs --output_name=results/ablation/ablation_num_samples.pdf
-# python3 plot.py --func=param_k --legend_show=True --root_dir=saved_logs/ablation_logs --output_name=results/ablation/ablation_param_k.pdf
+python3 plot.py --func=param_k --legend_show=True --root_dir=saved_logs/ablation_logs --output_name=results/ablation/ablation_param_k.pdf

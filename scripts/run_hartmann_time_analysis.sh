@@ -25,19 +25,19 @@ do
 #     done
     
     # lvs-turbo
-    for ((seed=$seed_start; seed<=$seed_end; seed++))
-    do
-        {
-        python3 lamcts_vs.py \
-            --func=$func \
-            --max_samples=$max_samples \
-            --turbo_max_evals=50 \
-            --Cp=$Cp \
-            --ipt_solver=turbo \
-            --root_dir=$root_dir \
-            --seed=$seed
-        }
-    done
+#     for ((seed=$seed_start; seed<=$seed_end; seed++))
+#     do
+#         {
+#         python3 lamcts_vs.py \
+#             --func=$func \
+#             --max_samples=$max_samples \
+#             --turbo_max_evals=50 \
+#             --Cp=$Cp \
+#             --ipt_solver=turbo \
+#             --root_dir=$root_dir \
+#             --seed=$seed
+#         }
+#     done
     
     # vanilla bo
 #     for ((seed=$seed_start; seed<=$seed_end; seed++))
@@ -65,18 +65,18 @@ do
 #     done
 
     # dropout-turbo
-    for ((seed=$seed_start; seed<=$seed_end; seed++))
-    do
-        {
-        python3 dropout.py \
-            --func=$func \
-            --max_samples=$max_samples \
-            --active_dims=6 \
-            --ipt_solver=turbo \
-            --root_dir=$root_dir \
-            --seed=$seed
-        }
-    done
+#     for ((seed=$seed_start; seed<=$seed_end; seed++))
+#     do
+#         {
+#         python3 dropout.py \
+#             --func=$func \
+#             --max_samples=$max_samples \
+#             --active_dims=6 \
+#             --ipt_solver=turbo \
+#             --root_dir=$root_dir \
+#             --seed=$seed
+#         }
+#     done
     
 #     # lamcts-bo
 #     for ((seed=$seed_start; seed<=$seed_end; seed++))
@@ -92,19 +92,19 @@ do
 #         }
 #     done
 
-#     # lamcts-turbo
-#     for ((seed=$seed_start; seed<=$seed_end; seed++))
-#     do
-#         {
-#         python3 lamcts.py \
-#             --func=$func \
-#             --max_samples=$max_samples \
-#             --Cp=$Cp \
-#             --solver_type=turbo \
-#             --root_dir=$root_dir \
-#             --seed=$seed
-#         }
-#     done
+    # lamcts-turbo
+    for ((seed=$seed_start; seed<=$seed_end; seed++))
+    do
+        {
+        python3 lamcts.py \
+            --func=$func \
+            --max_samples=$max_samples \
+            --Cp=$Cp \
+            --solver_type=turbo \
+            --root_dir=$root_dir \
+            --seed=$seed
+        }
+    done
     
     # rembo
     # for ((seed=$seed_start; seed<=$seed_end; seed++))
@@ -121,16 +121,16 @@ do
     # done
     
     # turbo
-    for ((seed=$seed_start; seed<=$seed_end; seed++))
-    do
-        {
-        python3 turbo.py \
-            --func=$func \
-            --max_samples=$max_samples \
-            --root_dir=$root_dir \
-            --seed=$seed
-        }
-    done
+#     for ((seed=$seed_start; seed<=$seed_end; seed++))
+#     do
+#         {
+#         python3 turbo.py \
+#             --func=$func \
+#             --max_samples=$max_samples \
+#             --root_dir=$root_dir \
+#             --seed=$seed
+#         }
+#     done
     
     # hesbo
 #     for ((seed=$seed_start; seed<=$seed_end; seed++))

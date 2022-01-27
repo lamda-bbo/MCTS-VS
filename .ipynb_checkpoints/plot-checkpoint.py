@@ -45,53 +45,59 @@ color_map = {
     'Dropout-BO': 'darkorange',
     # 'LA-MCTS-BO': 'royalblue',
     # 'REMBO': 'magenta',
-    'VAE-BO': 'yellow',
+    'VAE-BO': (216, 207, 22),
     
     # conbined with turbo
-    'MCTS-VS-TuRBO': 'cyan',
-    'TuRBO': 'green',
-    'Dropout-TuRBO': 'brown',
-    'LA-MCTS-TuRBO': 'royalblue',
+    'MCTS-VS-TuRBO': 'royalblue',
+    'TuRBO': (171, 197, 231),
+    # 'Dropout-TuRBO': (30, 37, 74),
+    'Dropout-TuRBO': 'blueviolet',
+    'LA-MCTS-TuRBO': (0, 190, 190),
     
     # other sota
-    'ALEBO': 'brown',
-    'HeSBO': 'olive',
-    'CMA-ES': 'blueviolet',
+    'ALEBO': (141, 84, 71),
+    # 'HeSBO': (104, 113, 5),
+    'HeSBO': (124, 136, 6),
+    'CMA-ES': (71, 71, 71),
     
     # ============== ablation =============
     # 
     'bestk': 'crimson',
-    'random': 'royalblue',
+    'random': (255, 176, 105),
     # 'copy': 'darkgreen',
     # 'mix': 'orange',
     
     # Cp
-    'Cp=0.01': 'crimson',
-    'Cp=0.1': 'royalblue',
-    'Cp=1': 'darkgreen',
-    'Cp=10': 'orange',
-    'Cp=100': 'salmon',
+    'Cp=0.01': (62, 122, 178),
+    'Cp=0.1': 'crimson',
+    'Cp=1': (76, 175, 73),
+    'Cp=10': (152, 78, 163),
+    'Cp=100': (255, 176, 105),
     
     # min_num_variables
     '$N_{split}$=3': 'crimson',
-    '$N_{split}$=6': 'royalblue',
-    '$N_{split}$=10': 'darkgreen',
-    '$N_{split}$=20': 'orange',
-    '$N_{split}$=50': 'salmon',
+    '$N_{split}$=6': (62, 122, 178),
+    '$N_{split}$=10': (76, 175, 73),
+    '$N_{split}$=20': (152, 78, 163),
+    '$N_{split}$=50': (255, 176, 105),
     
     '$N_v$=2,$N_s$=3': 'crimson',
-    '$N_v$=2,$N_s$=5': 'royalblue',
-    '$N_v$=2,$N_s$=10': 'darkgreen',
-    '$N_v$=5,$N_s$=3': 'orange',
-    '$N_v$=5,$N_s$=5': 'salmon',
-    '$N_v$=5,$N_s$=10': 'black',
+    '$N_v$=2,$N_s$=5': (62, 122, 178),
+    '$N_v$=2,$N_s$=10': (76, 175, 73),
+    '$N_v$=5,$N_s$=3': (255, 176, 105),
+    '$N_v$=5,$N_s$=5': (152, 78, 163),
+    '$N_v$=5,$N_s$=10': (71, 71, 71),
     
-    '$k$=1': 'salmon',
-    '$k$=5': 'royalblue',
-    '$k$=10': 'darkgreen',
-    '$k$=15': 'orange',
+    '$k$=1': (62, 122, 178),
+    '$k$=5': (76, 175, 73),
+    '$k$=10': (152, 78, 163),
+    '$k$=15': (255, 176, 105),
     '$k$=20': 'crimson',
 }
+
+for k, v in color_map.items():
+    if isinstance(v, tuple):
+        color_map[k] = tuple([i/255 for i in v])
 
 
 exp1_algo_1 = (
@@ -155,7 +161,7 @@ def load_results(root_dir, verbose=True):
                     progress.loc[(progress['y'] < 0.90), 'y'] = 0.90
                     # progress = progress[progress['y'] >= 0.90]
                     # progress = progress[progress['x'] >= 150]
-                    progress = progress[progress['t'] <= 300]
+                    # progress = progress[progress['t'] <= 300]
                 result = Result(name=name, progress=progress)
                 all_results.append(result)
                 print('load %s ' % name)
@@ -166,6 +172,7 @@ def load_results(root_dir, verbose=True):
 def draw(xy_fn, split_fn, group_fn, xlabel, ylabel, max_x, interval_x):
     plt.figure(dpi=300)
     fig, axarr = pu.plot_results(all_results, xy_fn=xy_fn, split_fn=split_fn, group_fn=group_fn, shaded_std=True, shaded_err=False, average_group=True, tiling='horizontal', xlabel=xlabel, ylabel=ylabel, legend_show=args.legend_show)
+    # fig, axarr = pu.plot_results(all_results, xy_fn=xy_fn, split_fn=split_fn, group_fn=group_fn, shaded_std=True, shaded_err=False, average_group=True, tiling='horizontal', xlabel=xlabel, ylabel=ylabel, legend_show=args.legend_show, resample=8)
     plt.subplots_adjust(hspace=0.2, wspace=0.2, bottom=0.2, left=0.08, top=0.95)
     for ax in axarr[0]:
         ax.set_xticks(np.arange(0, max_x, interval_x))
@@ -218,14 +225,14 @@ def main(root_dir):
     # draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Accuracy', 200, 50)
     # draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Accuracy', 50, 10)
     # draw(ty_fn, split_fn, group_fn, 'Time(sec)', 'Accuracy', 4000, 1000)
-    draw(ty_fn, split_fn, group_fn, 'Time(sec)', 'Accuracy', 300, 100)
+    # draw(ty_fn, split_fn, group_fn, 'Time(sec)', 'Accuracy', 300, 100)
     
     # rover 
     # draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Value', 1500, 300)
     # draw(ty_fn, split_fn, group_fn, 'Time(sec)', 'Value', 4000, 1000)
     
     # rl
-    # draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Reward', 1200, 300)
+    draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Reward', 1200, 300)
     
     
 def ablation_strategy(root_dir):
@@ -338,9 +345,9 @@ if __name__ == '__main__':
     
     all_results = load_results(args.root_dir, verbose=True)
     
-    main(root_dir=args.root_dir)
+    # main(root_dir=args.root_dir)
     # ablation_strategy(root_dir=args.root_dir)
     # ablation_Cp(root_dir=args.root_dir)
     # ablation_min_num_variables(root_dir=args.root_dir)
     # ablation_num_samples(root_dir=args.root_dir)
-    # ablation_param_k(root_dir=args.root_dir)
+    ablation_param_k(root_dir=args.root_dir)

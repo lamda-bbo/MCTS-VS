@@ -3,8 +3,8 @@
 seed_start=2021
 seed_end=2025
 
-# func_list=(levy10_50 levy10_100 levy10_300)
-func_list=(levy20_50 levy20_100 levy20_300)
+# func_list=(hartmann6_100 hartmann6_300 hartmann6_500 levy10_50 levy10_100 levy10_300 levy20_50 levy20_100 levy20_300)
+func_list=(hartmann6_50 levy10_500 levy20_500)
 dim_list=(3 6 10 15 20 30)
 max_samples=600
 root_dir=dropout_logs
