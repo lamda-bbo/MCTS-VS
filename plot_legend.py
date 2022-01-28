@@ -21,6 +21,8 @@ elif args.type == 'exp2':
 elif args.type == 'rl':
     # key = ['TuRBO', 'LA-MCTS-TuRBO', 'HeSBO', 'CMA-ES', 'MCTS-VS-BO', 'MCTS-VS-TuRBO']
     key = ['MCTS-VS-BO', 'MCTS-VS-TuRBO', 'TuRBO', 'LA-MCTS-TuRBO', 'HeSBO', 'CMA-ES']
+elif args.type == 'appendix_exp':
+    key = ['MCTS-VS-BO', 'MCTS-VS-TuRBO', 'TuRBO', 'LA-MCTS-TuRBO', 'HeSBO']
 else:
     assert 0
 colors = [color_map[k] for k in key]

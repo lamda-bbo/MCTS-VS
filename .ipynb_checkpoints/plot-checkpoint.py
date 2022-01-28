@@ -93,6 +93,12 @@ color_map = {
     '$k$=10': (152, 78, 163),
     '$k$=15': (255, 176, 105),
     '$k$=20': 'crimson',
+    
+    '$N_{bad}$=1': (62, 122, 178),
+    '$N_{bad}$=5': 'crimson',
+    '$N_{bad}$=10': (76, 175, 73),
+    '$N_{bad}$=15': (152, 78, 163),
+    '$N_{bad}$=20': (255, 176, 105),
 }
 
 for k, v in color_map.items():
@@ -161,7 +167,7 @@ def load_results(root_dir, verbose=True):
                     progress.loc[(progress['y'] < 0.90), 'y'] = 0.90
                     # progress = progress[progress['y'] >= 0.90]
                     # progress = progress[progress['x'] >= 150]
-                    # progress = progress[progress['t'] <= 300]
+                    progress = progress[progress['t'] <= 300]
                 result = Result(name=name, progress=progress)
                 all_results.append(result)
                 print('load %s ' % name)
@@ -219,20 +225,16 @@ def main(root_dir):
             return key_map[alg_name]
     
     # synthetic function
-    # draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Value', 600, 100)
+    draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Value', 600, 100)
     
     # nasbench
     # draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Accuracy', 200, 50)
     # draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Accuracy', 50, 10)
-    # draw(ty_fn, split_fn, group_fn, 'Time(sec)', 'Accuracy', 4000, 1000)
-    # draw(ty_fn, split_fn, group_fn, 'Time(sec)', 'Accuracy', 300, 100)
-    
-    # rover 
-    # draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Value', 1500, 300)
-    # draw(ty_fn, split_fn, group_fn, 'Time(sec)', 'Value', 4000, 1000)
+    # draw(ty_fn, split_fn, group_fn, 'Time (sec)', 'Accuracy', 4000, 1000)
+    # draw(ty_fn, split_fn, group_fn, 'Time (sec)', 'Accuracy', 300, 100)
     
     # rl
-    draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Reward', 1200, 300)
+    # draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Reward', 1200, 300)
     
     
 def ablation_strategy(root_dir):
@@ -332,6 +334,22 @@ def ablation_param_k(root_dir):
         return r'$k$=' + k
     
     draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Value', 600, 100)
+    
+    
+def ablation_N_bad(root_dir):
+    def split_fn(r):
+        name = r.name
+        splits = name.split('-')
+        return r'$N_{bad}$'
+    
+    def group_fn(r):
+        name = r.name
+        splits = name.split('-')
+        alg_name = splits[1]
+        
+        return r'$N_{bad}$='+alg_name.split('_')[-1]
+    
+    draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Value', 600, 100)
 
 
 if __name__ == '__main__':
@@ -345,9 +363,10 @@ if __name__ == '__main__':
     
     all_results = load_results(args.root_dir, verbose=True)
     
-    # main(root_dir=args.root_dir)
+    main(root_dir=args.root_dir)
     # ablation_strategy(root_dir=args.root_dir)
     # ablation_Cp(root_dir=args.root_dir)
     # ablation_min_num_variables(root_dir=args.root_dir)
     # ablation_num_samples(root_dir=args.root_dir)
-    ablation_param_k(root_dir=args.root_dir)
+    # ablation_param_k(root_dir=args.root_dir)
+    # ablation_N_bad(root_dir=args.root_dir)

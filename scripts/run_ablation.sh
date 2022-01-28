@@ -29,30 +29,30 @@ root_dir=ablation_logs
 # done
 
 # # Cp
-root_dir=ablation_logs
-Cp_list=(0.01 0.1 1 10 100)
-func_list=(hartmann6_300 hartmann6_500 levy10_100 levy10_300)
-for func in ${func_list[@]}
-do
-    for Cp in ${Cp_list[@]}
-    do
-        for ((seed=$seed_start; seed<=$seed_end; seed++))
-        do
-            {
-            python3 lamcts_vs.py \
-                --func=$func \
-                --max_samples=$max_samples \
-                --Cp=$Cp \
-                --uipt_solver=bestk \
-                --postfix=$Cp \
-                --dir_name=${func}_Cp \
-                --root_dir=$root_dir \
-                --seed=$seed
-            } &
-        done
-        wait
-    done
-done
+# root_dir=ablation_logs
+# Cp_list=(0.01 0.1 1 10 100)
+# func_list=(hartmann6_300 hartmann6_500 levy10_100 levy10_300)
+# for func in ${func_list[@]}
+# do
+#     for Cp in ${Cp_list[@]}
+#     do
+#         for ((seed=$seed_start; seed<=$seed_end; seed++))
+#         do
+#             {
+#             python3 lamcts_vs.py \
+#                 --func=$func \
+#                 --max_samples=$max_samples \
+#                 --Cp=$Cp \
+#                 --uipt_solver=bestk \
+#                 --postfix=$Cp \
+#                 --dir_name=${func}_Cp \
+#                 --root_dir=$root_dir \
+#                 --seed=$seed
+#             } &
+#         done
+#         wait
+#     done
+# done
 
 # min_num_variable
 # min_num_variables_list=(3 6 10 20 50)
@@ -104,8 +104,30 @@ done
 # done
 
 # k of best-k
-k_list=(1 5 10 15 20)
-for k in ${k_list[@]}
+# k_list=(1 5 10 15 20)
+# for k in ${k_list[@]}
+# do
+#     for ((seed=$seed_start; seed<=$seed_end; seed++))
+#     do
+#         {
+#         python3 lamcts_vs.py \
+#             --func=$func \
+#             --max_samples=$max_samples \
+#             --Cp=0.1 \
+#             --k=$k \
+#             --uipt_solver=bestk \
+#             --postfix=$k \
+#             --dir_name=param_k \
+#             --root_dir=$root_dir \
+#             --seed=$seed
+#         } &
+#     done
+#     wait
+# done
+
+# N_bad
+N_list=(1 5 10 15 20)
+for N in ${N_list[@]}
 do
     for ((seed=$seed_start; seed<=$seed_end; seed++))
     do
@@ -114,10 +136,9 @@ do
             --func=$func \
             --max_samples=$max_samples \
             --Cp=0.1 \
-            --k=$k \
-            --uipt_solver=bestk \
-            --postfix=$k \
-            --dir_name=param_k \
+            --postfix=$N \
+            --select_right_threshold=$N \
+            --dir_name=N_bad \
             --root_dir=$root_dir \
             --seed=$seed
         } &
