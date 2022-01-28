@@ -40,7 +40,8 @@ def load_results(root_dir, verbose=True):
     return all_results
 
 
-results = load_results('saved_logs/dropout_logs', False)
+# results = load_results('saved_logs/dropout_logs', False)
+results = load_results('logs/dropout_logs', False)
 all_result = dict()
 
 for i in range(len(results)):

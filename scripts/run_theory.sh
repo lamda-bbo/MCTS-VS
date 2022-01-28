@@ -37,4 +37,4 @@ do
     done
 done
 
-# python3 average_theory.py
+python3 average_theory.py

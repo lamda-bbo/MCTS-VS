@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import argparse
+import os
 from plot import color_map
 
 parser = argparse.ArgumentParser()
@@ -9,6 +10,7 @@ parser.add_argument('--type', required=True, type=str)
 parser.add_argument('--output_name', required=True, type=str)
 args = parser.parse_args()
 
+os.makedirs('results/legend', exist_ok=True)
 # 
 # 
 if args.type == 'exp1_1':

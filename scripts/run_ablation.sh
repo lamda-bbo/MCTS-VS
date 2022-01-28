@@ -29,7 +29,7 @@ do
     wait
 done
 
-# # Cp
+# Cp
 # root_dir=ablation_logs
 # Cp_list=(0.01 0.1 1 10 100)
 # func_list=(hartmann6_300 hartmann6_500 levy10_100 levy10_300)

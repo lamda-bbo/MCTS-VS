@@ -2,7 +2,7 @@ import numpy as np
 from nasbench import api
 
 
-NASBENCH_TFRECORD = '/home/songl/dataset/nasbench_only108.tfrecord'
+NASBENCH_TFRECORD = '/dataset/nasbench_only108.tfrecord'
 
 INPUT = 'input'
 OUTPUT = 'output'

@@ -12,37 +12,34 @@ for func in ${func_list[@]}
 do
     echo "Function: " $func
     # lvs-bo
-#     for ((seed=$seed_start; seed<=$seed_end; seed++))
-#     do
-#         {
-#         python3 mcts_vs.py \
-#             --func=$func \
-#             --max_samples=$max_samples \
-#             --Cp=$Cp \
-#             --root_dir=$root_dir \
-#             --seed=$seed
-#         } &
-#     done
-#     wait
+    for ((seed=$seed_start; seed<=$seed_end; seed++))
+    do
+        {
+        python3 mcts_vs.py \
+            --func=$func \
+            --max_samples=$max_samples \
+            --Cp=$Cp \
+            --root_dir=$root_dir \
+            --seed=$seed
+        } &
+    done
+    wait
     
-#     # lvs-turbo
-#     for ((seed=$seed_start; seed<=$seed_end; seed++))
-#     do
-#         {
-#         python3 mcts_vs.py \
-#             --func=$func \
-#             --max_samples=$max_samples \
-#             --Cp=$Cp \
-#             --ipt_solver=turbo \
-#             --feature_batch_size=2 \
-#             --sample_batch_size=3 \
-#             --min_num_variables=3 \
-#             --turbo_max_evals=50 \
-#             --root_dir=$root_dir \
-#             --seed=$seed
-#         } &
-#     done
-#     wait
+    # lvs-turbo
+    for ((seed=$seed_start; seed<=$seed_end; seed++))
+    do
+        {
+        python3 mcts_vs.py \
+            --func=$func \
+            --max_samples=$max_samples \
+            --Cp=$Cp \
+            --ipt_solver=turbo \
+            --turbo_max_evals=50 \
+            --root_dir=$root_dir \
+            --seed=$seed
+        } &
+    done
+    wait
     
 #     # turbo
 #     for ((seed=$seed_start; seed<=$seed_end; seed++))
@@ -111,17 +108,17 @@ do
 #     done
     
     # cmaes
-    for ((seed=$seed_start; seed<=$seed_end; seed++))
-    do
-        {
-        python3 cmaes.py \
-            --func=$func \
-            --max_samples=$max_samples \
-            --pop_size=50 \
-            --sigma=0.01 \
-            --root_dir=$root_dir \
-            --seed=$seed
-        } &
-    done
-    wait
+#     for ((seed=$seed_start; seed<=$seed_end; seed++))
+#     do
+#         {
+#         python3 cmaes.py \
+#             --func=$func \
+#             --max_samples=$max_samples \
+#             --pop_size=50 \
+#             --sigma=0.01 \
+#             --root_dir=$root_dir \
+#             --seed=$seed
+#         } &
+#     done
+#     wait
 done

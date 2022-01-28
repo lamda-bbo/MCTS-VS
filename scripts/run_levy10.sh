@@ -7,7 +7,7 @@ seed_end=2025
 # func_list=(levy10_100 levy10_300)
 func_list=(levy10_100 levy10_300)
 max_samples=600
-Cp=10
+Cp=600
 root_dir=levy10_logs
 
 for func in ${func_list[@]}
@@ -19,9 +19,6 @@ do
         python3 mcts_vs.py \
             --func=$func \
             --max_samples=$max_samples \
-            --feature_batch_size=2 \
-            --sample_batch_size=3 \
-            --min_num_variables=3 \
             --Cp=$Cp \
             --root_dir=$root_dir \
             --seed=$seed
@@ -37,7 +34,6 @@ do
             --func=$func \
             --max_samples=$max_samples \
             --turbo_max_evals=50 \
-            --min_num_variables=5 \
             --Cp=$Cp \
             --ipt_solver=turbo \
             --root_dir=$root_dir \

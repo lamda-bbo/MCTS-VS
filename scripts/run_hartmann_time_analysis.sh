@@ -78,35 +78,47 @@ do
     #     }
     # done
     
-#     # lamcts-bo
-#     for ((seed=$seed_start; seed<=$seed_end; seed++))
-#     do
-#         {
-#         python3 lamcts.py \
-#             --func=$func \
-#             --max_samples=$max_samples \
-#             --Cp=$Cp \
-#             --solver_type=bo \
-#             --root_dir=$root_dir \
-#             --seed=$seed
-#         }
-#     done
+    # lamcts-bo
+    # for ((seed=$seed_start; seed<=$seed_end; seed++))
+    # do
+    #     {
+    #     python3 lamcts.py \
+    #         --func=$func \
+    #         --max_samples=$max_samples \
+    #         --Cp=$Cp \
+    #         --solver_type=bo \
+    #         --root_dir=$root_dir \
+    #         --seed=$seed
+    #     }
+    # done
 
     # lamcts-turbo
-#     for ((seed=$seed_start; seed<=$seed_end; seed++))
-#     do
-#         {
-#         python3 lamcts.py \
-#             --func=$func \
-#             --max_samples=$max_samples \
-#             --Cp=$Cp \
-#             --solver_type=turbo \
-#             --root_dir=$root_dir \
-#             --seed=$seed
-#         }
-#     done
+    # for ((seed=$seed_start; seed<=$seed_end; seed++))
+    # do
+    #     {
+    #     python3 lamcts.py \
+    #         --func=$func \
+    #         --max_samples=$max_samples \
+    #         --Cp=$Cp \
+    #         --solver_type=turbo \
+    #         --root_dir=$root_dir \
+    #         --seed=$seed
+    #     }
+    # done
     
-    # rembo
+    # turbo
+    # for ((seed=$seed_start; seed<=$seed_end; seed++))
+    # do
+    #     {
+    #     python3 turbo.py \
+    #         --func=$func \
+    #         --max_samples=$max_samples \
+    #         --root_dir=$root_dir \
+    #         --seed=$seed
+    #     }
+    # done
+    
+    # hesbo
     # for ((seed=$seed_start; seed<=$seed_end; seed++))
     # do
     #     {
@@ -114,37 +126,11 @@ do
     #         --func=$func \
     #         --max_samples=$max_samples \
     #         --active_dims=6 \
-    #         --strategy=rembo \
+    #         --strategy=hesbo \
     #         --root_dir=$root_dir \
     #         --seed=$seed
-    #     }
+    #     } 
     # done
-    
-    # turbo
-#     for ((seed=$seed_start; seed<=$seed_end; seed++))
-#     do
-#         {
-#         python3 turbo.py \
-#             --func=$func \
-#             --max_samples=$max_samples \
-#             --root_dir=$root_dir \
-#             --seed=$seed
-#         }
-#     done
-    
-    # hesbo
-#     for ((seed=$seed_start; seed<=$seed_end; seed++))
-#     do
-#         {
-#         python3 ax_embedding_bo.py \
-#             --func=$func \
-#             --max_samples=$max_samples \
-#             --active_dims=6 \
-#             --strategy=hesbo \
-#             --root_dir=$root_dir \
-#             --seed=$seed
-#         } 
-#     done
     
     # alebo
 #     for ((seed=$seed_start; seed<=$seed_end; seed++))
