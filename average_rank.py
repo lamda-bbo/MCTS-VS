@@ -28,7 +28,7 @@ def load_results(root_dir, verbose=True):
             continue
         
         for dirname in os.listdir(os.path.join(root_dir, func_name)):
-            if not (dirname.startswith('lamcts_vs') or dirname.startswith('dropout')):
+            if not (dirname.startswith('mcts_vs') or dirname.startswith('dropout')):
                 continue
             if dirname.endswith('.csv'):
                 name = '%s-%s' % (func_name, dirname)
@@ -97,7 +97,7 @@ print(rank_cnt)
 plt.figure(figsize=(16, 12))
 key_map = {
     # 'bo': ('Vanilla BO', 'magenta'),
-    'lamcts_vs_bo': ('MCTS-VS-BO', 'crimson'),
+    'mcts_vs_bo': ('MCTS-VS-BO', 'crimson'),
     'dropout_3': ('Dropout-3', (62, 122, 178)),
     'dropout_6': ('Dropout-6', (76, 175, 73)),
     'dropout_10': ('Dropout-10', (152, 78, 163)),

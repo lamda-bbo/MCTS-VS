@@ -1,9 +1,0 @@
-func: levy10_100
-max_samples: 100
-turbo_max_evals: 50
-init_samples: 10
-batch_size: 3
-active_dims: 10
-ipt_solver: turbo
-root_dir: time_logs
-seed: 2045

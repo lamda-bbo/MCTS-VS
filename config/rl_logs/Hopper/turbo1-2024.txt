@@ -1,4 +1,0 @@
-func: Hopper
-max_samples: 2000
-root_dir: rl_logs
-seed: 2024

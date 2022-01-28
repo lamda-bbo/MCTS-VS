@@ -1,6 +1,0 @@
-func: hartmann6_1000
-max_samples: 200
-active_dims: 6
-strategy: alebo
-root_dir: hartmann6_logs
-seed: 2021

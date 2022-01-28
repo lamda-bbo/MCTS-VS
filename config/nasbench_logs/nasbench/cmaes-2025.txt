@@ -1,6 +1,0 @@
-func: nasbench
-max_samples: 200
-pop_size: 20
-sigma: 0.1
-root_dir: nasbench_logs
-seed: 2025

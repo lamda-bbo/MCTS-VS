@@ -1,6 +1,0 @@
-func: levy10_500
-max_samples: 600
-active_dims: 10
-strategy: hesbo
-root_dir: levy10_logs
-seed: 2022

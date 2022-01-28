@@ -1,4 +1,0 @@
-func: Walker2d
-max_samples: 50
-root_dir: rl_logs
-seed: 2021

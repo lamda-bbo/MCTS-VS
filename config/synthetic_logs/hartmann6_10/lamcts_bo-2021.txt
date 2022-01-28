@@ -1,6 +1,0 @@
-func: hartmann6_10
-max_samples: 600
-Cp: 0.1
-solver_type: bo
-root_dir: synthetic_logs
-seed: 2021

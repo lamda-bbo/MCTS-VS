@@ -21,14 +21,14 @@ COLORS = ['blue', 'green', 'red', 'cyan', 'magenta', 'yellow', 'black', 'purple'
 
 key_map = {
     # combined with vanilla bo
-    'lamcts_vs_bo': 'MCTS-VS-BO',
+    'mcts_vs_bo': 'MCTS-VS-BO',
     'bo': 'Vanilla BO',
     # 'lamcts_bo': 'LA-MCTS-BO',
     # 'rembo': 'REMBO',
     # 'vae': 'VAE-BO',
     
     # conbined with turbo
-    'lamcts_vs_turbo': 'MCTS-VS-TuRBO',
+    'mcts_vs_turbo': 'MCTS-VS-TuRBO',
     'turbo1': 'TuRBO',
     'lamcts_turbo': 'LA-MCTS-TuRBO',
     
@@ -107,20 +107,20 @@ for k, v in color_map.items():
 
 
 exp1_algo_1 = (
-    'lamcts_vs_bo',
+    'mcts_vs_bo',
     'dropout_bo',
     'bo',
 )
 
 exp1_algo_2 = (
-    'lamcts_vs_turbo',
+    'mcts_vs_turbo',
     'dropout_turbo',
     'turbo',
 )
 
 exp2_algo = (
-    'lamcts_vs_bo',
-    'lamcts_vs_turbo',
+    'mcts_vs_bo',
+    'mcts_vs_turbo',
     'turbo',
     'hesbo',
     'alebo',
@@ -139,15 +139,11 @@ def load_results(root_dir, verbose=True):
         if func_name.startswith('.'):
             continue
             
-        # if not func_name.startswith(args.func_name):
-        #     continue
         if func_name != args.func_name:
             continue
         
         for dirname in os.listdir(os.path.join(root_dir, func_name)):
             if dirname.startswith('rembo') or dirname.startswith('lamcts_bo'):
-                continue
-            if dirname.startswith('lamcts_vs_bo_copy') or dirname.startswith('lamcts_vs_bo_mix'):
                 continue
                 
             # if not dirname.startswith(exp1_algo_1):
@@ -229,7 +225,6 @@ def main(root_dir):
     
     # nasbench
     # draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Accuracy', 200, 50)
-    # draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Accuracy', 50, 10)
     # draw(ty_fn, split_fn, group_fn, 'Time (sec)', 'Accuracy', 4000, 1000)
     # draw(ty_fn, split_fn, group_fn, 'Time (sec)', 'Accuracy', 300, 100)
     
@@ -363,6 +358,7 @@ if __name__ == '__main__':
     
     all_results = load_results(args.root_dir, verbose=True)
     
+    os.makedirs('results', exist_ok=True)
     main(root_dir=args.root_dir)
     # ablation_strategy(root_dir=args.root_dir)
     # ablation_Cp(root_dir=args.root_dir)

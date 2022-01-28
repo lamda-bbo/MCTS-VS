@@ -1,6 +1,0 @@
-func: hartmann6_300
-max_samples: 600
-pop_size: 5
-sigma: 0.01
-root_dir: synthetic_logs
-seed: 2021

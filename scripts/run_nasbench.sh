@@ -14,7 +14,7 @@ do
 #     for ((seed=$seed_start; seed<=$seed_end; seed++))
 #     do
 #         {
-#         python3 lamcts_vs.py \
+#         python3 mcts_vs.py \
 #             --func=$func \
 #             --max_samples=$max_samples \
 #             --Cp=$Cp \
@@ -28,7 +28,7 @@ do
 #     for ((seed=$seed_start; seed<=$seed_end; seed++))
 #     do
 #         {
-#         python3 lamcts_vs.py \
+#         python3 mcts_vs.py \
 #             --func=$func \
 #             --max_samples=$max_samples \
 #             --Cp=$Cp \

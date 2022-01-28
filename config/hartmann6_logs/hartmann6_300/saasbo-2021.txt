@@ -1,4 +1,0 @@
-func: hartmann6_300
-max_samples: 600
-root_dir: hartmann6_logs
-seed: 2021

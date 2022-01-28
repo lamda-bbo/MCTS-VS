@@ -1,6 +1,0 @@
-func: hartmann6_300
-max_samples: 100
-init_samples: 10
-batch_size: 3
-root_dir: time_logs
-seed: 2022

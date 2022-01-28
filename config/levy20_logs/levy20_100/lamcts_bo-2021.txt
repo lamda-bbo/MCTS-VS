@@ -1,6 +1,0 @@
-func: levy20_100
-max_samples: 50
-Cp: 10.0
-solver_type: bo
-root_dir: levy20_logs
-seed: 2021

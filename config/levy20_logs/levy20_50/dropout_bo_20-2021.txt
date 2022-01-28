@@ -1,9 +1,0 @@
-func: levy20_50
-max_samples: 50
-turbo_max_evals: 50
-init_samples: 10
-batch_size: 3
-active_dims: 20
-ipt_solver: bo
-root_dir: levy20_logs
-seed: 2021

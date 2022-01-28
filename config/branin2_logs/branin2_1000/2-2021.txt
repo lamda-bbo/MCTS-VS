@@ -1,6 +1,0 @@
-func: branin2_1000
-max_samples: 200
-active_dims: 2
-strategy: 2
-root_dir: branin2_logs
-seed: 2021

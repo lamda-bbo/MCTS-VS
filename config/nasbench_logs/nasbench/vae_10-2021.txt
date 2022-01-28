@@ -1,9 +1,0 @@
-func: nasbench
-max_samples: 200
-init_samples: 10
-batch_size: 3
-update_interval: 30
-active_dims: 10
-lr: 0.001
-root_dir: nasbench_logs
-seed: 2021

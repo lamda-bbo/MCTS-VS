@@ -1,9 +1,0 @@
-func: levy10_300
-max_samples: 600
-init_samples: 10
-batch_size: 3
-update_interval: 30
-active_dims: 10
-lr: 0.001
-root_dir: levy10_logs
-seed: 2022

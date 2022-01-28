@@ -9,24 +9,25 @@ root_dir=ablation_logs
 
 # fill-in strategy
 # strategy_list=(bestk random copy mix)
-# for strategy in ${strategy_list[@]}
-# do
-#     for ((seed=$seed_start; seed<=$seed_end; seed++))
-#     do
-#         {
-#         python3 lamcts_vs.py \
-#             --func=$func \
-#             --max_samples=$max_samples \
-#             --Cp=0.1 \
-#             --uipt_solver=$strategy \
-#             --postfix=$strategy \
-#             --dir_name=strategy \
-#             --root_dir=$root_dir \
-#             --seed=$seed
-#         } &
-#     done
-#     wait
-# done
+strategy_list=(bestk random)
+for strategy in ${strategy_list[@]}
+do
+    for ((seed=$seed_start; seed<=$seed_end; seed++))
+    do
+        {
+        python3 mcts_vs.py \
+            --func=$func \
+            --max_samples=$max_samples \
+            --Cp=0.1 \
+            --uipt_solver=$strategy \
+            --postfix=$strategy \
+            --dir_name=strategy \
+            --root_dir=$root_dir \
+            --seed=$seed
+        } &
+    done
+    wait
+done
 
 # # Cp
 # root_dir=ablation_logs
@@ -39,7 +40,7 @@ root_dir=ablation_logs
 #         for ((seed=$seed_start; seed<=$seed_end; seed++))
 #         do
 #             {
-#             python3 lamcts_vs.py \
+#             python3 mcts_vs.py \
 #                 --func=$func \
 #                 --max_samples=$max_samples \
 #                 --Cp=$Cp \
@@ -61,7 +62,7 @@ root_dir=ablation_logs
 #     for ((seed=$seed_start; seed<=$seed_end; seed++))
 #     do
 #         {
-#         python3 lamcts_vs.py \
+#         python3 mcts_vs.py \
 #             --func=$func \
 #             --max_samples=$max_samples \
 #             --min_num_variables=$min_num_variables \
@@ -86,7 +87,7 @@ root_dir=ablation_logs
 #         for ((seed=$seed_start; seed<=$seed_end; seed++))
 #         do
 #             {
-#             python3 lamcts_vs.py \
+#             python3 mcts_vs.py \
 #                 --func=$func \
 #                 --max_samples=$max_samples \
 #                 --feature_batch_size=$f_bs \
@@ -110,7 +111,7 @@ root_dir=ablation_logs
 #     for ((seed=$seed_start; seed<=$seed_end; seed++))
 #     do
 #         {
-#         python3 lamcts_vs.py \
+#         python3 mcts_vs.py \
 #             --func=$func \
 #             --max_samples=$max_samples \
 #             --Cp=0.1 \
@@ -126,22 +127,22 @@ root_dir=ablation_logs
 # done
 
 # N_bad
-N_list=(1 5 10 15 20)
-for N in ${N_list[@]}
-do
-    for ((seed=$seed_start; seed<=$seed_end; seed++))
-    do
-        {
-        python3 lamcts_vs.py \
-            --func=$func \
-            --max_samples=$max_samples \
-            --Cp=0.1 \
-            --postfix=$N \
-            --select_right_threshold=$N \
-            --dir_name=N_bad \
-            --root_dir=$root_dir \
-            --seed=$seed
-        } &
-    done
-    wait
-done
+# N_list=(1 5 10 15 20)
+# for N in ${N_list[@]}
+# do
+#     for ((seed=$seed_start; seed<=$seed_end; seed++))
+#     do
+#         {
+#         python3 mcts_vs.py \
+#             --func=$func \
+#             --max_samples=$max_samples \
+#             --Cp=0.1 \
+#             --postfix=$N \
+#             --select_right_threshold=$N \
+#             --dir_name=N_bad \
+#             --root_dir=$root_dir \
+#             --seed=$seed
+#         } &
+#     done
+#     wait
+# done

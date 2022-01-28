@@ -1,6 +1,0 @@
-func: rover
-max_samples: 1500
-active_dims: 10
-strategy: hesbo
-root_dir: rover_logs
-seed: 2022

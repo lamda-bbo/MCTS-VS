@@ -83,7 +83,7 @@ def main(root_dir):
         name = r.name
         splits = name.split('-')
         alg_name = splits[1]
-        if alg_name.startswith('lamcts'):
+        if alg_name.startswith('mcts'):
             return 'MCTS-VS-BO'
         else:
             return 'Dropout-' + alg_name.split('_')[-1]

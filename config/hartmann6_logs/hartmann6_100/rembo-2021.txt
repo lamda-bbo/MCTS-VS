@@ -1,6 +1,0 @@
-func: hartmann6_100
-max_samples: 60
-active_dims: 6
-strategy: rembo
-root_dir: hartmann6_logs
-seed: 2021

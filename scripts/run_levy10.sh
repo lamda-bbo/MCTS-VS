@@ -12,39 +12,39 @@ root_dir=levy10_logs
 
 for func in ${func_list[@]}
 do
-#     # lvs-bo
-#     for ((seed=$seed_start; seed<=$seed_end; seed++))
-#     do
-#         {
-#         python3 lamcts_vs.py \
-#             --func=$func \
-#             --max_samples=$max_samples \
-#             --feature_batch_size=2 \
-#             --sample_batch_size=3 \
-#             --min_num_variables=3 \
-#             --Cp=$Cp \
-#             --root_dir=$root_dir \
-#             --seed=$seed
-#         } &
-#     done
-#     wait
+    # lvs-bo
+    for ((seed=$seed_start; seed<=$seed_end; seed++))
+    do
+        {
+        python3 mcts_vs.py \
+            --func=$func \
+            --max_samples=$max_samples \
+            --feature_batch_size=2 \
+            --sample_batch_size=3 \
+            --min_num_variables=3 \
+            --Cp=$Cp \
+            --root_dir=$root_dir \
+            --seed=$seed
+        } &
+    done
+    wait
     
-#     # lvs-turbo
-#     for ((seed=$seed_start; seed<=$seed_end; seed++))
-#     do
-#         {
-#         python3 lamcts_vs.py \
-#             --func=$func \
-#             --max_samples=$max_samples \
-#             --turbo_max_evals=50 \
-#             --min_num_variables=5 \
-#             --Cp=$Cp \
-#             --ipt_solver=turbo \
-#             --root_dir=$root_dir \
-#             --seed=$seed
-#         } &
-#     done
-#     wait
+    # lvs-turbo
+    for ((seed=$seed_start; seed<=$seed_end; seed++))
+    do
+        {
+        python3 mcts_vs.py \
+            --func=$func \
+            --max_samples=$max_samples \
+            --turbo_max_evals=50 \
+            --min_num_variables=5 \
+            --Cp=$Cp \
+            --ipt_solver=turbo \
+            --root_dir=$root_dir \
+            --seed=$seed
+        } &
+    done
+    wait
     
 #     # vanilla bo
 #     for ((seed=$seed_start; seed<=$seed_end; seed++))
@@ -175,18 +175,18 @@ do
 #     wait
 
     # vae-bo
-    for ((seed=$seed_start; seed<=$seed_end; seed++))
-    do
-        {
-        python3 vae_bo.py \
-            --func=$func \
-            --max_samples=$max_samples \
-            --update_interval=30 \
-            --active_dims=10 \
-            --lr=0.001 \
-            --root_dir=$root_dir \
-            --seed=$seed
-        } &
-    done
-    wait
+#     for ((seed=$seed_start; seed<=$seed_end; seed++))
+#     do
+#         {
+#         python3 vae_bo.py \
+#             --func=$func \
+#             --max_samples=$max_samples \
+#             --update_interval=30 \
+#             --active_dims=10 \
+#             --lr=0.001 \
+#             --root_dir=$root_dir \
+#             --seed=$seed
+#         } &
+#     done
+#     wait
 done

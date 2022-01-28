@@ -4,24 +4,13 @@ seed_start=2021
 seed_end=2025
 max_samples=600
 
-# for ((seed=$seed_start; seed<=$seed_end; seed++))
-# do
-#     python3 lamcts_vs_f.py \
-#         --seed=$seed \
-#         --func=branin2_12 \
-#         --min_num_variables=2 \
-#         --Cp=0.1 \
-#         --root_dir=theory_logs \
-#         --seed=$seed
-# done
-
 func_list=(hartmann6_100 hartmann6_300 hartmann6_500)
 
 for func in ${func_list[@]}
 do
     for ((seed=$seed_start; seed<=$seed_end; seed++))
     do
-        python3 lamcts_vs_f.py \
+        python3 mcts_vs_theory.py \
             --seed=$seed \
             --func=$func \
             --max_samples=$max_samples \
@@ -37,7 +26,7 @@ for func in ${func_list[@]}
 do
     for ((seed=$seed_start; seed<=$seed_end; seed++))
     do
-        python3 lamcts_vs_f.py \
+        python3 mcts_vs_theory.py \
             --seed=$seed \
             --func=$func \
             --max_samples=$max_samples \

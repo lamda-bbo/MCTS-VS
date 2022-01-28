@@ -1,6 +1,0 @@
-func: levy10_300
-max_samples: 100
-active_dims: 10
-strategy: alebo
-root_dir: time_logs
-seed: 2027

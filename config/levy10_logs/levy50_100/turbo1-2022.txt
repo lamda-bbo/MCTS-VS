@@ -1,4 +1,0 @@
-func: levy50_100
-max_samples: 600
-root_dir: levy10_logs
-seed: 2022
