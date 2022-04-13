@@ -151,6 +151,31 @@ class MCTS:
             for new_x, value in zip(X_sample, Y_sample):
                 self.samples.append( (new_x, value) )
                 self.update_feature2sample_map(feature, new_x, value)
+        elif self.ipt_solver == 'rs':
+            new_ipt_x = []
+            for _ in range(self.sample_batch_size):
+                ipt_x = []
+                for i in range(len(feature_idx)):
+                    ipt_x.append(np.random.uniform(ipt_lb[i], ipt_ub[i]))
+                new_ipt_x.append(np.array(ipt_x))
+            # get unimportant variables
+            X_sample, Y_sample = [], []
+            for i in range(len(new_ipt_x)):
+                fixed_variables = {idx: float(v) for idx, v in zip(feature_idx, new_ipt_x[i])}
+                new_x = self.uipt_solver.get_full_variable(
+                    fixed_variables, 
+                    self.lb, 
+                    self.ub
+                )
+                value = self.func(new_x)
+                self.uipt_solver.update(new_x, value)
+                self.samples.append( (new_x, value) )
+                self.update_feature2sample_map(feature, new_x, value)
+
+                X_sample.append(new_x)
+                Y_sample.append(value)
+        elif self.ipt_solver == 'smac':
+            pass
         else:
             assert 0
         

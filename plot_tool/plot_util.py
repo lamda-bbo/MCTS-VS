@@ -413,15 +413,15 @@ def plot_results(
                         loc=2 if legend_outside else None,
                         bbox_to_anchor=(1,1) if legend_outside else None)
                 else:
-                    # _key = [
-                    #     'Vanilla BO', 
-                    #     'LVS-BO',
-                    #     'LVS-TurBO',
-                    #     'Lamcts-TurBO',
-                    #     'TurBO',
-                    #     'ALEBO'
-                    # ]
-                    _key = list(color_map.keys())
+                    _key = [
+#                         'MCTS-VS-BO',
+#                         'MCTS-VS-TuRBO',
+#                         'MCTS-VS-RS',
+                        'LA-MCTS-TuRBO',
+                        'TuRBO',
+                        'RS',
+                    ]
+                    # _key = list(color_map.keys())
                     _value = [g2l[k] for k in _key if k in g2l.keys()]
                     ax.legend(
                         _value,

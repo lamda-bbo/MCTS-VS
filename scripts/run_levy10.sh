@@ -7,40 +7,55 @@ seed_end=2025
 # func_list=(levy10_100 levy10_300)
 func_list=(levy10_100 levy10_300)
 max_samples=600
-Cp=600
+Cp=10
 root_dir=levy10_logs
 
 for func in ${func_list[@]}
 do
-    # lvs-bo
-    for ((seed=$seed_start; seed<=$seed_end; seed++))
-    do
-        {
-        python3 mcts_vs.py \
-            --func=$func \
-            --max_samples=$max_samples \
-            --Cp=$Cp \
-            --root_dir=$root_dir \
-            --seed=$seed
-        } &
-    done
-    wait
+#     # lvs-bo
+#     for ((seed=$seed_start; seed<=$seed_end; seed++))
+#     do
+#         {
+#         python3 mcts_vs.py \
+#             --func=$func \
+#             --max_samples=$max_samples \
+#             --Cp=$Cp \
+#             --root_dir=$root_dir \
+#             --seed=$seed
+#         } &
+#     done
+#     wait
     
-    # lvs-turbo
-    for ((seed=$seed_start; seed<=$seed_end; seed++))
-    do
-        {
-        python3 mcts_vs.py \
-            --func=$func \
-            --max_samples=$max_samples \
-            --turbo_max_evals=50 \
-            --Cp=$Cp \
-            --ipt_solver=turbo \
-            --root_dir=$root_dir \
-            --seed=$seed
-        } &
-    done
-    wait
+#     # lvs-turbo
+#     for ((seed=$seed_start; seed<=$seed_end; seed++))
+#     do
+#         {
+#         python3 mcts_vs.py \
+#             --func=$func \
+#             --max_samples=$max_samples \
+#             --turbo_max_evals=50 \
+#             --Cp=$Cp \
+#             --ipt_solver=turbo \
+#             --root_dir=$root_dir \
+#             --seed=$seed
+#         } &
+#     done
+#     wait
+    
+    # lvs-rs
+#     for ((seed=$seed_start; seed<=$seed_end; seed++))
+#     do
+#         {
+#         python3 mcts_vs.py \
+#             --func=$func \
+#             --max_samples=$max_samples \
+#             --Cp=$Cp \
+#             --ipt_solver=rs \
+#             --root_dir=$root_dir \
+#             --seed=$seed
+#         } &
+#     done
+#     wait
     
 #     # vanilla bo
 #     for ((seed=$seed_start; seed<=$seed_end; seed++))
@@ -113,6 +128,21 @@ do
 #         } &
 #     done
 #     wait
+
+    # dropout-rs
+    for ((seed=$seed_start; seed<=$seed_end; seed++))
+    do
+        {
+        python3 dropout.py \
+            --func=$func \
+            --max_samples=$max_samples \
+            --active_dims=6 \
+            --ipt_solver=rs \
+            --root_dir=$root_dir \
+            --seed=$seed
+        } &
+    done
+    wait
     
 #     # turbo
 #     for ((seed=$seed_start; seed<=$seed_end; seed++))

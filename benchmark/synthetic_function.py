@@ -103,6 +103,33 @@ class Hartmann(SyntheticFunction):
         return result
     
     
+class Hartmann60(SyntheticFunction):
+    def __init__(self, dims=30, negate=False):
+        assert dims == 30
+        SyntheticFunction.__init__(
+            self, 
+            dims, 
+            negate, 
+            0 * np.ones(dims),
+            1 * np.ones(dims),
+            -3.32237,
+            np.array([0.20169, 0.150011, 0.476874, 0.275332, 0.311652, 0.6573])
+        )
+        
+        self.func = Hartmann(6, negate)
+        
+    def __call__(self, x):
+        assert len(x) == self.dims
+        assert x.ndim == 1
+        assert np.all(x <= self.ub) and np.all(x >= self.lb)
+        
+        result = 0
+        for i in range(int(self.dims / 6)):
+            result += (0.5**i) * self.func(x[i*6: (i+1)*6])
+        # result = self.func(x[: 6])
+        return result
+    
+    
 class Levy(SyntheticFunction):
     def __init__(self, dims=10, negate=False):
         SyntheticFunction.__init__(

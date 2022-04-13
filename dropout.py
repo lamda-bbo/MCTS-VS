@@ -110,6 +110,23 @@ while True:
         Y_init = -np_train_y
         X_sample, Y_sample = turbo1.optimize(selected_x, Y_init, selected_dims, uipt_solver, n=1)
         Y_sample = [-y for y in Y_sample]
+    elif args.ipt_solver == 'rs':
+        selected_new_x = []
+        for _ in range(args.batch_size):
+            ipt_x = []
+            for i in range(len(selected_dims)):
+                ipt_x.append(np.random.uniform(selected_lb[i], selected_ub[i]))
+            selected_new_x.append(np.array(ipt_x))
+        # use uipt solver to decide other axis
+        for i in range(len(selected_new_x)):
+            fixed_variables = {idx: float(v) for idx, v in zip(selected_dims, selected_new_x[i])}
+            new_x = uipt_solver.get_full_variable(fixed_variables, lb, ub)
+            new_y = func(new_x)
+            X_sample.append(new_x)
+            Y_sample.append(new_y)
+            uipt_solver.update(new_x, new_y)
+    elif args.ipt_solver == 'smac':
+        pass
     else:
         assert 0
     

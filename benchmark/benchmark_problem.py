@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import re
 import time
-from benchmark.synthetic_function import Ackley, Branin, Hartmann, Levy, Rosenbrock
+from benchmark.synthetic_function import Ackley, Branin, Hartmann, Levy, Rosenbrock, Hartmann60
 from benchmark.tracker import Tracker, save_results
 from benchmark.rover_function import Rover
 
@@ -83,6 +83,8 @@ levy50 = Levy(50, True)
 rosenbrock10 = Rosenbrock(10, True)
 rosenbrock20 = Rosenbrock(20, True)
 
+hartmann60 = Hartmann60(negate=True)
+
 
 def get_problem(func_name, save_config, seed=2021):
     """
@@ -103,18 +105,38 @@ def get_problem(func_name, save_config, seed=2021):
             return RLBenchmark(RLEnv('Hopper-v2', seed), 33, list(range(33)), save_config)
         else:
             assert 0
+    elif func_name != 'nasbench' and func_name.startswith('nasbench'):
+        if func_name == 'nasbench1shot1':
+            from benchmark.hpo_benchmark import HpoNasBench
+            dims = 33
+            return FunctionBenchmark(HpoNasBench(name=func_name, seed=seed), dims, list(range(dims)), save_config)
+        elif func_name == 'nasbench201':
+            from benchmark.naslib_benchmark import NASLibBench
+            dims = 30
+            return FunctionBenchmark(NASLibBench(name=func_name, seed=seed), dims, list(range(dims)), save_config)
+        elif func_name == 'nasbenchtrans':
+            from benchmark.naslib_benchmark import NASLibBench
+            dims = 24
+            return FunctionBenchmark(NASLibBench(name='transbench101_micro', seed=seed), dims, list(range(dims)), save_config)
+        else:
+            assert 0
     else:
         split_result = func_name.split('_')
 
         if len(split_result) == 1:
             func = split_result[0]
             dims = None
-        else:
+        elif len(split_result) == 2:
             func, dims = split_result
             dims = int(dims)
+        else:
+            assert 0
 
         valid_dims = int(re.findall(r'\d+', func)[0])
         dims = valid_dims if dims is None else dims
+        if func_name == 'hartmann60_500':
+            valid_dims = 30
+            dims = 30
         return FunctionBenchmark(eval(func), dims, list(range(valid_dims)), save_config)
 
 
