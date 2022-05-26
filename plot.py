@@ -59,9 +59,10 @@ color_map = {
     'Dropout-TuRBO': 'blueviolet',
     'LA-MCTS-TuRBO': (0, 190, 190),
     
-    'MCTS-VS-RS': 'orange',
-    'Dropout-RS': 'yellow',
-    'RS': 'yellow',
+    'MCTS-VS-RS': (129, 249, 255),
+    # 'MCTS-VS-RS': 'orange',
+    'Dropout-RS': (32, 131, 176),
+    'RS': (16, 0, 164),
     
     # other sota
     'ALEBO': (141, 84, 71),
@@ -71,7 +72,7 @@ color_map = {
     
     # ============== ablation =============
     # 
-    'bestk': 'crimson',
+    'best-$k$': 'crimson',
     'random': (255, 176, 105),
     # 'copy': 'darkgreen',
     # 'mix': 'orange',
@@ -127,14 +128,20 @@ exp1_algo_2 = (
     'turbo',
 )
 
+exp1_algo_3 = (
+    'mcts_vs_rs',
+    'dropout_rs',
+    'random_search'
+)
+
 exp2_algo = (
     'lamcts_vs_bo',
     'mcts_vs_bo',
     'lamcts_vs_turbo',
     'mcts_vs_turbo',
     'mcts_vs_rs',
-    'dropout_rs',
-    'random_search',
+    # 'dropout_rs',
+    # 'random_search',
     'turbo',
     'hesbo',
     'alebo',
@@ -159,11 +166,14 @@ def load_results(root_dir, verbose=True):
         for dirname in os.listdir(os.path.join(root_dir, func_name)):
             if dirname.startswith('rembo') or dirname.startswith('lamcts_bo'):
                 continue
-            if func_name.startswith('nas') and dirname.startswith('hesbo'):
+            # if func_name.startswith('nas') and dirname.startswith('hesbo'):
+            #     continue
+            if dirname.startswith('lamcts_vs_bo_copy') or dirname.startswith('lamcts_vs_bo_mix'):
                 continue
                 
             # if not dirname.startswith(exp1_algo_1):
             # if not dirname.startswith(exp1_algo_2):
+            # if not dirname.startswith(exp1_algo_3):
             if not dirname.startswith(exp2_algo):
                 continue
                 
@@ -173,14 +183,20 @@ def load_results(root_dir, verbose=True):
                 
                 if func_name.startswith('levy10') or func_name.startswith('levy20'):
                     progress = progress[progress['y'] >= -60]
-                if func_name.startswith('Hopper') or func_name.startswith('Walker'):
+                if func_name.startswith('Hopper') or func_name.startswith('Walker') or func_name.startswith('HalfCheetah'):
                     progress = progress[progress['x'] <= 1200]
                 if func_name.startswith('nas'):
-                    # progress.loc[(progress['y'] < 0.94), 'y'] = 0.94
-                    # progress = progress[progress['y'] >= 0.90]
-                    # progress = progress[progress['x'] >= 150]
-                    progress = progress[progress['t'] <= 1000]
-                    # pass
+                    # progress.loc[(progress['y'] < 0.9), 'y'] = 0.9 # for nas101
+                    # progress.loc[(progress['y'] < 0.52), 'y'] = 0.52 # for trans
+                    progress.loc[(progress['y'] < 0.68), 'y'] = 0.68 # for nasbench 201
+                    # progress.loc[(progress['y'] < 0.6), 'y'] = 0.6 # for nasbench asr
+                    # progress.loc[(progress['y'] < 0.91), 'y'] = 0.91 # for nasbench 1shot1
+                    max_time = 3000
+                    flag = (progress['t'] > max_time).sum()
+                    progress = progress[progress['t'] <= max_time]
+                    if flag > 0:
+                        progress.loc[len(progress)-1, 't'] = max_time
+                        
                 result = Result(name=name, progress=progress)
                 all_results.append(result)
                 print('load %s ' % name)
@@ -193,9 +209,10 @@ def draw(xy_fn, split_fn, group_fn, xlabel, ylabel, max_x, interval_x):
     fig, axarr = pu.plot_results(all_results, xy_fn=xy_fn, split_fn=split_fn, group_fn=group_fn, shaded_std=True, shaded_err=False, average_group=True, tiling='horizontal', xlabel=xlabel, ylabel=ylabel, legend_show=args.legend_show)
     # fig, axarr = pu.plot_results(all_results, xy_fn=xy_fn, split_fn=split_fn, group_fn=group_fn, shaded_std=True, shaded_err=False, average_group=True, tiling='horizontal', xlabel=xlabel, ylabel=ylabel, legend_show=args.legend_show, resample=8)
     # plt.plot([0, 1000], [0.7349, 0.7349], c='gray', linestyle='--')
-    # plt.axhline(0.7349, c='gray', linestyle='--')
-    # plt.axhline(0.5738, c='gray', linestyle='--')
-    # plt.axhline(0.55, c='gray', linestyle='--')
+    # plt.axhline(0.9437, c='gray', linestyle='--') # for nasbench 101
+    # plt.axhline(0.7349, c='gray', linestyle='--') # for nasbench 201
+    # plt.axhline(0.55, c='gray', linestyle='--') # for transnas
+    # plt.axhline(0.9041, c='gray', linestyle='--') # for nasbench asr
     plt.subplots_adjust(hspace=0.2, wspace=0.2, bottom=0.2, left=0.08, top=0.95)
     for ax in axarr[0]:
         ax.set_xticks(np.arange(0, max_x, interval_x))
@@ -227,10 +244,15 @@ def main(root_dir):
             return 'NAS-Bench-1shot1'
         elif splits[0] == 'nasbenchtrans':
             return 'TransNAS-Bench-101'
-        elif splits[0] == 'hartmann60_500':
-            return 'Hartmann6_10_500'
-        elif splits[0] == 'hartmann90_500':
-            return 'Hartmann6_15_500'
+        elif splits[0] == 'nasbenchasr':
+            return 'NAS-Bench-ASR'
+        elif splits[0].startswith('hartmann'):
+            func_name = splits[0].split('_')[0]
+            dims = int(func_name.strip('hartmann'))
+            if dims == 6:
+                return 'Hartmann6_500'
+            else:
+                return r'Hartmann6_{}_500_$v$'.format(int(dims / 6))
         else:
             return splits[0].title()
     
@@ -258,23 +280,54 @@ def main(root_dir):
     
     # nasbench
     # draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Accuracy', 200, 50)
-    # draw(ty_fn, split_fn, group_fn, 'Time (sec)', 'Val accuracy', 1000, 200)
-    # draw(ty_fn, split_fn, group_fn, 'Time (sec)', 'Accuracy', 100, 20)
+    # draw(ty_fn, split_fn, group_fn, 'Time (sec)', 'Accuracy', 3000, 1000)
+    # draw(ty_fn, split_fn, group_fn, 'Time (sec)', 'Accuracy', 300, 100)
+    # draw(ty_fn, split_fn, group_fn, 'Time (sec)', 'PER', 500, 100)
     
     # rl
     # draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Reward', 1200, 300)
+    # draw(ty_fn, split_fn, group_fn, 'Time (sec)', 'Reward', 1200, 300)
+    
+    
+def ablation_solver(root_dir):
+    def split_fn(r):
+        name = r.name
+        splits = name.split('-')
+        func_name = splits[0].split('_')[0]
+        dims = int(func_name.strip('hartmann'))
+        if dims == 6:
+            return 'Hartmann6_500'
+        else:
+            return 'Hartmann6_{}_500'.format(int(dims / 6))
+    
+    def group_fn(r):
+        name = r.name
+        splits = name.split('-')
+        alg_name = splits[1]
+        
+        return key_map[alg_name]
+    
+    draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Value', 600, 100)
     
     
 def ablation_strategy(root_dir):
     def split_fn(r):
         name = r.name
         splits = name.split('-')
-        return 'Fill-in strategy'
+        return 'Hartmann6_300'
     
     def group_fn(r):
         name = r.name
         splits = name.split('-')
         alg_name = splits[1]
+        
+        strategy = alg_name.split('_')[-1]
+        if strategy == 'bestk':
+            return r'best-$k$'
+        elif strategy == 'random':
+            return 'random'
+        else:
+            assert 0
         
         return alg_name.split('_')[-1]
     
@@ -301,7 +354,8 @@ def ablation_min_num_variables(root_dir):
     def split_fn(r):
         name = r.name
         splits = name.split('-')
-        return r'$N_{split}$'
+        # return r'$N_{split}$'
+        return 'Hartmann6_300'
     
     def group_fn(r):
         name = r.name
@@ -312,29 +366,13 @@ def ablation_min_num_variables(root_dir):
     
     draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Value', 600, 100)
     
-    
-def ablation_num_samples(root_dir):
-    def split_fn(r):
-        name = r.name
-        splits = name.split('-')
-        return 'Number of samples'
-    
-    def group_fn(r):
-        name = r.name
-        splits = name.split('-')
-        alg_name = splits[1]
-        f_bs, s_bs = alg_name.split('_')[-2], alg_name.split('_')[-1]
-        
-        return r'$N_v$=' + f_bs + r',$N_s$=' + s_bs
-    
-    draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Value', 600, 100)
-    
 
 def ablation_num_samples(root_dir):
     def split_fn(r):
         name = r.name
         splits = name.split('-')
-        return 'Number of samples'
+        # return 'Number of samples'
+        return 'Hartmann6_300'
     
     def group_fn(r):
         name = r.name
@@ -351,7 +389,8 @@ def ablation_param_k(root_dir):
     def split_fn(r):
         name = r.name
         splits = name.split('-')
-        return 'Parameter $k$ of best-$k$'
+        # return 'Parameter $k$ of best-$k$'
+        return 'Hartmann6_300'
     
     def group_fn(r):
         name = r.name
@@ -368,7 +407,8 @@ def ablation_N_bad(root_dir):
     def split_fn(r):
         name = r.name
         splits = name.split('-')
-        return r'$N_{bad}$'
+        # return r'$N_{bad}$'
+        return 'Hartmann6_300'
     
     def group_fn(r):
         name = r.name
@@ -384,7 +424,7 @@ if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument('--func_name', required=True, type=str)
-    parser.add_argument('--legend_show', default=True, type=bool)
+    parser.add_argument('--legend_show', default=False, type=bool)
     parser.add_argument('--root_dir', required=True, type=str)
     parser.add_argument('--output_name', required=True, type=str)
     args = parser.parse_args()
@@ -393,6 +433,9 @@ if __name__ == '__main__':
     
     os.makedirs('results', exist_ok=True)
     main(root_dir=args.root_dir)
+
+    # ablation_solver(root_dir=args.root_dir)
+    
     # ablation_strategy(root_dir=args.root_dir)
     # ablation_Cp(root_dir=args.root_dir)
     # ablation_min_num_variables(root_dir=args.root_dir)

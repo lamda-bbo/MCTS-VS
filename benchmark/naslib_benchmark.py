@@ -9,7 +9,9 @@ from naslib.search_spaces import (
 )
 from naslib.utils import get_dataset_api
 from naslib.search_spaces.core.query_metrics import Metric
+from naslib.search_spaces.nasbenchasr.conversions import copy_structure
 import numpy as np
+import random
 
 
 search_spaces = {
@@ -48,6 +50,10 @@ tasks = {
 }
 
 
+ASR_OP_NAMES = ['linear', 'conv5', 'conv5d2', 'conv7', 'conv7d2', 'zero']
+asr_search_space = [[len(ASR_OP_NAMES)] + [2]*(idx+1) for idx in range(3)]
+
+
 class NASLibBench:
     def __init__(self, name, task=None, seed=None):
         if name == 'nasbench201':
@@ -56,9 +62,13 @@ class NASLibBench:
         elif name == 'transbench101_micro':
             self.dims = 24
             self.n_category = [4, 4, 4, 4, 4, 4]
+        elif name == 'asr':
+            self.dims = 30
+            self.n_category = [6, 2, 6, 2, 2, 6, 2, 2, 2]
         else:
             assert 0
         assert sum(self.n_category) == self.dims
+        self.name = name
         self.graph = search_spaces[name]()
         self.dataset = tasks[name][0]
         self.dataset_api = get_dataset_api(search_space=name, dataset=self.dataset)
@@ -79,13 +89,26 @@ class NASLibBench:
             i += j
         op_indices = np.array(op_indices)
         graph = self.graph.clone()
-        graph.set_op_indices(op_indices)
+        if self.name in ['nasbench201', 'transbench101_micro']:
+            graph.set_op_indices(op_indices)
+        elif self.name == 'asr':
+            op_indices = [i for i in op_indices]
+            m = copy_structure(op_indices, asr_search_space)
+            graph.set_compact(m)
+        else:
+            assert 0
+        
         # print(op_indices)
         # print(self.graph.get_op_indices())
         result = graph.query(Metric.VAL_ACCURACY, dataset=self.dataset, dataset_api=self.dataset_api)
-        return result / 100
-    
-    
+        if self.name in ['nasbench201', 'transbench101_micro']:
+            return result / 100
+        elif self.name == 'asr':
+            return result
+        else:
+            assert 0
+
+            
 if __name__ == '__main__':
     nas_problem = NASLibBench('transbench101_micro')
     result = nas_problem(np.random.uniform(0, 1, nas_problem.dims))

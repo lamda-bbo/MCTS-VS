@@ -56,7 +56,7 @@ class HpoNasBench:
 
 if __name__ == '__main__':
     # nas_problem = HpoNasBench('nasbench1shot1')
-    nas_problem = HpoNasBench('nasbench201')
+    nas_problem = HpoNasBench('nasbench1shot1')
     print('dims:', nas_problem.dims)
     acc = nas_problem(np.random.uniform(0, 1, nas_problem.dims))
     print(acc)

@@ -2,9 +2,9 @@
 
 seed_start=2021
 seed_end=2025
-func_list=(Hopper Walker2d)
-# func_list=(Walker2d)
-max_samples=2000
+# func_list=(Hopper Walker2d)
+func_list=(HalfCheetah)
+max_samples=1200
 Cp=50
 root_dir=rl_logs
 
@@ -25,21 +25,21 @@ do
     done
     wait
     
-    # lvs-turbo
-    for ((seed=$seed_start; seed<=$seed_end; seed++))
-    do
-        {
-        python3 mcts_vs.py \
-            --func=$func \
-            --max_samples=$max_samples \
-            --Cp=$Cp \
-            --ipt_solver=turbo \
-            --turbo_max_evals=50 \
-            --root_dir=$root_dir \
-            --seed=$seed
-        } &
-    done
-    wait
+#     # lvs-turbo
+#     for ((seed=$seed_start; seed<=$seed_end; seed++))
+#     do
+#         {
+#         python3 mcts_vs.py \
+#             --func=$func \
+#             --max_samples=$max_samples \
+#             --Cp=$Cp \
+#             --ipt_solver=turbo \
+#             --turbo_max_evals=50 \
+#             --root_dir=$root_dir \
+#             --seed=$seed
+#         } &
+#     done
+#     wait
     
 #     # turbo
 #     for ((seed=$seed_start; seed<=$seed_end; seed++))
@@ -73,6 +73,9 @@ do
 #     then
 #         active_dims=10
 #     elif [ "$func" = "Walker2d" ]
+#     then
+#         active_dims=20
+#     elif [ "$func" = "HalfCheetah" ]
 #     then
 #         active_dims=20
 #     else

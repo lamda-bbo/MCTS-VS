@@ -2,8 +2,9 @@
 
 seed_start=2021
 seed_end=2025
-func_list=(nasbenchtrans nasbench201)
-# func_list=(nasbench201)
+# func_list=(nasbench201 nasbenchtrans)
+# func_list=(nasbenchtrans)
+func_list=(nasbenchasr)
 max_samples=200
 Cp=0.1
 root_dir=naslib_logs
@@ -21,78 +22,82 @@ do
             --Cp=$Cp \
             --root_dir=$root_dir \
             --seed=$seed
-        }
+        } &
     done
+    wait
     
-    # lvs-turbo
-    for ((seed=$seed_start; seed<=$seed_end; seed++))
-    do
-        {
-        python3 mcts_vs.py \
-            --func=$func \
-            --max_samples=$max_samples \
-            --Cp=$Cp \
-            --ipt_solver=turbo \
-            --feature_batch_size=2 \
-            --sample_batch_size=3 \
-            --min_num_variables=3 \
-            --turbo_max_evals=50 \
-            --root_dir=$root_dir \
-            --seed=$seed
-        }
-    done
+#     # lvs-turbo
+#     for ((seed=$seed_start; seed<=$seed_end; seed++))
+#     do
+#         {
+#         python3 mcts_vs.py \
+#             --func=$func \
+#             --max_samples=$max_samples \
+#             --Cp=$Cp \
+#             --ipt_solver=turbo \
+#             --feature_batch_size=2 \
+#             --sample_batch_size=3 \
+#             --min_num_variables=3 \
+#             --turbo_max_evals=50 \
+#             --root_dir=$root_dir \
+#             --seed=$seed
+#         } &
+#     done
+#     wait
     
     # lvs-rs
-    for ((seed=$seed_start; seed<=$seed_end; seed++))
-    do
-        {
-        python3 mcts_vs.py \
-            --func=$func \
-            --max_samples=$max_samples \
-            --Cp=$Cp \
-            --ipt_solver=rs \
-            --root_dir=$root_dir \
-            --seed=$seed
-        }
-    done
+#     for ((seed=$seed_start; seed<=$seed_end; seed++))
+#     do
+#         {
+#         python3 mcts_vs.py \
+#             --func=$func \
+#             --max_samples=$max_samples \
+#             --Cp=$Cp \
+#             --ipt_solver=rs \
+#             --root_dir=$root_dir \
+#             --seed=$seed
+#         }
+#     done
 
     # random search
-    for ((seed=$seed_start; seed<=$seed_end; seed++))
-    do
-        {
-        python3 random_search.py \
-            --func=$func \
-            --max_samples=$max_samples \
-            --root_dir=$root_dir \
-            --seed=$seed
-        }
-    done
+#     for ((seed=$seed_start; seed<=$seed_end; seed++))
+#     do
+#         {
+#         python3 random_search.py \
+#             --func=$func \
+#             --max_samples=$max_samples \
+#             --root_dir=$root_dir \
+#             --seed=$seed
+#         }
+#     done
     
-    # turbo
-    for ((seed=$seed_start; seed<=$seed_end; seed++))
-    do
-        {
-        python3 turbo.py \
-            --func=$func \
-            --max_samples=$max_samples \
-            --root_dir=$root_dir \
-            --seed=$seed
-        }
-    done
+#     # turbo
+#     for ((seed=$seed_start; seed<=$seed_end; seed++))
+#     do
+#         {
+#         python3 turbo.py \
+#             --func=$func \
+#             --max_samples=$max_samples \
+#             --root_dir=$root_dir \
+#             --seed=$seed
+#         } &
+#     done
+#     wait
     
-    # lamcts-turbo
-    for ((seed=$seed_start; seed<=$seed_end; seed++))
-    do
-        {
-        python3 lamcts.py \
-            --func=$func \
-            --max_samples=$max_samples \
-            --Cp=$Cp \
-            --solver_type=turbo \
-            --root_dir=$root_dir \
-            --seed=$seed
-        }
-    done
+#     # lamcts-turbo
+#     for ((seed=$seed_start; seed<=$seed_end; seed++))
+#     do
+#         {
+#         python3 lamcts.py \
+#             --func=$func \
+#             --max_samples=$max_samples \
+#             --Cp=$Cp \
+#             --solver_type=turbo \
+#             --root_dir=$root_dir \
+#             --seed=$seed
+#         } &
+#     done
+#     wait
 
     # hesbo
 #     for ((seed=$seed_start; seed<=$seed_end; seed++))
@@ -109,7 +114,7 @@ do
 #     done
 #     wait
     
-    # alebo
+#     # alebo
 #     for ((seed=$seed_start; seed<=$seed_end; seed++))
 #     do
 #         {
@@ -120,10 +125,11 @@ do
 #             --strategy=alebo \
 #             --root_dir=$root_dir \
 #             --seed=$seed
-#         }
+#         } &
 #     done
+#     wait
     
-    # cma-es
+#     # cma-es
 #     for ((seed=$seed_start; seed<=$seed_end; seed++))
 #     do
 #         {
@@ -137,7 +143,7 @@ do
 #     done
 #     wait
 
-    # VAE-BO
+#     # VAE-BO
 #     for ((seed=$seed_start; seed<=$seed_end; seed++))
 #     do
 #         {

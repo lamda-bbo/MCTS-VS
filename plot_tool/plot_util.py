@@ -354,7 +354,9 @@ def plot_results(
                 l, = ax.plot(x, y, color=COLORS[groups.index(group) % len(COLORS)])
                 g2l[group] = l
         if average_group:
+            # groups.append('MCTS-VS-BO')
             for group in sorted(groups):
+            # for group in groups:
                 xys = gresults[group]
                 if not any(xys):
                     continue
@@ -413,15 +415,15 @@ def plot_results(
                         loc=2 if legend_outside else None,
                         bbox_to_anchor=(1,1) if legend_outside else None)
                 else:
-                    _key = [
-#                         'MCTS-VS-BO',
-#                         'MCTS-VS-TuRBO',
-#                         'MCTS-VS-RS',
-                        'LA-MCTS-TuRBO',
-                        'TuRBO',
-                        'RS',
-                    ]
-                    # _key = list(color_map.keys())
+#                     _key = [
+# #                         'MCTS-VS-BO',
+# #                         'MCTS-VS-TuRBO',
+# #                         'MCTS-VS-RS',
+#                         'LA-MCTS-TuRBO',
+#                         'TuRBO',
+#                         'RS',
+#                     ]
+                    _key = list(color_map.keys())
                     _value = [g2l[k] for k in _key if k in g2l.keys()]
                     ax.legend(
                         _value,

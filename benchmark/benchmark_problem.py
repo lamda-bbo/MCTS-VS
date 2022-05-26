@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import re
 import time
-from benchmark.synthetic_function import Ackley, Branin, Hartmann, Levy, Rosenbrock, Hartmann60
+from benchmark.synthetic_function import Ackley, Branin, Hartmann, Levy, Rosenbrock, HartmannExtend
 from benchmark.tracker import Tracker, save_results
 from benchmark.rover_function import Rover
 
@@ -83,8 +83,6 @@ levy50 = Levy(50, True)
 rosenbrock10 = Rosenbrock(10, True)
 rosenbrock20 = Rosenbrock(20, True)
 
-hartmann60 = Hartmann60(negate=True)
-
 
 def get_problem(func_name, save_config, seed=2021):
     """
@@ -118,6 +116,10 @@ def get_problem(func_name, save_config, seed=2021):
             from benchmark.naslib_benchmark import NASLibBench
             dims = 24
             return FunctionBenchmark(NASLibBench(name='transbench101_micro', seed=seed), dims, list(range(dims)), save_config)
+        elif func_name == 'nasbenchasr':
+            from benchmark.naslib_benchmark import NASLibBench
+            dims = 30
+            return FunctionBenchmark(NASLibBench(name='asr', seed=seed), dims, list(range(dims)), save_config)
         else:
             assert 0
     else:
@@ -134,9 +136,11 @@ def get_problem(func_name, save_config, seed=2021):
 
         valid_dims = int(re.findall(r'\d+', func)[0])
         dims = valid_dims if dims is None else dims
-        if func_name == 'hartmann60_500':
-            valid_dims = 30
-            dims = 30
+        if func_name.startswith('hartmann') and split_result[0] != 'hartmann6':
+            d = split_result[0].strip('hartmann')
+            valid_dims = int(d)
+            dims = int(func_name.split('_')[-1])
+            return FunctionBenchmark(HartmannExtend(valid_dims, True), dims, list(range(valid_dims)), save_config)
         return FunctionBenchmark(eval(func), dims, list(range(valid_dims)), save_config)
 
 

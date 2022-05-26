@@ -11,6 +11,8 @@ This package includes the Python code of the MCTS-VS algorithm. MCTS-VS is a new
 - BoTorch == 0.5.1
 - cma == 3.1.0
 - [NAS-Bench-101](https://github.com/google-research/nasbench)
+- NAS-Bench-1Shot1 in [HPO-Bench](https://github.com/automl/HPOBench)
+- NAS-Bench-201, TransNAS-Bench-101, NAS-Bench-ASR in [NASLib](https://github.com/automl/NASLib)
 
 ## Usage
 

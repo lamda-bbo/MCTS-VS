@@ -12,19 +12,19 @@ root_dir=levy10_logs
 
 for func in ${func_list[@]}
 do
-#     # lvs-bo
-#     for ((seed=$seed_start; seed<=$seed_end; seed++))
-#     do
-#         {
-#         python3 mcts_vs.py \
-#             --func=$func \
-#             --max_samples=$max_samples \
-#             --Cp=$Cp \
-#             --root_dir=$root_dir \
-#             --seed=$seed
-#         } &
-#     done
-#     wait
+    # lvs-bo
+    for ((seed=$seed_start; seed<=$seed_end; seed++))
+    do
+        {
+        python3 mcts_vs.py \
+            --func=$func \
+            --max_samples=$max_samples \
+            --Cp=$Cp \
+            --root_dir=$root_dir \
+            --seed=$seed
+        } &
+    done
+    wait
     
 #     # lvs-turbo
 #     for ((seed=$seed_start; seed<=$seed_end; seed++))
@@ -130,19 +130,19 @@ do
 #     wait
 
     # dropout-rs
-    for ((seed=$seed_start; seed<=$seed_end; seed++))
-    do
-        {
-        python3 dropout.py \
-            --func=$func \
-            --max_samples=$max_samples \
-            --active_dims=6 \
-            --ipt_solver=rs \
-            --root_dir=$root_dir \
-            --seed=$seed
-        } &
-    done
-    wait
+#     for ((seed=$seed_start; seed<=$seed_end; seed++))
+#     do
+#         {
+#         python3 dropout.py \
+#             --func=$func \
+#             --max_samples=$max_samples \
+#             --active_dims=6 \
+#             --ipt_solver=rs \
+#             --root_dir=$root_dir \
+#             --seed=$seed
+#         } &
+#     done
+#     wait
     
 #     # turbo
 #     for ((seed=$seed_start; seed<=$seed_end; seed++))

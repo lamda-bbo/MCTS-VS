@@ -3,7 +3,7 @@
 seed_start=2021
 seed_end=2025
 # func_list=(nasbench201 nasbench1shot1)
-func_list=(nasbench201)
+func_list=(nasbench1shot1)
 max_samples=200
 Cp=0.1
 root_dir=hpobench_logs
@@ -25,52 +25,52 @@ do
     done
     wait
     
-    # lvs-turbo
-    for ((seed=$seed_start; seed<=$seed_end; seed++))
-    do
-        {
-        python3 mcts_vs.py \
-            --func=$func \
-            --max_samples=$max_samples \
-            --Cp=$Cp \
-            --ipt_solver=turbo \
-            --feature_batch_size=2 \
-            --sample_batch_size=3 \
-            --min_num_variables=3 \
-            --turbo_max_evals=50 \
-            --root_dir=$root_dir \
-            --seed=$seed
-        } &
-    done
-    wait
+#     # lvs-turbo
+#     for ((seed=$seed_start; seed<=$seed_end; seed++))
+#     do
+#         {
+#         python3 mcts_vs.py \
+#             --func=$func \
+#             --max_samples=$max_samples \
+#             --Cp=$Cp \
+#             --ipt_solver=turbo \
+#             --feature_batch_size=2 \
+#             --sample_batch_size=3 \
+#             --min_num_variables=3 \
+#             --turbo_max_evals=50 \
+#             --root_dir=$root_dir \
+#             --seed=$seed
+#         } &
+#     done
+#     wait
     
-    # lvs-rs
-    for ((seed=$seed_start; seed<=$seed_end; seed++))
-    do
-        {
-        python3 mcts_vs.py \
-            --func=$func \
-            --max_samples=$max_samples \
-            --Cp=$Cp \
-            --ipt_solver=rs \
-            --root_dir=$root_dir \
-            --seed=$seed
-        } &
-    done
-    wait
+#     # lvs-rs
+#     for ((seed=$seed_start; seed<=$seed_end; seed++))
+#     do
+#         {
+#         python3 mcts_vs.py \
+#             --func=$func \
+#             --max_samples=$max_samples \
+#             --Cp=$Cp \
+#             --ipt_solver=rs \
+#             --root_dir=$root_dir \
+#             --seed=$seed
+#         } &
+#     done
+#     wait
 
-    # random search
-    for ((seed=$seed_start; seed<=$seed_end; seed++))
-    do
-        {
-        python3 random_search.py \
-            --func=$func \
-            --max_samples=$max_samples \
-            --root_dir=$root_dir \
-            --seed=$seed
-        } &
-    done
-    wait
+#     # random search
+#     for ((seed=$seed_start; seed<=$seed_end; seed++))
+#     do
+#         {
+#         python3 random_search.py \
+#             --func=$func \
+#             --max_samples=$max_samples \
+#             --root_dir=$root_dir \
+#             --seed=$seed
+#         } &
+#     done
+#     wait
     
     # turbo
 #     for ((seed=$seed_start; seed<=$seed_end; seed++))
@@ -86,18 +86,19 @@ do
 #     wait
     
     # lamcts-turbo
-    # for ((seed=$seed_start; seed<=$seed_end; seed++))
-    # do
-    #     {
-    #     python3 lamcts.py \
-    #         --func=$func \
-    #         --max_samples=$max_samples \
-    #         --Cp=$Cp \
-    #         --solver_type=turbo \
-    #         --root_dir=$root_dir \
-    #         --seed=$seed
-    #     }
-    # done
+#     for ((seed=$seed_start; seed<=$seed_end; seed++))
+#     do
+#         {
+#         python3 lamcts.py \
+#             --func=$func \
+#             --max_samples=$max_samples \
+#             --Cp=$Cp \
+#             --solver_type=turbo \
+#             --root_dir=$root_dir \
+#             --seed=$seed
+#         } &
+#     done
+#     wait
 
     # hesbo
 #     for ((seed=$seed_start; seed<=$seed_end; seed++))
@@ -114,7 +115,7 @@ do
 #     done
 #     wait
     
-    # alebo
+#     # alebo
 #     for ((seed=$seed_start; seed<=$seed_end; seed++))
 #     do
 #         {
@@ -125,8 +126,9 @@ do
 #             --strategy=alebo \
 #             --root_dir=$root_dir \
 #             --seed=$seed
-#         }
+#         } &
 #     done
+#     wait
     
     # cma-es
 #     for ((seed=$seed_start; seed<=$seed_end; seed++))

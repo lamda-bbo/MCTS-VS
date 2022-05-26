@@ -103,9 +103,9 @@ class Hartmann(SyntheticFunction):
         return result
     
     
-class Hartmann60(SyntheticFunction):
+class HartmannExtend(SyntheticFunction):
     def __init__(self, dims=30, negate=False):
-        assert dims == 30
+        assert dims % 6 == 0
         SyntheticFunction.__init__(
             self, 
             dims, 
@@ -126,7 +126,6 @@ class Hartmann60(SyntheticFunction):
         result = 0
         for i in range(int(self.dims / 6)):
             result += (0.5**i) * self.func(x[i*6: (i+1)*6])
-        # result = self.func(x[: 6])
         return result
     
     
