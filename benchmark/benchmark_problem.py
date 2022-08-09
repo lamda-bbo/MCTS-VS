@@ -141,6 +141,7 @@ def get_problem(func_name, save_config, seed=2021):
             valid_dims = int(d)
             dims = int(func_name.split('_')[-1])
             return FunctionBenchmark(HartmannExtend(valid_dims, True), dims, list(range(valid_dims)), save_config)
+            # return FunctionBenchmark(HartmannExtend(valid_dims, True), valid_dims, list(range(valid_dims)), save_config)
         return FunctionBenchmark(eval(func), dims, list(range(valid_dims)), save_config)
 
 

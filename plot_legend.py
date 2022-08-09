@@ -29,7 +29,8 @@ os.makedirs('results/legend', exist_ok=True)
 #     assert 0
     
 # key = ['MCTS-VS-BO', 'MCTS-VS-TuRBO', 'MCTS-VS-RS', 'RS', 'LA-MCTS-TuRBO', 'TuRBO']
-key = ['MCTS-VS-RS', 'MCTS-VS-BO', 'MCTS-VS-TuRBO']
+# key = ['Vanilla BO', 'Dropout-BO', 'MCTS-VS-BO', 'LASSO-VS-BO', 'TuRBO', 'Dropout-TuRBO', 'MCTS-VS-TuRBO', 'LASSO-VS-TuRBO']
+key = ['MCTS-VS-BO', 'MCTS-VS-SAASBO', 'SAASBO']
 colors = [color_map[k] for k in key]
 labels = key
 n = len(colors)

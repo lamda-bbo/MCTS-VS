@@ -24,9 +24,11 @@ key_map = {
     'lamcts_vs_bo': 'MCTS-VS-BO',
     'mcts_vs_bo': 'MCTS-VS-BO',
     'bo': 'Vanilla BO',
-    # 'lamcts_bo': 'LA-MCTS-BO',
+    'lamcts_bo': 'LA-MCTS-BO',
     # 'rembo': 'REMBO',
     # 'vae': 'VAE-BO',
+    'lasso_bo': 'LASSO-VS-BO',
+    'lasso_turbo': 'LASSO-VS-TuRBO',
     
     'mcts_vs_rs': 'MCTS-VS-RS',
     'random_search': 'RS',
@@ -41,6 +43,9 @@ key_map = {
     'alebo': 'ALEBO',
     'hesbo': 'HeSBO',
     'cmaes': 'CMA-ES',
+    
+    'saasbo': 'SAASBO',
+    'mcts_vs_saasbo': 'MCTS-VS-SAASBO',
 }
 
 color_map = {
@@ -48,7 +53,9 @@ color_map = {
     'MCTS-VS-BO': 'crimson',
     'Vanilla BO': 'gray',
     'Dropout-BO': 'darkorange',
-    # 'LA-MCTS-BO': 'royalblue',
+    'LA-MCTS-BO': 'red',
+    'SAASBO': 'blue',
+    'MCTS-VS-SAASBO': (51, 153, 51),
     # 'REMBO': 'magenta',
     'VAE-BO': (216, 207, 22),
     
@@ -64,6 +71,9 @@ color_map = {
     'Dropout-RS': (32, 131, 176),
     'RS': (16, 0, 164),
     
+    'LASSO-VS-BO': (222, 215, 66),
+    'LASSO-VS-TuRBO': (106, 252, 252),
+    
     # other sota
     'ALEBO': (141, 84, 71),
     # 'HeSBO': (104, 113, 5),
@@ -73,6 +83,7 @@ color_map = {
     # ============== ablation =============
     # 
     'best-$k$': 'crimson',
+    'average best-$k$': (68, 114, 196),
     'random': (255, 176, 105),
     # 'copy': 'darkgreen',
     # 'mix': 'orange',
@@ -120,12 +131,14 @@ exp1_algo_1 = (
     'lamcts_vs_bo',
     'dropout_bo',
     'bo',
+    'lasso_bo',
 )
 
 exp1_algo_2 = (
     'lamcts_vs_turbo',
     'dropout_turbo',
     'turbo',
+    'lasso_turbo'
 )
 
 exp1_algo_3 = (
@@ -134,20 +147,26 @@ exp1_algo_3 = (
     'random_search'
 )
 
+# exp2_algo = (
+#     'lamcts_vs_bo',
+#     'mcts_vs_bo',
+#     'lamcts_vs_turbo',
+#     'mcts_vs_turbo',
+#     'mcts_vs_rs',
+#     # 'dropout_rs',
+#     # 'random_search',
+#     'turbo',
+#     'hesbo',
+#     'alebo',
+#     'cmaes',
+#     'lamcts',
+#     'vae',
+# )
+
 exp2_algo = (
-    'lamcts_vs_bo',
     'mcts_vs_bo',
-    'lamcts_vs_turbo',
-    'mcts_vs_turbo',
-    'mcts_vs_rs',
-    # 'dropout_rs',
-    # 'random_search',
-    'turbo',
-    'hesbo',
-    'alebo',
-    'cmaes',
-    'lamcts',
-    'vae',
+    'mcts_vs_saasbo',
+    'saasbo',
 )
 
 
@@ -164,7 +183,8 @@ def load_results(root_dir, verbose=True):
             continue
         
         for dirname in os.listdir(os.path.join(root_dir, func_name)):
-            if dirname.startswith('rembo') or dirname.startswith('lamcts_bo'):
+            # if dirname.startswith('rembo') or dirname.startswith('lamcts_bo'):
+            if dirname.startswith('rembo'):
                 continue
             # if func_name.startswith('nas') and dirname.startswith('hesbo'):
             #     continue
@@ -197,6 +217,8 @@ def load_results(root_dir, verbose=True):
                     if flag > 0:
                         progress.loc[len(progress)-1, 't'] = max_time
                         
+                progress = progress[progress['x'] <= 150]
+                        
                 result = Result(name=name, progress=progress)
                 all_results.append(result)
                 print('load %s ' % name)
@@ -206,8 +228,8 @@ def load_results(root_dir, verbose=True):
 
 def draw(xy_fn, split_fn, group_fn, xlabel, ylabel, max_x, interval_x):
     plt.figure(dpi=300)
-    fig, axarr = pu.plot_results(all_results, xy_fn=xy_fn, split_fn=split_fn, group_fn=group_fn, shaded_std=True, shaded_err=False, average_group=True, tiling='horizontal', xlabel=xlabel, ylabel=ylabel, legend_show=args.legend_show)
-    # fig, axarr = pu.plot_results(all_results, xy_fn=xy_fn, split_fn=split_fn, group_fn=group_fn, shaded_std=True, shaded_err=False, average_group=True, tiling='horizontal', xlabel=xlabel, ylabel=ylabel, legend_show=args.legend_show, resample=8)
+    # fig, axarr = pu.plot_results(all_results, xy_fn=xy_fn, split_fn=split_fn, group_fn=group_fn, shaded_std=True, shaded_err=False, average_group=True, tiling='horizontal', xlabel=xlabel, ylabel=ylabel, legend_show=args.legend_show)
+    fig, axarr = pu.plot_results(all_results, xy_fn=xy_fn, split_fn=split_fn, group_fn=group_fn, shaded_std=True, shaded_err=False, average_group=True, tiling='horizontal', xlabel=xlabel, ylabel=ylabel, legend_show=args.legend_show, resample=8)
     # plt.plot([0, 1000], [0.7349, 0.7349], c='gray', linestyle='--')
     # plt.axhline(0.9437, c='gray', linestyle='--') # for nasbench 101
     # plt.axhline(0.7349, c='gray', linestyle='--') # for nasbench 201
@@ -246,13 +268,14 @@ def main(root_dir):
             return 'TransNAS-Bench-101'
         elif splits[0] == 'nasbenchasr':
             return 'NAS-Bench-ASR'
-        elif splits[0].startswith('hartmann'):
-            func_name = splits[0].split('_')[0]
-            dims = int(func_name.strip('hartmann'))
-            if dims == 6:
-                return 'Hartmann6_500'
-            else:
-                return r'Hartmann6_{}_500_$v$'.format(int(dims / 6))
+#         elif splits[0].startswith('hartmann'):
+#             func_name = splits[0].split('_')[0]
+#             dims = int(func_name.strip('hartmann'))
+#             if dims == 6:
+#                 return 'Hartmann6_500'
+#             else:
+#                 return r'Hartmann6_{}_500'.format(int(dims / 6))
+#                 # return r'Hartmann6_{}_500_$v$'.format(int(dims / 6))
         else:
             return splits[0].title()
     
@@ -276,7 +299,9 @@ def main(root_dir):
             return key_map[alg_name]
     
     # synthetic function
-    draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Value', 600, 100)
+    # draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Value', 600, 100)
+    # draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Value', 150, 20)
+    draw(ty_fn, split_fn, group_fn, 'Time (sec)', 'Value', 30000, 10000)
     
     # nasbench
     # draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Accuracy', 200, 50)
@@ -326,6 +351,8 @@ def ablation_strategy(root_dir):
             return r'best-$k$'
         elif strategy == 'random':
             return 'random'
+        elif strategy == 'averagebestk':
+            return r'average best-$k$'
         else:
             assert 0
         
@@ -338,7 +365,7 @@ def ablation_Cp(root_dir):
     def split_fn(r):
         name = r.name
         splits = name.split('-')
-        return splits[0][: -3].title() + ' Cp'
+        return splits[0][: -3].title()
     
     def group_fn(r):
         name = r.name

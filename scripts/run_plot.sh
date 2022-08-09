@@ -2,24 +2,28 @@
 
 # ================ synthetic function ===============
 
-func_list=(hartmann6_300 hartmann6_500)
-# func_list=(hartmann90_500)
-# func_list=(hartmann6_100 hartmann6_1000)
-for func in ${func_list[@]}
-do
-    # python3 plot.py --func=$func --root_dir=logs/hartmann6_logs/ --output_name=results/${func}_exp1_1.pdf
-    python3 plot.py --func=$func --root_dir=logs/hartmann6_logs/ --output_name=results/${func}_exp1_2.pdf
-    # python3 plot.py --func=$func --root_dir=saved_logs/hartmann6_logs/ --output_name=results/${func}_exp1_3.pdf
-    # python3 plot.py --func=$func --root_dir=logs/hartmann6_logs/ --output_name=results/${func}_exp2.pdf
-done
-
-# func_list=(hartmann30_500 hartmann60_500 hartmann120_500)
-# func_list=(hartmann12_500 hartmann18_500)
-# func_list=(hartmann30_500)
+# func_list=(hartmann6_300 hartmann6_500)
+# # func_list=(hartmann90_500)
+# # func_list=(hartmann6_100 hartmann6_1000)
 # for func in ${func_list[@]}
 # do
-#     python3 plot.py --func=$func --root_dir=logs/hartmann6_logs/ --output_name=results/${func}_exp2.pdf
+#     # python3 plot.py --func=$func --root_dir=saved_logs/hartmann6_logs/ --output_name=results/${func}_exp1_1.pdf
+#     python3 plot.py --func=$func --root_dir=saved_logs/hartmann6_logs/ --output_name=results/${func}_exp1_2.pdf
+#     # python3 plot.py --func=$func --root_dir=saved_logs/hartmann6_logs/ --output_name=results/${func}_exp1_3.pdf
+#     # python3 plot.py --func=$func --root_dir=logs/hartmann6_logs/ --output_name=results/${func}_exp2.pdf
 # done
+
+# func_list=(hartmann30_500 hartmann60_500 hartmann90_500 hartmann120_500 hartmann150_500 hartmann180_500)
+func_list=(hartmann6_500)
+for func in ${func_list[@]}
+do
+    # python3 plot.py --func=$func --root_dir=logs/hartmann6_logs/ --output_name=results/${func}_saasbo.pdf
+    python3 plot.py --func=$func --root_dir=logs/hartmann6_logs/ --output_name=results/${func}_saasbo_time.pdf
+done
+
+# python3 plot.py --func=hartmann6_300 --root_dir=saved_logs/hartmann6_logs/ --output_name=results/hartmann6_300_lamcts_compare.pdf
+
+# python3 plot.py --func=hartmann30_500_various_extent --root_dir=logs/hartmann6_logs/ --output_name=results/hartmann30_500_various_extent.pdf
 
 # func_list=(levy10_50 levy10_100 levy10_300)
 # for func in ${func_list[@]}
@@ -61,12 +65,12 @@ done
 # =============== ablation =====================
 
 # func_list=(hartmann6_500)
-# func_list=(hartmann30_500 hartmann120_500)
+# func_list=(hartmann30_500 hartmann60_500)
 # # func_list=(hartmann30_500 hartmann60_500 hartmann90_500 hartmann120_500)
 # # func_list=(hartmann60_500)
 # for func in ${func_list[@]}
 # do
-#     python3 plot.py --func=${func}_solver --root_dir=logs/ablation_logs --output_name=results/ablation/${func}_solver.pdf
+#     python3 plot.py --func=${func}_solver --root_dir=saved_logs/ablation_logs --output_name=results/ablation/${func}_solver.pdf
 # done
 
 # python3 plot.py --func=solver --legend_show=True --root_dir=logs/ablation_logs --output_name=results/ablation/ablation_solver.pdf
@@ -76,7 +80,7 @@ done
 # func_list=(hartmann6_300 hartmann6_500 levy10_100 levy10_300)
 # for func in ${func_list[@]}
 # do
-#     python3 plot.py --func=${func}_Cp --legend_show=True --root_dir=logs/ablation_logs/ --output_name=results/ablation/${func}_Cp.pdf
+#     python3 plot.py --func=${func}_Cp --legend_show=True --root_dir=saved_logs/ablation_logs/ --output_name=results/ablation/${func}_Cp.pdf
 # done
 
 # python3 plot.py --func=min_num_variables --legend_show=True --root_dir=logs/ablation_logs --output_name=results/ablation/ablation_min_num_variables.pdf

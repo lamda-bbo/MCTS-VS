@@ -1,9 +1,10 @@
 import numpy as np
 from vanilia_bo import get_gpr_model, optimize_acqf
 from MCTSVS.Node import Node
-from uipt_variable_strategy import UiptRandomStrategy, UiptBestKStrategy, UiptCopyStrategy, UiptMixStrategy
+from uipt_variable_strategy import UiptRandomStrategy, UiptBestKStrategy, UiptAverageBestKStrategy, UiptCopyStrategy, UiptMixStrategy
 from utils import bernoulli, latin_hypercube, from_unit_cube, feature_complementary, ndarray2str, feature_dedup
 from baseline import Turbo1_VS_Component
+from baseline import run_saasbo_one_epoch
 
 
 class MCTS:
@@ -29,6 +30,7 @@ class MCTS:
         uipt_solver_dict = {
             'random': UiptRandomStrategy(self.dims), 
             'bestk': UiptBestKStrategy(self.dims, k=k),
+            'average_bestk': UiptAverageBestKStrategy(self.dims, k=k),
             'copy': UiptCopyStrategy(self.dims),
             'mix': UiptMixStrategy(self.dims),
         }
@@ -174,8 +176,33 @@ class MCTS:
 
                 X_sample.append(new_x)
                 Y_sample.append(value)
-        elif self.ipt_solver == 'smac':
-            pass
+        elif self.ipt_solver == 'saasbo':
+            Y_init = -np_train_y
+            new_ipt_x = run_saasbo_one_epoch(
+                ipt_x,
+                Y_init,
+                len(feature_idx),
+                3,
+                lambda x: -self.func(x),
+                ipt_lb,
+                ipt_ub,
+            )
+            # get unimportant variables
+            X_sample, Y_sample = [], []
+            for i in range(len(new_ipt_x)):
+                fixed_variables = {idx: float(v) for idx, v in zip(feature_idx, new_ipt_x[i])}
+                new_x = self.uipt_solver.get_full_variable(
+                    fixed_variables, 
+                    self.lb, 
+                    self.ub
+                )
+                value = self.func(new_x)
+                self.uipt_solver.update(new_x, value)
+                self.samples.append( (new_x, value) )
+                self.update_feature2sample_map(feature, new_x, value)
+
+                X_sample.append(new_x)
+                Y_sample.append(value)
         else:
             assert 0
         

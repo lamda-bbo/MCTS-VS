@@ -9,7 +9,8 @@ root_dir=ablation_logs
 
 # fill-in strategy
 # strategy_list=(bestk random copy mix)
-strategy_list=(bestk random)
+# strategy_list=(bestk random)
+strategy_list=(average_bestk)
 for strategy in ${strategy_list[@]}
 do
     for ((seed=$seed_start; seed<=$seed_end; seed++))
