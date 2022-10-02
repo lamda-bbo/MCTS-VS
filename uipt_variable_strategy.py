@@ -129,35 +129,3 @@ class UiptMixStrategy(UiptStrategy):
     def update(self, x, y):
         self.random_strategy.update(x, y)
         self.copy_strategy.update(x, y)
-            
-
-# class UiptCMAESStrategy(UiptStrategy):
-#     def __init__(self, dims, seed=42):
-#         UiptStrategy.__init__(self, dims, seed)
-#         self.cmaes = CMAES(dims=dims, sigma=0.01/np.sqrt(dims))
-#         self.pop = []
-#         self.fitness = []
-        
-#     def get_full_variable(self, fixed_variables, lb, ub):
-#         unconstraint_new_x = self.cmaes.conditional_ask(1, fixed_variables)[0]
-#         new_x = np.clip(unconstraint_new_x, lb, ub)
-#         if np.linalg.norm(new_x - unconstraint_new_x) > 0:
-#             print('--------------------')
-#             print('infeasible point is generated from cmaes')
-#             print('--------------------')
-#         print('ipt x:', fixed_variables)
-#         print('mean:', self.cmaes.mean)
-#         print('unconstraint new x:', unconstraint_new_x)
-#         return new_x
-    
-#     def update(self, x, y):
-#         self.pop.append(x)
-#         self.fitness.append(y)
-        
-#         pop_size = int(self.cmaes.mu)
-#         if len(self.pop) >= pop_size:
-#             self.cmaes.tell(self.pop[: pop_size], self.fitness[: pop_size])
-#             self.pop = self.pop[pop_size: ]
-#             self.fitness = self.fitness[pop_size: ]
-#             print('update cmaes')
-#             print('covar:', self.cmaes.C)

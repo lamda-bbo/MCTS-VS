@@ -21,7 +21,6 @@ COLORS = ['blue', 'green', 'red', 'cyan', 'magenta', 'yellow', 'black', 'purple'
 
 key_map = {
     # combined with vanilla bo
-    'lamcts_vs_bo': 'MCTS-VS-BO',
     'mcts_vs_bo': 'MCTS-VS-BO',
     'bo': 'Vanilla BO',
     'lamcts_bo': 'LA-MCTS-BO',
@@ -34,7 +33,6 @@ key_map = {
     'random_search': 'RS',
     
     # conbined with turbo
-    'lamcts_vs_turbo': 'MCTS-VS-TuRBO',
     'mcts_vs_turbo': 'MCTS-VS-TuRBO',
     'turbo1': 'TuRBO',
     'lamcts_turbo': 'LA-MCTS-TuRBO',
@@ -54,7 +52,7 @@ color_map = {
     'Vanilla BO': 'gray',
     'Dropout-BO': 'darkorange',
     'LA-MCTS-BO': 'red',
-    'SAASBO': 'blue',
+    'SAASBO': (255, 153, 51),
     'MCTS-VS-SAASBO': (51, 153, 51),
     # 'REMBO': 'magenta',
     'VAE-BO': (216, 207, 22),
@@ -85,8 +83,6 @@ color_map = {
     'best-$k$': 'crimson',
     'average best-$k$': (68, 114, 196),
     'random': (255, 176, 105),
-    # 'copy': 'darkgreen',
-    # 'mix': 'orange',
     
     # Cp
     'Cp=0.01': (62, 122, 178),
@@ -128,14 +124,14 @@ for k, v in color_map.items():
 
 
 exp1_algo_1 = (
-    'lamcts_vs_bo',
+    'mcts_vs_bo',
     'dropout_bo',
     'bo',
     'lasso_bo',
 )
 
 exp1_algo_2 = (
-    'lamcts_vs_turbo',
+    'mcts_vs_turbo',
     'dropout_turbo',
     'turbo',
     'lasso_turbo'
@@ -147,26 +143,17 @@ exp1_algo_3 = (
     'random_search'
 )
 
-# exp2_algo = (
-#     'lamcts_vs_bo',
-#     'mcts_vs_bo',
-#     'lamcts_vs_turbo',
-#     'mcts_vs_turbo',
-#     'mcts_vs_rs',
-#     # 'dropout_rs',
-#     # 'random_search',
-#     'turbo',
-#     'hesbo',
-#     'alebo',
-#     'cmaes',
-#     'lamcts',
-#     'vae',
-# )
-
 exp2_algo = (
     'mcts_vs_bo',
-    'mcts_vs_saasbo',
+    'mcts_vs_turbo',
+    # 'mcts_vs_rs',
     'saasbo',
+    'turbo',
+    'hesbo',
+    'alebo',
+    'cmaes',
+    'lamcts_turbo',
+    'vae',
 )
 
 
@@ -183,14 +170,6 @@ def load_results(root_dir, verbose=True):
             continue
         
         for dirname in os.listdir(os.path.join(root_dir, func_name)):
-            # if dirname.startswith('rembo') or dirname.startswith('lamcts_bo'):
-            if dirname.startswith('rembo'):
-                continue
-            # if func_name.startswith('nas') and dirname.startswith('hesbo'):
-            #     continue
-            if dirname.startswith('lamcts_vs_bo_copy') or dirname.startswith('lamcts_vs_bo_mix'):
-                continue
-                
             # if not dirname.startswith(exp1_algo_1):
             # if not dirname.startswith(exp1_algo_2):
             # if not dirname.startswith(exp1_algo_3):
@@ -208,16 +187,15 @@ def load_results(root_dir, verbose=True):
                 if func_name.startswith('nas'):
                     # progress.loc[(progress['y'] < 0.9), 'y'] = 0.9 # for nas101
                     # progress.loc[(progress['y'] < 0.52), 'y'] = 0.52 # for trans
-                    progress.loc[(progress['y'] < 0.68), 'y'] = 0.68 # for nasbench 201
+                    # progress.loc[(progress['y'] < 0.68), 'y'] = 0.68 # for nasbench 201
                     # progress.loc[(progress['y'] < 0.6), 'y'] = 0.6 # for nasbench asr
-                    # progress.loc[(progress['y'] < 0.91), 'y'] = 0.91 # for nasbench 1shot1
-                    max_time = 3000
+                    progress.loc[(progress['y'] < 0.91), 'y'] = 0.91 # for nasbench 1shot1
+                    
+                    max_time = 300
                     flag = (progress['t'] > max_time).sum()
                     progress = progress[progress['t'] <= max_time]
                     if flag > 0:
                         progress.loc[len(progress)-1, 't'] = max_time
-                        
-                progress = progress[progress['x'] <= 150]
                         
                 result = Result(name=name, progress=progress)
                 all_results.append(result)
@@ -228,21 +206,17 @@ def load_results(root_dir, verbose=True):
 
 def draw(xy_fn, split_fn, group_fn, xlabel, ylabel, max_x, interval_x):
     plt.figure(dpi=300)
-    # fig, axarr = pu.plot_results(all_results, xy_fn=xy_fn, split_fn=split_fn, group_fn=group_fn, shaded_std=True, shaded_err=False, average_group=True, tiling='horizontal', xlabel=xlabel, ylabel=ylabel, legend_show=args.legend_show)
-    fig, axarr = pu.plot_results(all_results, xy_fn=xy_fn, split_fn=split_fn, group_fn=group_fn, shaded_std=True, shaded_err=False, average_group=True, tiling='horizontal', xlabel=xlabel, ylabel=ylabel, legend_show=args.legend_show, resample=8)
+    fig, axarr = pu.plot_results(all_results, xy_fn=xy_fn, split_fn=split_fn, group_fn=group_fn, shaded_std=True, shaded_err=False, average_group=True, tiling='horizontal', xlabel=xlabel, ylabel=ylabel, legend_show=args.legend_show)
+    # fig, axarr = pu.plot_results(all_results, xy_fn=xy_fn, split_fn=split_fn, group_fn=group_fn, shaded_std=True, shaded_err=False, average_group=True, tiling='horizontal', xlabel=xlabel, ylabel=ylabel, legend_show=args.legend_show, resample=8)
     # plt.plot([0, 1000], [0.7349, 0.7349], c='gray', linestyle='--')
     # plt.axhline(0.9437, c='gray', linestyle='--') # for nasbench 101
     # plt.axhline(0.7349, c='gray', linestyle='--') # for nasbench 201
     # plt.axhline(0.55, c='gray', linestyle='--') # for transnas
-    # plt.axhline(0.9041, c='gray', linestyle='--') # for nasbench asr
     plt.subplots_adjust(hspace=0.2, wspace=0.2, bottom=0.2, left=0.08, top=0.95)
     for ax in axarr[0]:
         ax.set_xticks(np.arange(0, max_x, interval_x))
         ax.set_xticklabels([str(i) for i in np.arange(0, max_x, interval_x)])
         
-        # nas partial
-        # ax.set_xticks(np.arange(150, 200, 10))
-        # ax.set_xticklabels([str(i) for i in np.arange(150, 200, 10)])
     plt.savefig(args.output_name, bbox_inches='tight')
     print('save to {}'.format(args.output_name))
 
@@ -263,19 +237,11 @@ def main(root_dir):
         elif splits[0] == 'nasbench201':
             return 'NAS-Bench-201'
         elif splits[0] == 'nasbench1shot1':
-            return 'NAS-Bench-1shot1'
+            return 'NAS-Bench-1Shot1'
         elif splits[0] == 'nasbenchtrans':
             return 'TransNAS-Bench-101'
         elif splits[0] == 'nasbenchasr':
             return 'NAS-Bench-ASR'
-#         elif splits[0].startswith('hartmann'):
-#             func_name = splits[0].split('_')[0]
-#             dims = int(func_name.strip('hartmann'))
-#             if dims == 6:
-#                 return 'Hartmann6_500'
-#             else:
-#                 return r'Hartmann6_{}_500'.format(int(dims / 6))
-#                 # return r'Hartmann6_{}_500_$v$'.format(int(dims / 6))
         else:
             return splits[0].title()
     
@@ -299,9 +265,9 @@ def main(root_dir):
             return key_map[alg_name]
     
     # synthetic function
-    # draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Value', 600, 100)
-    # draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Value', 150, 20)
-    draw(ty_fn, split_fn, group_fn, 'Time (sec)', 'Value', 30000, 10000)
+    draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Value', 600, 100)
+    # draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Value', 200, 50)
+    # draw(ty_fn, split_fn, group_fn, 'Time (sec)', 'Value', 50000, 10000)
     
     # nasbench
     # draw(xy_fn, split_fn, group_fn, 'Number of evaluations', 'Accuracy', 200, 50)
@@ -451,7 +417,7 @@ if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument('--func_name', required=True, type=str)
-    parser.add_argument('--legend_show', default=False, type=bool)
+    parser.add_argument('--legend_show', default=True, type=bool)
     parser.add_argument('--root_dir', required=True, type=str)
     parser.add_argument('--output_name', required=True, type=str)
     args = parser.parse_args()

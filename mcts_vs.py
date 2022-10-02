@@ -11,7 +11,8 @@ from utils import save_args
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--func', default='hartmann6_50', type=str)
+parser.add_argument('--func', default='hartmann6_300', type=str, 
+                    choices=['hartmann6_300', 'hartmann6_500', 'levy10_100', 'levy10_300', 'nasbench', 'nasbench201', 'nasbench1shot1', 'nasbenchtrans', 'nasbenchasr', 'Hopper', 'Walker2d'])
 parser.add_argument('--max_samples', default=600, type=int)
 parser.add_argument('--feature_batch_size', default=2, type=int)
 parser.add_argument('--sample_batch_size', default=3, type=int)

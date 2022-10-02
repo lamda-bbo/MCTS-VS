@@ -74,14 +74,8 @@ class RLBenchmark:
             )
     
 
-ackley20 = Ackley(20, True)
-branin2 = Branin(2, True)
 hartmann6 = Hartmann(6, True)
 levy10 = Levy(10, True)
-levy20 = Levy(20, True)
-levy50 = Levy(50, True)
-rosenbrock10 = Rosenbrock(10, True)
-rosenbrock20 = Rosenbrock(20, True)
 
 
 def get_problem(func_name, save_config, seed=2021):
@@ -141,7 +135,6 @@ def get_problem(func_name, save_config, seed=2021):
             valid_dims = int(d)
             dims = int(func_name.split('_')[-1])
             return FunctionBenchmark(HartmannExtend(valid_dims, True), dims, list(range(valid_dims)), save_config)
-            # return FunctionBenchmark(HartmannExtend(valid_dims, True), valid_dims, list(range(valid_dims)), save_config)
         return FunctionBenchmark(eval(func), dims, list(range(valid_dims)), save_config)
 
 

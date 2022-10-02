@@ -354,23 +354,11 @@ def plot_results(
                 l, = ax.plot(x, y, color=COLORS[groups.index(group) % len(COLORS)])
                 g2l[group] = l
         if average_group:
-            # groups.append('MCTS-VS-BO')
             for group in sorted(groups):
             # for group in groups:
                 xys = gresults[group]
                 if not any(xys):
                     continue
-                # color = COLORS[groups.index(group) % len(COLORS)]
-                # if group == 'PGG-ES(k=20)':
-                #     color = 'crimson'
-                # color = {
-                #     'Vanilla BO': 'magenta',
-                #     'LVS-BO': 'blue',
-                #     'LVS-TurBO': 'purple',
-                #     'Lamcts-TurBO': 'lime',
-                #     'TurBO': 'orange',
-                #     'ALEBO': 'teal',
-                # }[group]
                 from plot import color_map
                 color = color_map[group]
                 origxs = [xy[0] for xy in xys]
@@ -392,12 +380,6 @@ def plot_results(
                 ymean = np.mean(ys, axis=0)
                 ystd = np.std(ys, axis=0)
                 ystderr = ystd / np.sqrt(len(ys))
-                # l, = axarr[idx_row][idx_col].plot(usex, ymean, c=color)
-                # g2l[group] = l
-                # if shaded_err:
-                #     ax.fill_between(usex, ymean - ystderr, ymean + ystderr, color=color, alpha=.4)
-                # if shaded_std:
-                #     ax.fill_between(usex, ymean - ystd,    ymean + ystd,    color=color, alpha=.2)
                 
                 l = axarr[idx_row][idx_col].errorbar(usex, ymean, ystderr, errorevery=int(len(ymean) / 8), c=color)
                 g2l[group] = l.lines[0]
@@ -415,14 +397,6 @@ def plot_results(
                         loc=2 if legend_outside else None,
                         bbox_to_anchor=(1,1) if legend_outside else None)
                 else:
-#                     _key = [
-# #                         'MCTS-VS-BO',
-# #                         'MCTS-VS-TuRBO',
-# #                         'MCTS-VS-RS',
-#                         'LA-MCTS-TuRBO',
-#                         'TuRBO',
-#                         'RS',
-#                     ]
                     _key = list(color_map.keys())
                     _value = [g2l[k] for k in _key if k in g2l.keys()]
                     ax.legend(
@@ -471,5 +445,3 @@ def test_smooth():
     plt.plot(xs, yclean, label='clean', marker='x')
     plt.legend()
     plt.show()
-
-

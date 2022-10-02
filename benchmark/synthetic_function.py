@@ -124,8 +124,6 @@ class HartmannExtend(SyntheticFunction):
         assert np.all(x <= self.ub) and np.all(x >= self.lb)
         
         result = 0
-        # for i in range(int(self.dims / 6)):
-        #     result += (0.5**i) * self.func(x[i*6: (i+1)*6])
         for i in range(int(self.dims / 6)):
             result += self.func(x[i*6: (i+1)*6])
         return result

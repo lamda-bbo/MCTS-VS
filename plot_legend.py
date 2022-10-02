@@ -13,24 +13,22 @@ args = parser.parse_args()
 os.makedirs('results/legend', exist_ok=True)
 
 
-# if args.type == 'exp1_1':
-#     key = ['Vanilla BO', 'Dropout-BO', 'MCTS-VS-BO']
-# elif args.type == 'exp1_2':
-#     key = ['TuRBO', 'Dropout-TuRBO', 'MCTS-VS-TuRBO']
-# elif args.type == 'exp2':
-#     # key = ['TuRBO', 'LA-MCTS-TuRBO', 'HeSBO', 'ALEBO', 'CMA-ES', 'MCTS-VS-BO', 'MCTS-VS-TuRBO', 'VAE-BO']
-#     key = ['MCTS-VS-BO', 'MCTS-VS-TuRBO', 'TuRBO', 'LA-MCTS-TuRBO', 'HeSBO', 'ALEBO', 'VAE-BO', 'CMA-ES']
-# elif args.type == 'rl':
-#     # key = ['TuRBO', 'LA-MCTS-TuRBO', 'HeSBO', 'CMA-ES', 'MCTS-VS-BO', 'MCTS-VS-TuRBO']
-#     key = ['MCTS-VS-BO', 'MCTS-VS-TuRBO', 'TuRBO', 'LA-MCTS-TuRBO', 'HeSBO', 'CMA-ES']
-# elif args.type == 'appendix_exp':
-#     key = ['MCTS-VS-BO', 'MCTS-VS-TuRBO', 'TuRBO', 'LA-MCTS-TuRBO', 'HeSBO']
-# else:
-#     assert 0
+if args.type == 'exp1_1':
+    key = ['Vanilla BO', 'Dropout-BO', 'MCTS-VS-BO']
+elif args.type == 'exp1_2':
+    key = ['TuRBO', 'Dropout-TuRBO', 'MCTS-VS-TuRBO']
+elif args.type == 'exp2':
+    key = ['MCTS-VS-BO', 'MCTS-VS-TuRBO', 'TuRBO', 'LA-MCTS-TuRBO', 'HeSBO', 'ALEBO', 'SAASBO', 'VAE-BO', 'CMA-ES']
+    # key = ['MCTS-VS-BO', 'MCTS-VS-TuRBO', 'TuRBO', 'LA-MCTS-TuRBO']
+    # key = ['SAASBO', 'HeSBO', 'ALEBO', 'CMA-ES', 'VAE-BO']
+elif args.type == 'rl':
+    # key = ['TuRBO', 'LA-MCTS-TuRBO', 'HeSBO', 'CMA-ES', 'MCTS-VS-BO', 'MCTS-VS-TuRBO']
+    key = ['MCTS-VS-BO', 'MCTS-VS-TuRBO', 'TuRBO', 'LA-MCTS-TuRBO', 'HeSBO', 'CMA-ES']
+elif args.type == 'appendix_exp':
+    key = ['MCTS-VS-BO', 'MCTS-VS-TuRBO', 'TuRBO', 'LA-MCTS-TuRBO', 'HeSBO']
+else:
+    assert 0
     
-# key = ['MCTS-VS-BO', 'MCTS-VS-TuRBO', 'MCTS-VS-RS', 'RS', 'LA-MCTS-TuRBO', 'TuRBO']
-# key = ['Vanilla BO', 'Dropout-BO', 'MCTS-VS-BO', 'LASSO-VS-BO', 'TuRBO', 'Dropout-TuRBO', 'MCTS-VS-TuRBO', 'LASSO-VS-TuRBO']
-key = ['MCTS-VS-BO', 'MCTS-VS-SAASBO', 'SAASBO']
 colors = [color_map[k] for k in key]
 labels = key
 n = len(colors)
@@ -42,8 +40,6 @@ legend = plt.legend(handles, labels, loc=3, framealpha=1, frameon=False, ncol=ar
 
 fig = legend.figure
 fig.canvas.draw()
-
-# bbox  = legend.get_window_extent().transformed(fig.dpi_scale_trans.inverted())
 
 expand=[-1, -1, 1, 1]
 bbox = legend.get_window_extent()

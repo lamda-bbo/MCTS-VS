@@ -1,10 +1,12 @@
 # Monte Carlo Tree Search based Variable Selection for High-Dimensional Bayesian Optimization
 
-This package includes the Python code of the MCTS-VS algorithm. MCTS-VS is a new high-dimensional Bayesian optimization algorithm. MCTS-VS employed MCTS to partition the variables into important and unimportant ones, and only those selected important variables are optimized via any black-box optimization algorithm, e.g., vanilla BO or TuRBO.
+This repository contains the Python code for MCTS-VS, an algorithm for high-dimensional Bayesian optimization described in Monte Carlo Tree Search based Variable Selection for High-Dimensional Bayesian Optimization. 
+
+MCTS-VS employed MCTS to partition the variables into important and unimportant ones, and only those selected important variables are optimized via any black-box optimization algorithm, e.g., vanilla BO or TuRBO.
 
 ## Requirements
 
-- Ubuntu 18.04
+- Ubuntu == 18.04
 - Python == 3.8.8
 - PyTorch == 1.10.1
 - ax == 0.2.2
@@ -14,11 +16,26 @@ This package includes the Python code of the MCTS-VS algorithm. MCTS-VS is a new
 - NAS-Bench-1Shot1 in [HPO-Bench](https://github.com/automl/HPOBench)
 - NAS-Bench-201, TransNAS-Bench-101, NAS-Bench-ASR in [NASLib](https://github.com/automl/NASLib)
 
+## File structure
+
+- ```benchmark```  directory is the implement of the benchmark problems. 
+- ```mcts_vs.py``` and ```MCTSVS``` directory are the main code implement of MCTS-VS algorithm.
+- ```inner_optimizer``` is the implement of the optimizer used for the selected variables. 
+- ```uipt_variable_strategy.py``` is the implement of the "fill-in" strategy. 
+- ```baseline``` directory is the implement of all baseline algorithms. 
+
 ## Usage
 
-Run the scripts in the ```./scripts/``` directory. All hyper-parameters of different algorithms can be found in the scripts. For example, run ```bash scripts/run_hartmann.sh``` to evaluate MCTS-VS and other baselines on Hartmann.
+Run ```bash scripts/run_hartmann6.sh``` to evaluate MCTS-VS and other baselines on Hartmann function. 
 
-## Source Code
+## Citation
 
-- ```mcts_vs.py``` and ```MCTSVS``` are the main code implement of MCTS-VS algorithm.
-- ```uipt_variable_strategy.py``` is the implement of the "fill-in" strategy. 
+```
+@inproceedings{MCTSVS,
+    author = {Lei Song, Ke Xue, Xiaobin Huang, Chao Qian},
+    title = {{M}onte {C}arlo Tree Search based Variable Selection for High-Dimensional {B}ayesian Optimization},
+    booktitle = {Advances in Neural Information Processing Systems 35 (NeurIPS'22)},
+    year = {2022},
+    address={New Orleans, LA}
+}
+```

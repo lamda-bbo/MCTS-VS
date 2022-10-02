@@ -1,10 +1,10 @@
 import numpy as np
-from vanilia_bo import get_gpr_model, optimize_acqf
+from baseline.vanilia_bo import get_gpr_model, optimize_acqf
 from MCTSVS.Node import Node
 from uipt_variable_strategy import UiptRandomStrategy, UiptBestKStrategy, UiptAverageBestKStrategy, UiptCopyStrategy, UiptMixStrategy
 from utils import bernoulli, latin_hypercube, from_unit_cube, feature_complementary, ndarray2str, feature_dedup
-from baseline import Turbo1_VS_Component
-from baseline import run_saasbo_one_epoch
+from inner_optimizer import Turbo1_VS_Component
+from inner_optimizer import run_saasbo_one_epoch
 
 
 class MCTS:
@@ -251,18 +251,6 @@ class MCTS:
         # print('rebuild the tree')
         self.num_select_right = 0
         self.populate_training_data()
-#         while self.is_splitable():
-#             to_split = self.get_split_idx()
-#             change_flag = 1
-#             for nidx in to_split:
-#                 parent = self.nodes[nidx]
-#                 left_kid, right_kid = parent.split(self.split_type)
-#                 if left_kid is not None and right_kid is not None:
-#                     self.nodes.append(left_kid)
-#                     self.nodes.append(right_kid)
-#                     change_flag = 0
-#             if change_flag:
-#                 break
         
     def greedy_select(self):
         pass
