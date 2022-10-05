@@ -1,6 +1,6 @@
 # Monte Carlo Tree Search based Variable Selection for High-Dimensional Bayesian Optimization
 
-This repository contains the Python code for MCTS-VS, an algorithm for high-dimensional Bayesian optimization described in Monte Carlo Tree Search based Variable Selection for High-Dimensional Bayesian Optimization. 
+This repository contains the Python code for MCTS-VS, an algorithm for high-dimensional Bayesian optimization described in [Monte Carlo Tree Search based Variable Selection for High-Dimensional Bayesian Optimization](https://arxiv.org/abs/2210.01628). 
 
 MCTS-VS employed MCTS to partition the variables into important and unimportant ones, and only those selected important variables are optimized via any black-box optimization algorithm, e.g., vanilla BO or TuRBO.
 
