@@ -4,6 +4,11 @@ This repository contains the Python code for MCTS-VS, an algorithm for high-dime
 
 MCTS-VS employed MCTS to partition the variables into important and unimportant ones, and only those selected important variables are optimized via any black-box optimization algorithm, e.g., vanilla BO or TuRBO.
 
+## Poster
+
+![poster](https://user-images.githubusercontent.com/19886779/223073427-6f2a2978-ce55-44b5-9af3-cda381dda582.png)
+
+
 ## Requirements
 
 - Ubuntu == 18.04
